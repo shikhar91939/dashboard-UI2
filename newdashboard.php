@@ -26,7 +26,7 @@
   
   <!-- 2. $MAIN_NAVIGATION ===========================================================================
 
-	Main navigation
+  Main navigation
 -->
   <div id="main-navbar" class="navbar navbar-inverse" role="navigation"> 
     <!-- Main menu toggle --> 
@@ -66,10 +66,10 @@
                 
                 <!-- Javascript --> 
                 <script>
-									init.push(function () {
-										$('#main-navbar-notifications').slimScroll({ height: 250 });
-									});
-								</script> 
+                  init.push(function () {
+                    $('#main-navbar-notifications').slimScroll({ height: 250 });
+                  });
+                </script> 
                 <!-- / Javascript -->
                 
                 <div class="dropdown-menu widget-notifications no-padding" style="width: 300px">
@@ -127,10 +127,10 @@
                 
                 <!-- Javascript --> 
                 <script>
-									init.push(function () {
-										$('#main-navbar-messages').slimScroll({ height: 250 });
-									});
-								</script> 
+                  init.push(function () {
+                    $('#main-navbar-messages').slimScroll({ height: 250 });
+                  });
+                </script> 
                 <!-- / Javascript -->
                 
                 <div class="dropdown-menu widget-messages-alt no-padding" style="width: 300px;">
@@ -267,7 +267,47 @@
       </div>
     </div>
     <!-- / .page-header -->
-    
+  <?php
+  $query = $this->db->query("SELECT concat(t2.name,' ',t1.sell_as) as catstat,count(t1.id) as quant FROM `products` as t1 
+                left join categories as t2 on t1.category_id = t2.id group by catstat");
+  $table = $query->result_array();
+
+  $tableForChart =  array();
+  // $tableForChart['keyName'] = 'itsValue';
+  // $tableForChart['zxz'] = 'asw';
+  // var_dump($tableForChart);
+  $even = 1;
+  $sellAsStatus = 'x';
+  $qty = 'y';
+  foreach ($table as $rowNumber => $array_ofRow)
+  {
+    // echo "array_ofRow:<pre>";
+    // var_dump($array_ofRow);
+    // echo "</pre>";
+
+    foreach ($array_ofRow as $key => $value) 
+    {
+      // echo "key = ";var_dump($key); echo "value=";  var_dump($value); echo "<br/>" ;
+
+      if ($key == "catstat") 
+        $sellAsStatus = $value;
+      elseif ($key == "quant")
+        $qty = $value;
+      else
+      {
+        echo "unknown key value";
+        die;
+      }
+
+      if($even %2 ==0) echo "<hr/>";
+      $even+=1;
+    }
+
+  }die;
+    echo "<hr/><pre/>";
+    var_dump($tableForChart);
+    echo "</pre>";
+  ?>
     <div class="row">
       <div class="col-md-8">
         <div class="stat-panel">
@@ -275,7 +315,9 @@
             <div class="padding-sm-hr-custom">
               <div class="row"> <span class="order_total_count">147</span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
                 56% OF BOOKED ORDERS</span> </div>
-              <img src="<?php echo base_url(); ?>assets/images/template/chart.jpg"/> </div>
+              <!-- <img src="<?php //echo base_url(); ?>assets/images/template/chart.jpg"/>  -->
+              <div>some text<br/>some text<br/>some text<br/>some text<br/></div>
+              </div>
           </div>
         </div>
       </div>
