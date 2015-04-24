@@ -16,9 +16,16 @@
 <script src="<?php echo base_url(); ?>assets/js/template/moment.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/template/jquery.comiseo.daterangepicker.js"></script>
 
+<script src="<?php echo base_url(); ?>assets/js/template/amExtract/amcharts/amcharts.js" type="text/javascript"></script><!-- bar chart -->
+<script src="<?php echo base_url(); ?>assets/js/template/amExtract/amcharts/serial.js" type="text/javascript"></script><!-- bar chart -->
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script><!-- stacked -->
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script><!-- stacked -->
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script><!-- stacked -->
+
+
 <script>
         $(function() { $("#e1").daterangepicker(); });
-    </script>
+</script>
 </head>
 <body class="theme-default main-menu-animated">
 <div id="main-wrapper"> 
@@ -268,27 +275,20 @@
     </div>
     <!-- / .page-header -->
   <?php
-  $query = $this->db->query("SELECT concat(t2.name,' ',t1.sell_as) as catstat,count(t1.id) as quant FROM `products` as t1 
-                left join categories as t2 on t1.category_id = t2.id group by catstat");
+  $query = $this->db->query("SELECT concat(t2.name,' ',t1.sell_as) as catstat,count(t1.id) as quant FROM `products` as t1 left join categories as t2 on t1.category_id = t2.id group by catstat");
   $table = $query->result_array();
+  // echo "<pre>";
+  // var_dump($table);
+  // echo "</pre>";
 
   $tableForChart =  array();
-  // $tableForChart['keyName'] = 'itsValue';
-  // $tableForChart['zxz'] = 'asw';
-  // var_dump($tableForChart);
-  $even = 1;
   $sellAsStatus = 'x';
   $qty = 'y';
   foreach ($table as $rowNumber => $array_ofRow)
   {
-    // echo "array_ofRow:<pre>";
-    // var_dump($array_ofRow);
-    // echo "</pre>";
-
     foreach ($array_ofRow as $key => $value) 
     {
       // echo "key = ";var_dump($key); echo "value=";  var_dump($value); echo "<br/>" ;
-
       if ($key == "catstat") 
         $sellAsStatus = $value;
       elseif ($key == "quant")
@@ -298,16 +298,23 @@
         echo "unknown key value";
         die;
       }
-
-      if($even %2 ==0) echo "<hr/>";
-      $even+=1;
     }
-
-  }die;
-    echo "<hr/><pre/>";
-    var_dump($tableForChart);
-    echo "</pre>";
+    $tableForChart[$sellAsStatus] = $qty;
+  }
+  $tableForChart_keys = array_keys($tableForChart);
+    // echo "<hr/><pre/>";
+    // var_dump($tableForChart);
+    // print_r($tableForChart_keys);
+    // echo "</pre>";
+    // echo $tableForChart["Accessories BER"];
+    // foreach ($tableForChart_keys as $this_key) 
+    // {
+    //   print_r($tableForChart[$this_key]);
+    //   echo "<br/>";
+    // }
+    // die;
   ?>
+
     <div class="row">
       <div class="col-md-8">
         <div class="stat-panel">
@@ -316,7 +323,7 @@
               <div class="row"> <span class="order_total_count">147</span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
                 56% OF BOOKED ORDERS</span> </div>
               <!-- <img src="<?php //echo base_url(); ?>assets/images/template/chart.jpg"/>  -->
-              <div>some text<br/>some text<br/>some text<br/>some text<br/></div>
+              <div id="chartdiv" style="width: 100%; height: 400px;"><br/></div>
               </div>
           </div>
         </div>
@@ -429,5 +436,41 @@
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>
 </div>
+<!-- total orders confirmed: -->
+<script type="text/javascript">
+<?php $i=1 ?>
+var chartData = [{
+  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+},{
+  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+},{
+  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+},{
+  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+},{
+  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+},{
+  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+},];
+
+AmCharts.ready(function() {
+var chart = new AmCharts.AmSerialChart();
+chart.dataProvider = chartData;
+chart.categoryField = "country";
+
+var graph = new AmCharts.AmGraph();
+graph.valueField = "visits";
+graph.type = "column";
+chart.addGraph(graph);
+
+// chart.write('chartdiv');
+});
+</script>
 </body>
 </html>
