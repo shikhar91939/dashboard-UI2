@@ -22,6 +22,10 @@
 <script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script><!-- stacked -->
 <script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script><!-- stacked -->
 
+<script src="http://code.highcharts.com/highcharts.js"></script><!-- highCharts: stacked graph -->
+<script src="http://code.highcharts.com/modules/exporting.js"></script><!-- highCharts: stacked graph -->
+<!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> --><!-- highCharts: stacked graph -->
+
 
 <script>
         $(function() { $("#e1").daterangepicker(); });
@@ -302,10 +306,36 @@
     $tableForChart[$sellAsStatus] = $qty;
   }
   $tableForChart_keys = array_keys($tableForChart);
-    // echo "<hr/><pre/>";
+  $array_hardwareTypes = array();
+  getHardwareTypes($tableForChart_keys, $array_hardwareTypes);
+
+  function getHardwareTypes($tableForChart_keys, &$array_hardwareTypes)
+  {
+    foreach ($tableForChart_keys as $currentKey)
+    {
+      $exploded_currentKey = explode(" ", $currentKey);
+      $firstWord_currentKey = $exploded_currentKey[0];
+      if (! in_array($firstWord_currentKey, $array_hardwareTypes)) 
+      {
+        $array_hardwareTypes[] = $firstWord_currentKey;
+      }
+    }
+
+    // change "Featured" hardware type "Feaured Phone"
+    if ($index_Feature = array_search("Feature", $array_hardwareTypes))
+    {
+      $array_hardwareTypes[$index_Feature] = "Feaured Phone";
+    }
+
+  }
+    echo "<hr/><pre/>";
     // var_dump($tableForChart);
+    foreach ($tableForChart as $key => $value) {
+      echo "($key, $value)<br/>";
+    }
     // print_r($tableForChart_keys);
-    // echo "</pre>";
+    // print_r($array_hardwareTypes);
+    echo "</pre>";die;
     // echo $tableForChart["Accessories BER"];
     // foreach ($tableForChart_keys as $this_key) 
     // {
@@ -436,7 +466,76 @@
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>
 </div>
-<!-- total orders confirmed: -->
+<!-- highCharts:stacked -->
+<script type="text/javascript">
+  $(function () {
+    $('#chartdiv').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Stacked column chart'
+        },
+        xAxis: {
+            categories: <?php echo "['". implode("', '", $array_hardwareTypes) ."']" ?>/*['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']*/
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total fruit consumption'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'John',
+            data: [5, 3, 4, 7, 2]
+        }, {
+            name: 'Jane',
+            data: [2, 2, 3, 2, 1]
+        }, {
+            name: 'Joe',
+            data: [3, 4, 4, 2, 5]
+        }]
+    });
+});
+</script>
+<!-- total orders confirmed with amCharts barGraph: -->
 <script type="text/javascript">
 <?php $i=1 ?>
 var chartData = [{
