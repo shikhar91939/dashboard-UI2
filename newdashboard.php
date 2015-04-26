@@ -334,12 +334,12 @@
     foreach ($values as $value) {
       $sum += (int) $value;
      }
-    echo "<hr/><pre/>";
+    // echo "<hr/><pre/>";
     // var_dump($tableForChart);
-    foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
+    // foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
     // print_r($tableForChart_keys);
     // print_r($array_hardwareTypes);
-    echo "</pre>";die;
+    // echo "</pre>";die;
     // echo $tableForChart["Accessories BER"];
     // foreach ($tableForChart_keys as $this_key) 
     // {
@@ -357,7 +357,7 @@
               <div class="row"> <span class="order_total_count">147</span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
                 56% OF BOOKED ORDERS</span> </div>
               <!-- <img src="<?php //echo base_url(); ?>assets/images/template/chart.jpg"/>  -->
-              <div id="chartdiv" style="width: 100%; height: 400px;"><br/></div>
+              <div id="chartdiv" style="width: 100%; height: 800px;"><br/></div>
               </div>
           </div>
         </div>
@@ -497,12 +497,14 @@
             }
         },
         legend: {
-            align: 'right',
-            x: -30,
+            // margin: 9;
+            width:580,
+            align: 'center',
+            // x: 0,
             verticalAlign: 'top',
             y: 25,
             floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            backgroundColor: '#FCFFC5', //(Highcharts.theme && Highcharts.theme.background2) || 'white',
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
@@ -527,14 +529,29 @@
             }
         },
         series: [{
-            name: 'John',
-            data: [5, 3, 4, 7, 2]
+            name: 'BER',
+            data: [5, 3, 4, 7, 2,4,2]
         }, {
-            name: 'Jane',
-            data: [2, 2, 3, 2, 1]
+            name: 'Preowned',
+            data: [2, 2, 3, 2, 1,2,3]
         }, {
-            name: 'Joe',
-            data: [3, 4, 4, 2, 5]
+            name: 'Refurbished',
+            data: [3, 4, 4, 2, 5,3,2]
+        }, {
+            name: 'Sealed',
+            data: [3, 4, 4, 2, 5,3,2]
+        }, {
+            name: 'Unboxed',
+            data: [3, 4, 4, 2, 5,3,1]
+        }, {
+            name: 'Sealed',
+            data: [2, 2, 3, 2, 1,2,3]
+        }, {
+            name: 'Send to Service Center',
+            data: [2, 2, 3, 2, 1,2,3]
+        }, {
+            name: 'Service in-house',
+            data: [2, 2, 3, 2, 1,2,3]
         }]
     });
 });
