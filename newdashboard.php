@@ -305,6 +305,7 @@
     }
     $tableForChart[$sellAsStatus] = $qty;
   }
+  array_splice($tableForChart, 0, 1); // REMOVING 1ST element. (key,value ) => (, 2958)
   $tableForChart_keys = array_keys($tableForChart);
   $array_hardwareTypes = array();
   getHardwareTypes($tableForChart_keys, $array_hardwareTypes);
@@ -328,11 +329,14 @@
     }
 
   }
+    $values = array_values($tableForChart);
+    $sum = 0;
+    foreach ($values as $value) {
+      $sum += (int) $value;
+     }
     echo "<hr/><pre/>";
     // var_dump($tableForChart);
-    foreach ($tableForChart as $key => $value) {
-      echo "($key, $value)<br/>";
-    }
+    foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
     // print_r($tableForChart_keys);
     // print_r($array_hardwareTypes);
     echo "</pre>";die;
@@ -474,15 +478,15 @@
             type: 'column'
         },
         title: {
-            text: 'Stacked column chart'
+            text: 'Dashboard Inventory- LISTED'
         },
         xAxis: {
-            categories: <?php echo "['". implode("', '", $array_hardwareTypes) ."']" ?>/*['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']*/
+            categories: <?php echo "['". implode("', '", $array_hardwareTypes) ."']" ?>// ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
         },
         yAxis: {
             min: 0,
             title: {
-                text: 'Total fruit consumption'
+                text: 'Units'
             },
             stackLabels: {
                 enabled: true,
