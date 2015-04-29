@@ -16,11 +16,11 @@
 <script src="<?php echo base_url(); ?>assets/js/template/moment.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/template/jquery.comiseo.daterangepicker.js"></script>
 
-<script src="<?php echo base_url(); ?>assets/js/template/amExtract/amcharts/amcharts.js" type="text/javascript"></script><!-- bar chart -->
-<script src="<?php echo base_url(); ?>assets/js/template/amExtract/amcharts/serial.js" type="text/javascript"></script><!-- bar chart -->
-<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script><!-- stacked -->
-<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script><!-- stacked -->
-<script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script><!-- stacked -->
+<!--<script src="<?php// echo base_url(); ?>assets/js/template/amExtract/amcharts/amcharts.js" type="text/javascript"></script>--><!-- bar chart -->
+<!--<script src="<?php// echo base_url(); ?>assets/js/template/amExtract/amcharts/serial.js" type="text/javascript"></script>--><!-- bar chart -->
+<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>--><!-- stacked -->
+<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>--><!-- stacked -->
+<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script>--><!-- stacked -->
 
 <script src="http://code.highcharts.com/highcharts.js"></script><!-- highCharts: stacked graph -->
 <script src="http://code.highcharts.com/modules/exporting.js"></script><!-- highCharts: stacked graph -->
@@ -326,10 +326,9 @@
       $array_hardwareTypes[$index_Feature] = "Feaured Phone";
     
   }
-
+  // var_dump(array(0,""));die;
     //now devide the inventory in Unboxed, Refurbished, ...
   $array_sellAsStatus = get_All_SellAsStatus($tableForChart_keys);
-
   function get_All_SellAsStatus($tableForChart_keys)
   {
     $returnArray = array();
@@ -337,33 +336,85 @@
     {
       $exploded_currentKey = explode(" ", $currentKey);
       $sellAs_currentKey = ( ( $exploded_currentKey[1] != "Phone") ? $exploded_currentKey[1] : $exploded_currentKey[2]); //find the 1st word that gives a clue about the sell as. "Send" in "Feature Phone Send to Service Center" tells us that its send to SC
+      if (in_array($sellAs_currentKey, array('','0')))
+        {
+          // echo "removing $sellAs_currentKey ; in_array($sellAs_currentKey, array(0,)) =". in_array($sellAs_currentKey, array(0,"")) ."<br/>";
+          continue;// remove "" and int(0) from arraay as they are not sellAs statuses
+          // echo "after continue";
+      }
       if (! in_array($sellAs_currentKey, $returnArray))
-        $returnArray[] =  $sellAs_currentKey;
+        $returnArray[] =  $sellAs_currentKey; 
     }
 
     // change "Send" hardware type to "Sent to Service center"
     if ($index_send = array_search("Send", $returnArray))
         $returnArray[$index_send] = "Send to Service center";
 
-    // change "" hardware type to "(empty)"
+    // remove "" and int(0) from arraay as they are not sellAs statuses
     if (in_array("", $returnArray))
         $returnArray[array_search("", $returnArray)] = "(empty)";
     return $returnArray;
   }
+  // echo "<hr/><pre/>";
+  // // var_dump($array_sellAsStatus);
+  // foreach ($array_sellAsStatus as $key => $value) {echo "($key, $value)<br/>"; }
+  // echo "</pre>";die;
+
+  $array_accessories = array_combine(array_values($array_sellAsStatus), array_keys($array_sellAsStatus)); //needed an array of same no. of elements in the second argument. 
+  // echo "<hr/><pre/>";
+  // var_dump($array_accessories);
+  // echo "</pre>";
+  // echo "<hr/><pre/>";
+  foreach ($tableForChart as $key => $value) 
+  {
+    // echo "($key, $value)=>";
+    $exploded_currentKey = explode(" ", $key);
+    if ($exploded_currentKey[0] == "Accessories") 
+    {
+      // echo "found ".$exploded_currentKey[0]." | ";
+      $sellAs_iteration= $exploded_currentKey[1];
+      if ( in_array($exploded_currentKey[1], array('','0')) )
+      {
+        // echo "<hr/>";
+        // echo "continue for: ".$exploded_currentKey[1]." | ";
+        continue;
+      }
+      $updating_thisIndex = array_search($sellAs_iteration, $array_accessories);
+      $array_accessories[$sellAs_iteration] = $value;
+      // if ($exploded_currentKey[1] == "New") {
+      //  echo"{indexWasNull} ;  <br/> couldn't find $sellAs_iteration, dump :";var_dump($sellAs_iteration);
+       //  echo "<pre/>";
+       //  var_dump($array_accessories);
+       //  echo "</pre>";
+      // }
+      // echo "added for $sellAs_iteration  | ". "($updating_thisIndex,$array_accessories[$updating_thisIndex])";
+
+    }
+    // echo "<hr/>";
+  }
+  // echo "</pre>";die;
+
+  // echo "<hr/><pre/>";
+  // foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
+  // echo "</pre>";
+
+
 
   echo "<hr/><pre/>";
   // var_dump($tableForChart);
-  // foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
-  foreach ($tableForChart as $key => $value) {var_dump($key);echo "->";var_dump($value);}
+  foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
+  // foreach ($tableForChart as $key => $value) {var_dump($key);echo "->";var_dump($value);}
+  // foreach ($array_accessories as $key => $value) {echo "($key, $value)<br/>"; }
+  // foreach ($array_accessories as $key => $value) {var_dump($key);echo "->";var_dump($value);}
   // foreach ($array_sellAsStatus as $key => $value) {echo "($key, $value)<br/>"; }
   // print_r($tableForChart_keys);
   // print_r($array_hardwareTypes);
-  echo "</pre>";die;
+  // echo "</pre>";die;
   // echo $tableForChart["Accessories BER"];
   // foreach ($tableForChart_keys as $this_key) 
   // {
   //   print_r($tableForChart[$this_key]);
-  //   echo "<br/>";
+    echo "<br/>";die;
   // }
   // die;
   ?>
@@ -549,28 +600,25 @@
         },
         series: [{
             name: 'BER',
-            data: [5, 3, 4, 7, 2,4,2]
+            data: [<?php echo $array_accessories['BER']?>, 3, 4, 7, 2,4,2]
+        }, {
+            name: 'New',
+            data: [<?php echo $array_accessories['New']?>, 2, 3, 2, 1,2,3]//another comment
         }, {
             name: 'Preowned',
-            data: [2, 2, 3, 2, 1,2,3]
+            data: [<?php echo $array_accessories['Preowned']?>, 4, 4, 2, 5,3,2]
         }, {
             name: 'Refurbished',
-            data: [3, 4, 4, 2, 5,3,2]
+            data: [<?php echo $array_accessories['Refurbished']?>, 4, 4, 2, 5,3,2]
         }, {
             name: 'Sealed',
-            data: [3, 4, 4, 2, 5,3,2]
+            data: [<?php echo $array_accessories['Sealed']?>, 4, 4, 2, 5,3,1]
         }, {
             name: 'Unboxed',
-            data: [3, 4, 4, 2, 5,3,1]
+            data: [<?php echo $array_accessories['Unboxed']?>, 2, 3, 2, 1,2,3]
         }, {
-            name: 'Sealed',
-            data: [2, 2, 3, 2, 1,2,3]
-        }, {
-            name: 'Send to Service Center',
-            data: [2, 2, 3, 2, 1,2,3]
-        }, {
-            name: 'Service in-house',
-            data: [2, 2, 3, 2, 1,2,3]
+            name: 'Send to Service center',
+            data: [<?php echo $array_accessories['Send to Service center']?>, 2, 3, 2, 1,2,3]
         }]
     });
 });
