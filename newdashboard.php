@@ -317,36 +317,55 @@
       $exploded_currentKey = explode(" ", $currentKey);
       $firstWord_currentKey = $exploded_currentKey[0];
       if (! in_array($firstWord_currentKey, $array_hardwareTypes)) 
-      {
         $array_hardwareTypes[] = $firstWord_currentKey;
-      }
+      
     }
 
-    // change "Featured" hardware type "Feaured Phone"
+    // change "Featured" hardware type to "Feaured Phone"
     if ($index_Feature = array_search("Feature", $array_hardwareTypes))
-    {
       $array_hardwareTypes[$index_Feature] = "Feaured Phone";
+    
+  }
+
+    //now devide the inventory in Unboxed, Refurbished, ...
+  $array_sellAsStatus = get_All_SellAsStatus($tableForChart_keys);
+
+  function get_All_SellAsStatus($tableForChart_keys)
+  {
+    $returnArray = array();
+    foreach ($tableForChart_keys as $currentKey)
+    {
+      $exploded_currentKey = explode(" ", $currentKey);
+      $sellAs_currentKey = ( ( $exploded_currentKey[1] != "Phone") ? $exploded_currentKey[1] : $exploded_currentKey[2]); //find the 1st word that gives a clue about the sell as. "Send" in "Feature Phone Send to Service Center" tells us that its send to SC
+      if (! in_array($sellAs_currentKey, $returnArray))
+        $returnArray[] =  $sellAs_currentKey;
     }
 
+    // change "Send" hardware type to "Sent to Service center"
+    if ($index_send = array_search("Send", $returnArray))
+        $returnArray[$index_send] = "Send to Service center";
+
+    // change "" hardware type to "(empty)"
+    if (in_array("", $returnArray))
+        $returnArray[array_search("", $returnArray)] = "(empty)";
+    return $returnArray;
   }
-    $values = array_values($tableForChart);
-    $sum = 0;
-    foreach ($values as $value) {
-      $sum += (int) $value;
-     }
-    // echo "<hr/><pre/>";
-    // var_dump($tableForChart);
-    // foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
-    // print_r($tableForChart_keys);
-    // print_r($array_hardwareTypes);
-    // echo "</pre>";die;
-    // echo $tableForChart["Accessories BER"];
-    // foreach ($tableForChart_keys as $this_key) 
-    // {
-    //   print_r($tableForChart[$this_key]);
-    //   echo "<br/>";
-    // }
-    // die;
+
+  echo "<hr/><pre/>";
+  // var_dump($tableForChart);
+  // foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
+  foreach ($tableForChart as $key => $value) {var_dump($key);echo "->";var_dump($value);}
+  // foreach ($array_sellAsStatus as $key => $value) {echo "($key, $value)<br/>"; }
+  // print_r($tableForChart_keys);
+  // print_r($array_hardwareTypes);
+  echo "</pre>";die;
+  // echo $tableForChart["Accessories BER"];
+  // foreach ($tableForChart_keys as $this_key) 
+  // {
+  //   print_r($tableForChart[$this_key]);
+  //   echo "<br/>";
+  // }
+  // die;
   ?>
 
     <div class="row">
