@@ -338,9 +338,7 @@
       $sellAs_currentKey = ( ( $exploded_currentKey[1] != "Phone") ? $exploded_currentKey[1] : $exploded_currentKey[2]); //find the 1st word that gives a clue about the sell as. "Send" in "Feature Phone Send to Service Center" tells us that its send to SC
       if (in_array($sellAs_currentKey, array('','0')))
         {
-          // echo "removing $sellAs_currentKey ; in_array($sellAs_currentKey, array(0,)) =". in_array($sellAs_currentKey, array(0,"")) ."<br/>";
           continue;// remove "" and int(0) from arraay as they are not sellAs statuses
-          // echo "after continue";
       }
       if (! in_array($sellAs_currentKey, $returnArray))
         $returnArray[] =  $sellAs_currentKey; 
@@ -355,54 +353,44 @@
         $returnArray[array_search("", $returnArray)] = "(empty)";
     return $returnArray;
   }
-  // echo "<hr/><pre/>";
-  // // var_dump($array_sellAsStatus);
-  // foreach ($array_sellAsStatus as $key => $value) {echo "($key, $value)<br/>"; }
-  // echo "</pre>";die;
+  
+  $array_accessories = getDistribution("Accessories", $array_sellAsStatus, $tableForChart);
 
-  $array_accessories = array_combine(array_values($array_sellAsStatus), array_keys($array_sellAsStatus)); //needed an array of same no. of elements in the second argument. 
-  // echo "<hr/><pre/>";
-  // var_dump($array_accessories);
-  // echo "</pre>";
-  // echo "<hr/><pre/>";
-  foreach ($tableForChart as $key => $value) 
+  function getDistribution($hardwareType, $array_sellAsStatus, $tableForChart)
   {
-    // echo "($key, $value)=>";
-    $exploded_currentKey = explode(" ", $key);
-    if ($exploded_currentKey[0] == "Accessories") 
+  $returnArray = array_combine(array_values($array_sellAsStatus), makeAnArray(count($array_sellAsStatus), "0")); //needed an array of same no. of elements in the second argument. 
+    foreach ($tableForChart as $key => $value) 
     {
-      // echo "found ".$exploded_currentKey[0]." | ";
-      $sellAs_iteration= $exploded_currentKey[1];
-      if ( in_array($exploded_currentKey[1], array('','0')) )
+      $exploded_currentKey = explode(" ", $key);
+      if ($exploded_currentKey[0] == "Accessories") 
       {
-        // echo "<hr/>";
-        // echo "continue for: ".$exploded_currentKey[1]." | ";
-        continue;
+        $sellAs_iteration= $exploded_currentKey[1];
+        if ( in_array($exploded_currentKey[1], array('','0')) )
+        {
+          continue;
+        }
+        $updating_thisIndex = array_search($sellAs_iteration, $returnArray);
+        $returnArray[$sellAs_iteration] = $value;
       }
-      $updating_thisIndex = array_search($sellAs_iteration, $array_accessories);
-      $array_accessories[$sellAs_iteration] = $value;
-      // if ($exploded_currentKey[1] == "New") {
-      //  echo"{indexWasNull} ;  <br/> couldn't find $sellAs_iteration, dump :";var_dump($sellAs_iteration);
-       //  echo "<pre/>";
-       //  var_dump($array_accessories);
-       //  echo "</pre>";
-      // }
-      // echo "added for $sellAs_iteration  | ". "($updating_thisIndex,$array_accessories[$updating_thisIndex])";
-
+      
     }
-    // echo "<hr/>";
+    return $returnArray;
   }
-  // echo "</pre>";die;
+    
+
+function makeAnArray($length, $element)
+{
+  $returnArray = array();
+  for ($i=0; $i < $length; $i++) { 
+    $returnArray[] = $element;
+  }
+  return $returnArray;
+}
+
 
   // echo "<hr/><pre/>";
-  // foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
-  // echo "</pre>";
-
-
-
-  echo "<hr/><pre/>";
   // var_dump($tableForChart);
-  foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
+  // foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
   // foreach ($tableForChart as $key => $value) {var_dump($key);echo "->";var_dump($value);}
   // foreach ($array_accessories as $key => $value) {echo "($key, $value)<br/>"; }
   // foreach ($array_accessories as $key => $value) {var_dump($key);echo "->";var_dump($value);}
@@ -414,7 +402,7 @@
   // foreach ($tableForChart_keys as $this_key) 
   // {
   //   print_r($tableForChart[$this_key]);
-    echo "<br/>";die;
+    // echo "<br/>";die;
   // }
   // die;
   ?>
