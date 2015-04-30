@@ -371,7 +371,7 @@
       $exploded_currentKey = explode(" ", $key);
       if ($exploded_currentKey[0] == $hardwareType) 
       {
-        $sellAs_iteration= $exploded_currentKey[1];
+        $sellAs_iteration= ( ( $exploded_currentKey[1] != "Phone") ? $exploded_currentKey[1] : $exploded_currentKey[2]); //find the 1st word that gives a clue about the sell as. "Send" in "Feature Phone Send to Service Center" tells us that its send to SC
         if ( in_array($exploded_currentKey[1], array('','0')) )
         {
           continue;
@@ -527,16 +527,69 @@
         <!-- /.stat-panel --> 
       </div>
       <div class="col-xs-3"> 
+      <?php
+
+        $hours = 100;
+        $hours_compare = 2*$hours;
+
+        $query_total = $this->db->query("SELECT count(id) FROM `status_update_log` where new_status = 'listed' and time_stamp > date_sub(now(),interval $hours_compare hour)");
+        $table_sql_compare = $query_total->result_array();
+        $mis_upload_count_total = "";
+        foreach ($table_sql_compare as $outerArray) 
+        {
+          foreach ($outerArray as $key => $value) 
+          {
+            $mis_upload_count_total = $value;
+          }
+        }
+
+        // var_dump( $mis_upload_count_total);die;
+
+        $query = $this->db->query("SELECT count(id) FROM `status_update_log` where new_status = 'listed' and time_stamp > date_sub(now(),interval $hours hour)");
+        $table_sql = $query->result_array();
+        $mis_upload_count = "";
+
+        foreach ($table_sql as $outerArray) 
+        {
+          foreach ($outerArray as $key => $value) 
+          {
+            $mis_upload_count = $value;
+          }
+        }
+        $compare_mis = $mis_upload_count_total - $mis_upload_count ;
+        $diff_mis= $mis_upload_count  - $compare_mis ;
+        $percent_mis =   ($compare_mis == 0) ? "Infinite" : ((double)($diff_mis / $compare_mis) * 100);
+
+      // echo "<hr/><pre/>";
+      // // // var_dump($table_sql);
+      // echo "(compare,latest)<br/>";
+      // var_dump($compare_mis);
+      // echo ",";
+      // var_dump($mis_upload_count);
+      // echo "</pre>";
+
+      // echo "<hr/><pre/>";
+      // echo "present:";
+      // var_dump($mis_upload_count);
+      // echo "</pre>";
+
+      // echo "<hr/><pre/>";
+      // echo "diff:";
+      // var_dump($diff_mis);
+
+      // echo "</pre>";die;
+
+      ?>
         <!-- Centered text -->
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg">MIS</div>
-            <div class="status_per status_result"> <span class="status_text">670</span> </div>
+            <div id="mis_uploaded" class="status_per status_result"> <span class="status_text"><?php echo $mis_upload_count?></span> </div>
             <span class="xlheading">Uploaded</span>
             <ul class="status_more">
-              <li>28.18</li>
+              <li><?php echo $diff_mis?></li><!-- <li>28.18</li> -->
               <li><img src="<?php echo base_url(); ?>assets/images/template/green-arrow.png"/></li>
-              <li>0.44%</li>
+              <li><?php echo $percent_mis?>%</li><!-- <li>0.44%</li> -->
             </ul>
           </div>
           <!-- /.stat-row --> 
