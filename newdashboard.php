@@ -355,6 +355,13 @@
   }
   
   $array_accessories = getDistribution("Accessories", $array_sellAsStatus, $tableForChart);
+  $array_Camera = getDistribution("Camera", $array_sellAsStatus, $tableForChart);
+  $array_Computer = getDistribution("Computer", $array_sellAsStatus, $tableForChart);
+  $array_Feaured_Phone = getDistribution("Feaured_Phone", $array_sellAsStatus, $tableForChart);
+  $array_Smartphone = getDistribution("Smartphone", $array_sellAsStatus, $tableForChart);
+  $array_Tablet = getDistribution("Tablet", $array_sellAsStatus, $tableForChart);
+  $array_Television = getDistribution("Television", $array_sellAsStatus, $tableForChart);
+//['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
 
   function getDistribution($hardwareType, $array_sellAsStatus, $tableForChart)
   {
@@ -362,7 +369,7 @@
     foreach ($tableForChart as $key => $value) 
     {
       $exploded_currentKey = explode(" ", $key);
-      if ($exploded_currentKey[0] == "Accessories") 
+      if ($exploded_currentKey[0] == $hardwareType) 
       {
         $sellAs_iteration= $exploded_currentKey[1];
         if ( in_array($exploded_currentKey[1], array('','0')) )
@@ -376,16 +383,29 @@
     }
     return $returnArray;
   }
-    
+  
+  //   O C D
+  // $chartArray_BER = getChartArray('BER',$array_accessories, $array_Camera, $array_Computer, $array_Feaured_Phone, $array_Smartphone, $array_Tablet, $array_Television);
+  // function getChartArray($sellAs, $array_accessories, $array_Camera, $array_Computer, $array_Feaured_Phone, $array_Smartphone, $array_Tablet, $array_Television)
+  // {
+  //   $returnArray = array();
+  //   foreach ($array_accessories as $key => $value) 
+  //   {
+  //       if ($key == $sell_as) 
+  //       {
+  //         $returnArray[]
+  //       }
+  //   }
+  // }
 
-function makeAnArray($length, $element)
-{
-  $returnArray = array();
-  for ($i=0; $i < $length; $i++) { 
-    $returnArray[] = $element;
+  function makeAnArray($length, $element)
+  {
+    $returnArray = array();// Overcart.com
+    for ($i=0; $i < $length; $i++) { 
+      $returnArray[] = $element;
+    }
+    return $returnArray;
   }
-  return $returnArray;
-}
 
 
   // echo "<hr/><pre/>";
@@ -415,7 +435,7 @@ function makeAnArray($length, $element)
               <div class="row"> <span class="order_total_count">147</span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
                 56% OF BOOKED ORDERS</span> </div>
               <!-- <img src="<?php //echo base_url(); ?>assets/images/template/chart.jpg"/>  -->
-              <div id="chartdiv" style="width: 100%; height: 800px;"><br/></div>
+              <div id="chartdiv" style="width: 100%; height: 550px;"><br/></div>
               </div>
           </div>
         </div>
@@ -588,61 +608,61 @@ function makeAnArray($length, $element)
         },
         series: [{
             name: 'BER',
-            data: [<?php echo $array_accessories['BER']?>, 3, 4, 7, 2,4,2]
-        }, {
+            data: [<?php echo $array_accessories['BER'].", ".$array_Camera['BER'] . ", ". $array_Computer['BER'].", ". $array_Feaured_Phone['BER'] . ", ". $array_Smartphone['BER'] . ", ". $array_Tablet['BER']. ", ". $array_Television['BER'];?>]  
+        }, { // ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
             name: 'New',
-            data: [<?php echo $array_accessories['New']?>, 2, 3, 2, 1,2,3]//another comment
+            data: [<?php echo $array_accessories['New'].", ".$array_Camera['New'] . ", ". $array_Computer['New'].", ". $array_Feaured_Phone['New'] . ", ". $array_Smartphone['New'] . ", ". $array_Tablet['New']. ", ". $array_Television['New'];?>]
         }, {
             name: 'Preowned',
-            data: [<?php echo $array_accessories['Preowned']?>, 4, 4, 2, 5,3,2]
+            data: [<?php echo $array_accessories['Preowned'].", ".$array_Camera['Preowned'] . ", ". $array_Computer['Preowned'].", ". $array_Feaured_Phone['Preowned'] . ", ". $array_Smartphone['Preowned'] . ", ". $array_Tablet['Preowned']. ", ". $array_Television['Preowned'];?>]
         }, {
             name: 'Refurbished',
-            data: [<?php echo $array_accessories['Refurbished']?>, 4, 4, 2, 5,3,2]
+            data: [<?php echo $array_accessories['Refurbished'].", ".$array_Camera['Refurbished'] . ", ". $array_Computer['Refurbished'].", ". $array_Feaured_Phone['Refurbished'] . ", ". $array_Smartphone['Refurbished'] . ", ". $array_Tablet['Refurbished']. ", ". $array_Television['Refurbished'];?>]
         }, {
             name: 'Sealed',
-            data: [<?php echo $array_accessories['Sealed']?>, 4, 4, 2, 5,3,1]
+            data: [<?php echo $array_accessories['Sealed'].", ".$array_Camera['Sealed'] . ", ". $array_Computer['Sealed'].", ". $array_Feaured_Phone['Sealed'] . ", ". $array_Smartphone['Sealed'] . ", ". $array_Tablet['Sealed']. ", ". $array_Television['Sealed'];?>]
         }, {
             name: 'Unboxed',
-            data: [<?php echo $array_accessories['Unboxed']?>, 2, 3, 2, 1,2,3]
+            data: [<?php echo $array_accessories['Unboxed'].", ".$array_Camera['Unboxed'] . ", ". $array_Computer['Unboxed'].", ". $array_Feaured_Phone['Unboxed'] . ", ". $array_Smartphone['Unboxed'] . ", ". $array_Tablet['Unboxed']. ", ". $array_Television['Unboxed'];?>]
         }, {
             name: 'Send to Service center',
-            data: [<?php echo $array_accessories['Send to Service center']?>, 2, 3, 2, 1,2,3]
+            data: [<?php echo $array_accessories['Send to Service center'].", ".$array_Camera['Send to Service center'] . ", ". $array_Computer['Send to Service center'].", ". $array_Feaured_Phone['Send to Service center'] . ", ". $array_Smartphone['Send to Service center'] . ", ". $array_Tablet['Send to Service center']. ", ". $array_Television['Send to Service center'];?>]
         }]
     });
 });
 </script>
 <!-- total orders confirmed with amCharts barGraph: -->
 <script type="text/javascript">
-<?php $i=1 ?>
-var chartData = [{
-  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-},{
-  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-},{
-  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-},{
-  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-},{
-  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-},{
-  "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-  "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-},];
+// <?php $i=1 ?>
+// var chartData = [{
+//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+// },{
+//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+// },{
+//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+// },{
+//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+// },{
+//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+// },{
+//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
+//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
+// },];
 
-AmCharts.ready(function() {
-var chart = new AmCharts.AmSerialChart();
-chart.dataProvider = chartData;
-chart.categoryField = "country";
+// AmCharts.ready(function() {
+// var chart = new AmCharts.AmSerialChart();
+// chart.dataProvider = chartData;
+// chart.categoryField = "country";
 
-var graph = new AmCharts.AmGraph();
-graph.valueField = "visits";
-graph.type = "column";
-chart.addGraph(graph);
+// var graph = new AmCharts.AmGraph();
+// graph.valueField = "visits";
+// graph.type = "column";
+// chart.addGraph(graph);
 
 // chart.write('chartdiv');
 });
