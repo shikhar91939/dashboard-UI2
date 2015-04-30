@@ -510,16 +510,70 @@
         <!-- /.stat-panel --> 
       </div>
       <div class="col-xs-3"> 
+      <?php 
+        $hours = 200;
+        $hours_compare = $hours*2 ;
+        $query_quality = $this->db->query("SELECT count(id) FROM `status_update_log` where old_status = 'Under QC' and time_stamp > date_sub(now(),interval $hours hour)");
+        $sqlArray_quality = $query_quality->result_array();
+
+        $totalQCs = "";
+        foreach ($sqlArray_quality as $key => $innerArray) 
+        {
+          foreach ($innerArray as $key1 => $value)
+          {
+            $totalQCs = $value;
+          }
+        }
+
+        $query_quality_total = $this->db->query("SELECT count(id) FROM `status_update_log` where old_status = 'Under QC' and time_stamp > date_sub(now(),interval $hours_compare hour)");
+        $sqlArray_quality_total = $query_quality_total->result_array();
+        $totalQCs_total = "";
+        foreach ($sqlArray_quality_total as $key => $innerArray) 
+        {
+          foreach ($innerArray as $key1 => $value)
+          {
+            $totalQCs_total = $value;
+          }
+        }
+
+        $totalQCs_compare = $totalQCs_total - $totalQCs;
+        $totalQCs_diff = $totalQCs - $totalQCs_compare;
+        $qc_percent_rise = ($totalQCs_compare == 0) ? "Infinite" : ((double)($totalQCs_diff / $totalQCs_compare) * 100);
+
+        // echo "<hr/><pre/>";
+        // echo "total:<br/>";
+        // var_dump($totalQCs_total);
+        // echo "latest<br/>";
+        // var_dump($totalQCs);
+        // echo "compare<br/>";
+        // var_dump($totalQCs_compare);
+        // echo "diff<br/>";
+        // var_dump($totalQCs_diff);
+        // echo "</pre>";
+
+      ?>
         <!-- Centered text -->
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg">QUALITY SUPPORT</div>
-            <div class="status_per status_result"> <span class="status_text">150</span> </div>
+            <div class="status_per status_result"> <span class="status_text"><?php echo $totalQCs ?></span> </div>
             <span class="xlheading">CHECKS</span>
             <ul class="status_more">
-              <li>28.18</li>
-              <li><img src="<?php echo base_url(); ?>assets/images/template/green-arrow.png"/></li>
-              <li>0.44%</li>
+              <li><?php echo $totalQCs_diff ?></li>
+              <li><img 
+              <?php 
+                if($totalQCs_diff<0)
+                {
+                  echo "src=\"".base_url()."assets/images/template/red-arrow.png\"";
+                }elseif ($totalQCs_diff > 0) 
+                {
+                  echo "src=\"".base_url()."assets/images/template/green-arrow.png\"";
+                }else
+                {
+                  echo "src=\"".base_url()."assets/images/template/green-arrow.png\"";
+                }
+                ?>/></li>
+              <li><?php echo ( (gettype($qc_percent_rise ) == "string" ) ? $qc_percent_rise :  number_format((float)$qc_percent_rise, 2, '.', ''));?>%</li>
             </ul>
           </div>
           <!-- /.stat-row --> 
@@ -529,7 +583,7 @@
       <div class="col-xs-3"> 
       <?php
 
-        $hours = 100;
+        $hours = 240;
         $hours_compare = 2*$hours;
 
         $query_total = $this->db->query("SELECT count(id) FROM `status_update_log` where new_status = 'listed' and time_stamp > date_sub(now(),interval $hours_compare hour)");
@@ -569,15 +623,17 @@
       // echo "</pre>";
 
       // echo "<hr/><pre/>";
-      // echo "present:";
-      // var_dump($mis_upload_count);
+      // echo "percent";
+      // echo "($diff_mis / $compare_mis)";
+      // var_dump($diff_mis);var_dump($compare_mis);
+      // echo "compare_mis = $compare_mis | $compare_mis == 0 ->". ($compare_mis == 0);
       // echo "</pre>";
 
       // echo "<hr/><pre/>";
       // echo "diff:";
-      // var_dump($diff_mis);
+      // var_dump( gettype($percent_mis ) );
 
-      // echo "</pre>";die;
+      // echo "</pre>";//die;
 
       ?>
         <!-- Centered text -->
@@ -588,8 +644,21 @@
             <span class="xlheading">Uploaded</span>
             <ul class="status_more">
               <li><?php echo $diff_mis?></li><!-- <li>28.18</li> -->
-              <li><img src="<?php echo base_url(); ?>assets/images/template/green-arrow.png"/></li>
-              <li><?php echo $percent_mis?>%</li><!-- <li>0.44%</li> -->
+              <li><img <?php 
+                          if($diff_mis < 0)
+                          {
+                            echo "src=\"". base_url() ."assets/images/template/red-arrow.png\"";
+                          }elseif ($diff_mis > 0) 
+                          {
+                            echo "src=\"". base_url() ."assets/images/template/green-arrow.png\"";
+                          }
+                          else
+                          {
+                            echo "src=\"". base_url() ."assets/images/template/green-arrow.png\"";
+                          }
+                        ?>/>
+              </li>
+              <li><?php echo ( (gettype($percent_mis ) == "string" ) ? $percent_mis :  number_format((float)$percent_mis, 2, '.', ''));?>%</li><!-- <li>0.44%</li> -->
             </ul>
           </div>
           <!-- /.stat-row --> 
