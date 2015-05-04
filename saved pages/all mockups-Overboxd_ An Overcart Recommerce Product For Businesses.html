@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://www.overboxd.com/vicky/index.php/newdashboard -->
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Overboxd: An Overcart Recommerce Product For Businesses</title>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css">
+<link href="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/jquery.comiseo.daterangepicker.css" rel="stylesheet" type="text/css">
+
+<link href="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/pixel-admin.min.css" rel="stylesheet" type="text/css">
+<link href="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/themes.min.css" rel="stylesheet" type="text/css">
+
+
+
+<script src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/jquery.min.js"></script><style type="text/css"></style>
+<script src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/jquery-ui.js"></script>
+<script src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/moment.min.js"></script>
+<script src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/jquery.comiseo.daterangepicker.js"></script>
+
+<!--<script src="<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Use of undefined constant php - assumed 'php'</p>
+<p>Filename: admin/newdashboard.php</p>
+<p>Line Number: 19</p>
+
+</div>assets/js/template/amExtract/amcharts/amcharts.js" type="text/javascript"></script>--><!-- bar chart -->
+<!--<script src="<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Use of undefined constant php - assumed 'php'</p>
+<p>Filename: admin/newdashboard.php</p>
+<p>Line Number: 20</p>
+
+</div>assets/js/template/amExtract/amcharts/serial.js" type="text/javascript"></script>--><!-- bar chart -->
+<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>--><!-- stacked -->
+<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>--><!-- stacked -->
+<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script>--><!-- stacked -->
+
+<script src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/highcharts.js"></script><!-- highCharts: stacked graph -->
+<script src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/exporting.js"></script><!-- highCharts: stacked graph -->
+<!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> --><!-- highCharts: stacked graph -->
+
+
+<script>
+        $(function() { 
+        	$("#selector_dateRange").daterangepicker(); 
+
+        	$("#submit_dateRange").click(function () 
+        		{
+        			// alert("Selected range is: ");
+        			var selectedRange = $("#selector_dateRange").val();
+        			if (selectedRange) //proceed only if selectedRange is truthy. i.e. selectedRange is neither null nor undefined
+        			{
+        				// alert("Input value is: " + selectedRange);	// {"START":"2015-04-25","END":"2015-05-01"}
+        				// $('#content-wrapper > div.page-header > div > h1 > div').text(selectedRange);
+        				var parsed = JSON.parse(selectedRange);
+        				// console.log(parsed); 
+        				// console.log(parsed.start);
+        				var start = parsed.start;
+        				var end = parsed.end;
+        				console.log(start);
+        				console.log(end);
+
+                //ajax :
+                $.ajax({
+                  type: "POST",
+                  url: 'http://www.overboxd.com/vicky/index.php/admin_products/foobar', 
+                  data: {'barcode': 'abcd' }, 
+                  dataType: 'json',
+                  async: false, //This is deprecated in the latest version of jquery must use now callbacks
+                  success: function(d)
+                  {
+                    alert('ajax '+d.status);
+                    console.log('return:');
+                    console.log(d);
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); }   
+                  
+                });
+              
+
+                    			}
+                    		});
+             				
+                    });
+</script>
+</head>
+<body class="theme-default main-menu-animated">
+<div id="main-wrapper"> 
+
+  
+  <!-- 2. $MAIN_NAVIGATION ===========================================================================
+
+  Main navigation
+-->
+  <div id="main-navbar" class="navbar navbar-inverse" role="navigation"> 
+    <!-- Main menu toggle --> 
+    <!--<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>-->
+    <div class="navbar-inner"> 
+      <!-- Main navbar header -->
+      <div class="navbar-header"> 
+        
+        <!-- Logo --> 
+        <a href="http://www.overboxd.com/index.html" class="navbar-brand"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/logo.png"> </a> 
+        
+        <!-- Main navbar toggle -->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
+      </div>
+      <!-- / .navbar-header -->
+      
+      <div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
+        <div> 
+          
+          <!-- / .navbar-nav -->
+          
+          <div class="right clearfix">
+            <div class="header_search">
+              <form class="navbar-form pull-left">
+                <input type="text" class="form-control" placeholder="Enter Keyword">
+                <button class="search_btn" type="submit" value="submit"></button>
+              </form>
+            </div>
+            <ul class="nav navbar-nav pull-right right-navbar-nav">
+              
+
+              <li class="nav-icon-btn nav-icon-btn-danger dropdown">
+              <a href="http://www.overboxd.com/vicky/index.php/newdashboard#notifications" class="dropdown-toggle"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/notifications.png"> <span class="small-screen-text">Notifications</span> </a>
+               <!--<a href="#notifications" class="dropdown-toggle" data-toggle="dropdown"> <img src="http://www.overboxd.com/vicky/assets/images/template/notifications.png"/> <span class="small-screen-text">Notifications</span> </a>--> 
+                
+                <!-- NOTIFICATIONS --> 
+                
+                <!-- Javascript --> 
+                <script>
+                  init.push(function () {
+                    $('#main-navbar-notifications').slimScroll({ height: 250 });
+                  });
+                </script> 
+                <!-- / Javascript -->
+                
+                <div class="dropdown-menu widget-notifications no-padding" style="width: 300px">
+                  <div class="notifications-list" id="main-navbar-notifications">
+                    <div class="notification">
+                      <div class="notification-title text-danger">SYSTEM</div>
+                      <div class="notification-description"><strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-hdd-o bg-danger"></div>
+                    </div>
+                    <!-- / .notification -->
+                    
+                    <div class="notification">
+                      <div class="notification-title text-info">STORE</div>
+                      <div class="notification-description">You have <strong>9</strong> new orders.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-truck bg-info"></div>
+                    </div>
+                    <!-- / .notification -->
+                    
+                    <div class="notification">
+                      <div class="notification-title text-default">CRON DAEMON</div>
+                      <div class="notification-description">Job <strong>"Clean DB"</strong> has been completed.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-clock-o bg-default"></div>
+                    </div>
+                    <!-- / .notification -->
+                    
+                    <div class="notification">
+                      <div class="notification-title text-success">SYSTEM</div>
+                      <div class="notification-description">Server <strong>up</strong>.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-hdd-o bg-success"></div>
+                    </div>
+                    <!-- / .notification -->
+                    
+                    <div class="notification">
+                      <div class="notification-title text-warning">SYSTEM</div>
+                      <div class="notification-description"><strong>Warning</strong>: Processor load <strong>92%</strong>.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-hdd-o bg-warning"></div>
+                    </div>
+                    <!-- / .notification --> 
+                    
+                  </div>
+                  <!-- / .notifications-list --> 
+                  <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="notifications-link">MORE NOTIFICATIONS</a> </div>
+                <!-- / .dropdown-menu --> 
+              </li>
+              <li class="nav-icon-btn nav-icon-btn-success dropdown"> 
+              <a href="http://www.overboxd.com/vicky/index.php/newdashboard#messages" class="dropdown-toggle"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/setting.png"> <span class="small-screen-text">Setting</span> </a>
+              <!--<a href="#messages" class="dropdown-toggle" data-toggle="dropdown"> <img src="http://www.overboxd.com/vicky/assets/images/template/setting.png"/> <span class="small-screen-text">Setting</span> </a>--> 
+                
+                <!-- MESSAGES --> 
+                
+                <!-- Javascript --> 
+                <script>
+                  init.push(function () {
+                    $('#main-navbar-messages').slimScroll({ height: 250 });
+                  });
+                </script> 
+                <!-- / Javascript -->
+                
+                <div class="dropdown-menu widget-messages-alt no-padding" style="width: 300px;">
+                  <div class="messages-list" id="main-navbar-messages">
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/2.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/3.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Michelle Bortz</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/4.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Timothy Owens</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/5.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Denise Steiner</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/2.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/2.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/3.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Michelle Bortz</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/4.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Timothy Owens</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/5.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Denise Steiner</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/2.jpg" alt="" class="message-avatar"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                      <div class="message-description"> from <a href="http://www.overboxd.com/vicky/index.php/newdashboard#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message --> 
+                    
+                  </div>
+                  <!-- / .messages-list --> 
+                  <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="messages-link">MORE MESSAGES</a> </div>
+                <!-- / .dropdown-menu --> 
+              </li>
+              <!-- /3. $END_NAVBAR_ICON_BUTTONS -->
+              
+              <li class="dropdown"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#" class="dropdown-toggle user-menu" data-toggle="dropdown"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/3(1).jpg"> <span>John Doe</span> </a>
+                <ul class="dropdown-menu">
+                  <li><a href="http://www.overboxd.com/vicky/index.php/newdashboard#"><span class="label label-warning pull-right">New</span>Profile</a></li>
+                  <li><a href="http://www.overboxd.com/vicky/index.php/newdashboard#"><span class="badge badge-primary pull-right">New</span>Account</a></li>
+                  <li><a href="http://www.overboxd.com/vicky/index.php/newdashboard#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
+                  <li class="divider"></li>
+                  <li><a href="http://www.overboxd.com/pages-signin.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                </ul>
+              </li>
+            </ul>
+            <!-- / .navbar-nav --> 
+          </div>
+          <!-- / .right --> 
+        </div>
+      </div>
+      <!-- / #main-navbar-collapse --> 
+    </div>
+    <!-- / .navbar-inner --> 
+  </div>
+  <!-- / #main-navbar --> 
+  <div id="main-menu" role="navigation">
+    <div id="main-menu-inner">
+      <ul class="navigation">
+        <li class="active"> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span><span class="label label-new">1127</span></a> </li>
+        <li> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#"><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Logistics</span></a> </li>
+        <li> <a href="http://www.overboxd.com/stat-panels.html"><i class="menu-icon fa fa-bolt"></i><span class="mm-text">Support</span></a> </li>
+        <li> <a href="http://www.overboxd.com/widgets.html"><i class="menu-icon fa fa-envelope-o"></i><span class="mm-text">Quality</span></a> </li>
+        <li> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#"><i class="menu-icon fa fa fa-calendar"></i><span class="mm-text">Notifications</span><span class="label label-new">16</span></a></li>
+        <li> <a href="http://www.overboxd.com/vicky/index.php/newdashboard#"><i class="menu-icon fa fa-user"></i><span class="mm-text">Contacts</span></a></li>
+        <li> <a href="http://www.overboxd.com/tables.html"><i class="menu-icon fa fa-gear"></i><span class="mm-text">Setting</span></a> </li>
+        <li> <a href="http://www.overboxd.com/charts.html"><i class="menu-icon fa-sign-out"></i><span class="mm-text">Logout</span></a> </li>
+      </ul>
+      <!-- / .navigation --> 
+      
+    </div>
+    <!-- / #main-menu-inner --> 
+  </div>
+  <!-- / #main-menu --> 
+  <!-- /4. $MAIN_MENU -->
+  
+  <div id="content-wrapper"> 
+    <!--<ul class="breadcrumb breadcrumb-page">
+      <div class="breadcrumb-label text-light-gray">You are here: </div>
+      <li><a href="#">Home</a></li>
+      <li class="active"><a href="#">Dashboard</a></li>
+    </ul>-->
+    <ul class="sorting_toolbar">
+      <li>View:</li>
+      <li class="sorting_icons active"><i class="fa fa-th-list"></i></li>
+      <li class="sorting_icons"><i class="fa fa-th"></i></li>
+    </ul>
+    <div class="page-header">
+      <div class="row"> 
+        <!-- Page header, center on small screens -->
+        <h1 class="col-xs-12 col-sm-8 text-center text-left-sm">Analytics<br>
+          <div class="subheading">BUSINESS OVERVIEW AT A GLANCE</div>
+        </h1>
+        <div class="col-xs-12 col-sm-4">
+          <div class="row" style="text-align:right"> 
+           <input id="selector_dateRange" name="selector_dateRange" style="padding-right: 8px; display: none;"><button type="button" class="comiseo-daterangepicker-triggerbutton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-secondary comiseo-daterangepicker-bottom" id="drp_autogen0" role="button" aria-disabled="false"><span class="ui-button-text">Select date range...</span><span class="ui-button-icon-secondary ui-icon ui-icon-triangle-1-s"></span></button>
+           <input type="button" class="btn btn-primary" id="submit_dateRange" value="Submit">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- / .page-header -->
+  
+    <div class="row">
+      <div class="col-md-8">
+        <div class="stat-panel">
+          <div class="stat-row">
+            <div class="padding-sm-hr-custom">
+              <div class="row"> <span class="order_total_count">147</span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br>
+                56% OF BOOKED ORDERS</span> </div>
+              <!-- <img src="assets/images/template/chart.jpg"/>  -->
+              <div id="chartdiv" style="width: 100%; height: 550px;" data-highcharts-chart="3"><div class="highcharts-container" id="highcharts-8" style="position: relative; overflow: hidden; width: 626px; height: 550px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><svg version="1.1" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" xmlns="http://www.w3.org/2000/svg" width="626" height="550"><desc>Created with Highcharts 4.1.5</desc><defs><clippath id="highcharts-9"><rect x="0" y="0" width="543" height="420"></rect></clippath></defs><rect x="0" y="0" width="626" height="550" strokeWidth="0" fill="#FFFFFF" class=" highcharts-background"></rect><g class="highcharts-button" style="cursor:default;" stroke-linecap="round" transform="translate(592,10)"><title>Chart context menu</title><rect x="0.5" y="0.5" width="24" height="22" strokeWidth="1" fill="white" stroke="none" stroke-width="1" rx="2" ry="2"></rect><path fill="#E0E0E0" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" stroke="#666" stroke-width="3" zIndex="1"></path><text x="0" zIndex="1" style="color:black;fill:black;" transform="translate(0,12)"></text></g><g class="highcharts-grid" zIndex="1"></g><g class="highcharts-grid" zIndex="1"><path fill="none" d="M 73 465.5 L 616 465.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 73 395.5 L 616 395.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 73 325.5 L 616 325.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 73 255.5 L 616 255.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 73 185.5 L 616 185.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 73 115.5 L 616 115.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 73 45.5 L 616 45.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path></g><g class="highcharts-axis" zIndex="2"><path fill="none" d="M 150.5 465 L 150.5 475" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 227.5 465 L 227.5 475" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 305.5 465 L 305.5 475" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 382.5 465 L 382.5 475" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 460.5 465 L 460.5 475" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 537.5 465 L 537.5 475" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 616.5 465 L 616.5 475" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 72.5 465 L 72.5 475" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 73 465.5 L 616 465.5" stroke="#C0D0E0" stroke-width="1" zIndex="7" visibility="visible"></path></g><g class="highcharts-axis" zIndex="2"><text x="23.515625" zIndex="7" text-anchor="middle" transform="translate(0,0) rotate(270 23.515625 255)" class=" highcharts-yaxis-title" style="color:#707070;fill:#707070;" visibility="visible" y="255">Units</text></g><g class="highcharts-series-group" zIndex="3"><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" style="" clip-path="url(#highcharts-9)"><rect x="19.5" y="200.5" width="38" height="33" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="97.5" y="406.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="174.5" y="414.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="252.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="329.5" y="45.5" width="38" height="14" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="407.5" y="369.5" width="38" height="2" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="485.5" y="415.5" width="38" height="4" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" clip-path="none"></g><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" style="" clip-path="url(#highcharts-9)"><rect x="19.5" y="233.5" width="38" height="1" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="97.5" y="406.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="174.5" y="414.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="252.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="329.5" y="59.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="407.5" y="371.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="485.5" y="419.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" clip-path="none"></g><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" style="" clip-path="url(#highcharts-9)"><rect x="19.5" y="234.5" width="38" height="1" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="97.5" y="406.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="174.5" y="414.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="252.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="329.5" y="59.5" width="38" height="5" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="407.5" y="371.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="485.5" y="419.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" clip-path="none"></g><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" style="" clip-path="url(#highcharts-9)"><rect x="19.5" y="235.5" width="38" height="70" stroke="#FFFFFF" stroke-width="1" fill="#f7a35c" rx="0" ry="0"></rect><rect x="97.5" y="406.5" width="38" height="5" stroke="#FFFFFF" stroke-width="1" fill="#f7a35c" rx="0" ry="0"></rect><rect x="174.5" y="414.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#f7a35c" rx="0" ry="0"></rect><rect x="252.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#f7a35c" rx="0" ry="0"></rect><rect x="329.5" y="64.5" width="38" height="167" stroke="#FFFFFF" stroke-width="1" fill="#f7a35c" rx="0" ry="0"></rect><rect x="407.5" y="371.5" width="38" height="19" stroke="#FFFFFF" stroke-width="1" fill="#f7a35c" rx="0" ry="0"></rect><rect x="485.5" y="419.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#f7a35c" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" clip-path="none"></g><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" style="" clip-path="url(#highcharts-9)"><rect x="19.5" y="305.5" width="38" height="48" stroke="#FFFFFF" stroke-width="1" fill="#8085e9" rx="0" ry="0"></rect><rect x="97.5" y="411.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#8085e9" rx="0" ry="0"></rect><rect x="174.5" y="414.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#8085e9" rx="0" ry="0"></rect><rect x="252.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#8085e9" rx="0" ry="0"></rect><rect x="329.5" y="231.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#8085e9" rx="0" ry="0"></rect><rect x="407.5" y="390.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#8085e9" rx="0" ry="0"></rect><rect x="485.5" y="419.5" width="38" height="1" stroke="#FFFFFF" stroke-width="1" fill="#8085e9" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" clip-path="none"></g><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" style="" clip-path="url(#highcharts-9)"><rect x="19.5" y="353.5" width="38" height="67" stroke="#FFFFFF" stroke-width="1" fill="#f15c80" rx="0" ry="0"></rect><rect x="97.5" y="411.5" width="38" height="9" stroke="#FFFFFF" stroke-width="1" fill="#f15c80" rx="0" ry="0"></rect><rect x="174.5" y="414.5" width="38" height="6" stroke="#FFFFFF" stroke-width="1" fill="#f15c80" rx="0" ry="0"></rect><rect x="252.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#f15c80" rx="0" ry="0"></rect><rect x="329.5" y="231.5" width="38" height="189" stroke="#FFFFFF" stroke-width="1" fill="#f15c80" rx="0" ry="0"></rect><rect x="407.5" y="390.5" width="38" height="30" stroke="#FFFFFF" stroke-width="1" fill="#f15c80" rx="0" ry="0"></rect><rect x="485.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#f15c80" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" clip-path="none"></g><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" style="" clip-path="url(#highcharts-9)"><rect x="19.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#e4d354" rx="0" ry="0"></rect><rect x="97.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#e4d354" rx="0" ry="0"></rect><rect x="174.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#e4d354" rx="0" ry="0"></rect><rect x="252.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#e4d354" rx="0" ry="0"></rect><rect x="329.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#e4d354" rx="0" ry="0"></rect><rect x="407.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#e4d354" rx="0" ry="0"></rect><rect x="485.5" y="420.5" width="38" height="0" stroke="#FFFFFF" stroke-width="1" fill="#e4d354" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(73,45) scale(1 1)" clip-path="none"></g></g><text x="313" text-anchor="middle" class="highcharts-title" zIndex="4" style="color:#333333;font-size:18px;fill:#333333;width:562px;" y="24"><tspan>Dashboard Inventory- LISTED</tspan></text><g class="highcharts-stack-labels" visibility="visible" zIndex="6" transform="translate(73,45)"><text x="39" style="color: gray; font-size: 11px; font-weight: bold; fill: rgb(128, 128, 128); text-shadow: rgb(255, 255, 255) 0px 0px 6px, rgb(255, 255, 255) 0px 0px 3px;" text-anchor="middle" transform="translate(0,0)" y="194"><tspan>1 571</tspan></text><text x="116" style="color: gray; font-size: 11px; font-weight: bold; fill: rgb(128, 128, 128); text-shadow: rgb(255, 255, 255) 0px 0px 6px, rgb(255, 255, 255) 0px 0px 3px;" text-anchor="middle" transform="translate(0,0)" y="400"><tspan>98</tspan></text><text x="194" style="color: gray; font-size: 11px; font-weight: bold; fill: rgb(128, 128, 128); text-shadow: rgb(255, 255, 255) 0px 0px 6px, rgb(255, 255, 255) 0px 0px 3px;" text-anchor="middle" transform="translate(0,0)" y="408"><tspan>46</tspan></text><text x="272" style="color: gray; font-size: 11px; font-weight: bold; fill: rgb(128, 128, 128); text-shadow: rgb(255, 255, 255) 0px 0px 6px, rgb(255, 255, 255) 0px 0px 3px;" text-anchor="middle" transform="translate(0,0)" y="414"><tspan>0</tspan></text><text x="349" style="color: gray; font-size: 11px; font-weight: bold; fill: rgb(128, 128, 128); text-shadow: rgb(255, 255, 255) 0px 0px 6px, rgb(255, 255, 255) 0px 0px 3px;" text-anchor="middle" transform="translate(0,0)" y="39"><tspan>2 681</tspan></text><text x="427" style="color: gray; font-size: 11px; font-weight: bold; fill: rgb(128, 128, 128); text-shadow: rgb(255, 255, 255) 0px 0px 6px, rgb(255, 255, 255) 0px 0px 3px;" text-anchor="middle" transform="translate(0,0)" y="363"><tspan>366</tspan></text><text x="504" style="color: gray; font-size: 11px; font-weight: bold; fill: rgb(128, 128, 128); text-shadow: rgb(255, 255, 255) 0px 0px 6px, rgb(255, 255, 255) 0px 0px 3px;" text-anchor="middle" transform="translate(0,0)" y="409"><tspan>33</tspan></text></g><g class="highcharts-data-labels highcharts-tracker" visibility="visible" zIndex="6" transform="translate(73,45) scale(1 1)" opacity="1" style=""><g zIndex="1" style="" transform="translate(24,206)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>234</tspan></text></g><g zIndex="1" style="" transform="translate(108,396)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>1</tspan></text></g><g zIndex="1" style="" transform="translate(185,403)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(263,403)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(334,42)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>104</tspan></text></g><g zIndex="1" style="" transform="translate(415,360)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>14</tspan></text></g><g zIndex="1" style="" transform="translate(493,403)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>24</tspan></text></g></g><g class="highcharts-data-labels highcharts-tracker" visibility="visible" zIndex="6" transform="translate(73,45) scale(1 1)" opacity="1" style=""><g zIndex="1" style="" transform="translate(30,223)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>7</tspan></text></g><g zIndex="1" style="" transform="translate(108,396)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(185,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(263,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(340,49)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(418,361)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(496,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g></g><g class="highcharts-data-labels highcharts-tracker" visibility="visible" zIndex="6" transform="translate(73,45) scale(1 1)" opacity="1" style=""><g zIndex="1" style="" transform="translate(27,224)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>10</tspan></text></g><g zIndex="1" style="" transform="translate(108,396)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(185,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(263,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(337,51)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>33</tspan></text></g><g zIndex="1" style="" transform="translate(418,361)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>3</tspan></text></g><g zIndex="1" style="" transform="translate(496,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g></g><g class="highcharts-data-labels highcharts-tracker" visibility="visible" zIndex="6" transform="translate(73,45) scale(1 1)" opacity="1" style=""><g zIndex="1" style="" transform="translate(24,260)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>499</tspan></text></g><g zIndex="1" style="" transform="translate(105,398)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>33</tspan></text></g><g zIndex="1" style="" transform="translate(185,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>4</tspan></text></g><g zIndex="1" style="" transform="translate(263,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(330,137)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>1 192</tspan></text></g><g zIndex="1" style="" transform="translate(412,370)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>132</tspan></text></g><g zIndex="1" style="" transform="translate(496,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>4</tspan></text></g></g><g class="highcharts-data-labels highcharts-tracker" visibility="visible" zIndex="6" transform="translate(73,45) scale(1 1)" opacity="1" style=""><g zIndex="1" style="" transform="translate(24,319)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>342</tspan></text></g><g zIndex="1" style="" transform="translate(108,401)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(185,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(263,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(340,221)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>5</tspan></text></g><g zIndex="1" style="" transform="translate(418,380)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>2</tspan></text></g><g zIndex="1" style="" transform="translate(496,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>3</tspan></text></g></g><g class="highcharts-data-labels highcharts-tracker" visibility="visible" zIndex="6" transform="translate(73,45) scale(1 1)" opacity="1" style=""><g zIndex="1" style="" transform="translate(24,376)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>479</tspan></text></g><g zIndex="1" style="" transform="translate(105,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>64</tspan></text></g><g zIndex="1" style="" transform="translate(182,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>42</tspan></text></g><g zIndex="1" style="" transform="translate(263,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(330,315)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>1 347</tspan></text></g><g zIndex="1" style="" transform="translate(412,395)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>215</tspan></text></g><g zIndex="1" style="" transform="translate(496,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>2</tspan></text></g></g><g class="highcharts-data-labels highcharts-tracker" visibility="visible" zIndex="6" transform="translate(73,45) scale(1 1)" opacity="1" style=""><g zIndex="1" style="" transform="translate(30,403)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(108,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(185,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(263,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(340,403)"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(418,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g><g zIndex="1" style="" transform="translate(496,403)" opacity="0"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:white;text-shadow:0 0 3px black;fill:white;" transform="translate(0,16)"><tspan>0</tspan></text></g></g><g class="highcharts-legend" zIndex="7" transform="translate(23,35)"><rect x="0.5" y="0.5" width="587" height="38" strokeWidth="1" stroke="#CCC" stroke-width="1" fill="#FCFFC5" visibility="visible"></rect><g zIndex="1"><g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,3)"><text x="21" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2" y="15">BER</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#7cb5ec"></rect></g><g class="highcharts-legend-item" zIndex="1" transform="translate(74.34375,3)"><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">New</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#434348"></rect></g><g class="highcharts-legend-item" zIndex="1" transform="translate(140.03125,3)"><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">Preowned</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#90ed7d"></rect></g><g class="highcharts-legend-item" zIndex="1" transform="translate(238.390625,3)"><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">Refurbished</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#f7a35c"></rect></g><g class="highcharts-legend-item" zIndex="1" transform="translate(349.40625,3)"><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">Sealed</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#8085e9"></rect></g><g class="highcharts-legend-item" zIndex="1" transform="translate(429.109375,3)"><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">Unboxed</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#f15c80"></rect></g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,17)"><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2"><tspan>Send to Service center</tspan></text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#e4d354"></rect></g></g></g></g><g class="highcharts-axis-labels highcharts-xaxis-labels" zIndex="7"><text x="114.37843915006496" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:550px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 114.37843915006496 481)" y="481" opacity="1"><tspan>Accessories</tspan></text><text x="191.94986772149355" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:550px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 191.94986772149355 481)" y="481" opacity="1"><tspan>Camera</tspan></text><text x="269.52129629292205" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:550px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 269.52129629292205 481)" y="481" opacity="1"><tspan>Computer</tspan></text><text x="347.09272486435066" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:550px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 347.09272486435066 481)" y="481" opacity="1"><tspan>Feaured Phone</tspan></text><text x="424.6641534357792" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:550px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 424.6641534357792 481)" y="481" opacity="1"><tspan>Smartphone</tspan></text><text x="502.2355820072077" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:550px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 502.2355820072077 481)" y="481" opacity="1"><tspan>Tablet</tspan></text><text x="579.8070105786363" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:550px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 579.8070105786363 481)" y="481" opacity="1"><tspan>Television</tspan></text></g><g class="highcharts-axis-labels highcharts-yaxis-labels" zIndex="7"><text x="58" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:197px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="470" opacity="1">0</text><text x="58" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:197px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="400" opacity="1">500</text><text x="58" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:197px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="330" opacity="1">1000</text><text x="58" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:197px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="260" opacity="1">1500</text><text x="58" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:197px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="190" opacity="1">2000</text><text x="58" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:197px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="120" opacity="1">2500</text><text x="58" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:197px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="50" opacity="1">3000</text></g><g class="highcharts-tooltip" zIndex="8" style="cursor:default;padding:0;white-space:nowrap;" transform="translate(0,-9999)"><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.049999999999999996" stroke-width="5" transform="translate(1, 1)"></path><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.09999999999999999" stroke-width="3" transform="translate(1, 1)"></path><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.15" stroke-width="1" transform="translate(1, 1)"></path><path fill="rgba(249, 249, 249, .85)" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0"></path><text x="8" zIndex="1" style="font-size:12px;color:#333333;fill:#333333;" transform="translate(0,20)"></text></g><text x="616" text-anchor="end" zIndex="8" style="cursor:pointer;color:#909090;font-size:9px;fill:#909090;" y="545">Highcharts.com</text></svg></div></div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <!-- /6. $EASY_PIE_CHARTS -->
+      
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-sm-4 col-md-12">
+            <div class="stat-panel"> 
+              <!-- Danger background, vertically centered text -->
+              <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
+                <!-- Small text --> 
+                <span class="text-xlg"><strong>28</strong><span class="text-lg text-slim">%</span></span><br>
+                <!-- Big text -->
+                <div class="monthly_report"> <img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/monthly_target.jpg">
+                  <div class="min_max_report"> <span class="min">Minimum</span><span class="max">Maximum</span> </div>
+                </div>
+                
+                <!-- /.stat-cell --> 
+              </div>
+              <!-- /.stat-panel --> 
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-12">
+            <div class="stat-panel"> 
+              <!-- Danger background, vertically centered text -->
+              <div class="stat-cell valign-middle align_center"> <span class="text-bg">TOTAL CONFIRMED REVENUE</span><br>
+                <div class="totoal_revenue">Rs.245,967</div>
+                
+                <!-- /.stat-cell --> 
+              </div>
+              <!-- /.stat-panel --> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3"> 
+        <!-- Centered text -->
+        <div class="stat-panel text-center">
+          <div class="stat-cell valign-middle align_center">
+            <div class="text-bg"> LOGISTICS </div>
+            <div class="status_per"> <span class="status_text">87%</span> </div>
+            <span class="xlheading">SAME DAY SHIPS </span>
+            <ul class="status_more">
+              <li>28.18</li>
+              <li><img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/green-arrow.png"></li>
+              <li>0.27%</li>
+            </ul>
+          </div>
+          <!-- /.stat-row --> 
+        </div>
+        <!-- /.stat-panel --> 
+      </div>
+      <div class="col-xs-3"> 
+        <!-- Centered text -->
+        <div class="stat-panel text-center">
+          <div class="stat-cell valign-middle align_center">
+            <div class="text-bg">CUSTOMER SUPPORT</div>
+            <div class="status_per status_per_green"> <span class="status_text">63%</span> </div>
+            <span class="xlheading">CONFIRMATION</span>
+            <ul class="status_more">
+              <li>28.18</li>
+              <li><img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/red-arrow.png"></li>
+              <li>-0.34%</li>
+            </ul>
+          </div>
+          <!-- /.stat-row --> 
+        </div>
+        <!-- /.stat-panel --> 
+      </div>
+      <div class="col-xs-3"> 
+              <!-- Centered text -->
+        <div class="stat-panel text-center">
+          <div class="stat-cell valign-middle align_center">
+            <div class="text-bg">QUALITY SUPPORT</div>
+            <div class="status_per status_result"> <span class="status_text">0</span> </div>
+            <span class="xlheading">CHECKS</span>
+            <ul class="status_more">
+              <li>-3</li>
+              <li><img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/red-arrow.png"></li>
+              <li>-100.00%</li>
+            </ul>
+          </div>
+          <!-- /.stat-row --> 
+        </div>
+        <!-- /.stat-panel --> 
+      </div>
+      <div class="col-xs-3"> 
+              <!-- Centered text -->
+        <div class="stat-panel text-center">
+          <div class="stat-cell valign-middle align_center">
+            <div class="text-bg">MIS</div>
+            <div id="mis_uploaded" class="status_per status_result"> <span class="status_text">4</span> </div>
+            <span class="xlheading">Uploaded</span>
+            <ul class="status_more">
+              <li>-4</li><!-- <li>28.18</li> -->
+              <li><img src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/red-arrow.png">
+              </li>
+              <li>-50.00%</li><!-- <li>0.44%</li> -->
+            </ul>
+          </div>
+          <!-- /.stat-row --> 
+        </div>
+        <!-- /.stat-panel --> 
+      </div>
+    </div>
+	<pre></pre>    <script>
+      $(function () {
+      $('#graph_ageing').highcharts({
+          title: {
+              text: 'Inventory Aging',
+              x: -20 //center
+          }/*,
+          subtitle: {
+              text: 'Source: WorldClimate.com',
+              x: -20
+          }*/,
+          xAxis: {
+              categories: ['Pending Pickup', 'Inbound Holding','Pending QC', 'Under QC', 'Manager\'s escalation','Out for Repair',
+               'Ready to upload', 'Listed', 'Returned to Client', 'Sell Offline', 'Inventory Review', 'Sold']
+          },
+          yAxis: {
+              title: {
+                  text: 'Items'
+              },
+              plotLines: [{
+                  value: 0,
+                  width: 1,
+                  color: '#808080'
+              }]
+          }/*,
+          tooltip: {
+              valueSuffix: '°C'
+          }*/,
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle',
+              borderWidth: 0
+          },
+          series: [{
+              name: 'Karma',
+              data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+          }, {
+              name: 'Cloudtail',
+              data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+          }, {
+              name: 'PB International',
+              data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+          }, {
+              name: 'Saholic',
+              data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+          }, {
+              name: 'Technix',
+              data: [ 7.0-5, 6.9-5, 9.5-5, 14.5-5, 18.2-5, 21.5-5, 25.2-5, 26.5-5, 23.3-5, 18.3-5, 13.9-5, 9.6]
+          }, {
+              name: 'Value Plus',
+              data: [3.9+5, 4.2+5, 5.7+5, 8.5+5, 11.9+5, 15.2+5, 17.0+5, 16.6+5, 14.2+5, 10.3+5, 6.6+5, 4.8+3]
+          }]
+        });
+      });
+    </script>
+    <div id="graph_ageing" style="width: 100%; height: 550px; border:1px solid black;" data-highcharts-chart="0"><div class="highcharts-container" id="highcharts-0" style="position: relative; overflow: hidden; width: 1012px; height: 548px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><svg version="1.1" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" xmlns="http://www.w3.org/2000/svg" width="1012" height="548"><desc>Created with Highcharts 4.1.5</desc><defs><clippath id="highcharts-1"><rect x="0" y="0" width="800" height="398"></rect></clippath></defs><rect x="0" y="0" width="1012" height="548" strokeWidth="0" fill="#FFFFFF" class=" highcharts-background"></rect><path fill="none" d="M 61 386.5 L 861 386.5" stroke="#808080" stroke-width="1"></path><g class="highcharts-button" style="cursor:default;" stroke-linecap="round" transform="translate(978,10)"><title>Chart context menu</title><rect x="0.5" y="0.5" width="24" height="22" strokeWidth="1" fill="white" stroke="none" stroke-width="1" rx="2" ry="2"></rect><path fill="#E0E0E0" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" stroke="#666" stroke-width="3" zIndex="1"></path><text x="0" zIndex="1" style="color:black;fill:black;" transform="translate(0,12)"></text></g><g class="highcharts-grid" zIndex="1"></g><g class="highcharts-grid" zIndex="1"><path fill="none" d="M 61 443.5 L 861 443.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 61 386.5 L 861 386.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 61 329.5 L 861 329.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 61 272.5 L 861 272.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 61 216.5 L 861 216.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 61 159.5 L 861 159.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 61 102.5 L 861 102.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 61 44.5 L 861 44.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path></g><g class="highcharts-axis" zIndex="2"><path fill="none" d="M 127.5 443 L 127.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 193.5 443 L 193.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 260.5 443 L 260.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 327.5 443 L 327.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 393.5 443 L 393.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 460.5 443 L 460.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 527.5 443 L 527.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 593.5 443 L 593.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 660.5 443 L 660.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 727.5 443 L 727.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 793.5 443 L 793.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 860.5 443 L 860.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 60.5 443 L 60.5 453" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 61 443.5 L 861 443.5" stroke="#C0D0E0" stroke-width="1" zIndex="7" visibility="visible"></path></g><g class="highcharts-axis" zIndex="2"><text x="23.75" zIndex="7" text-anchor="middle" transform="translate(0,0) rotate(270 23.75 244)" class=" highcharts-yaxis-title" style="color:#707070;fill:#707070;" visibility="visible" y="244">Items</text></g><g class="highcharts-series-group" zIndex="3"><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-1)"><path fill="none" d="M 33.333333333333336 261.54285714285714 L 100 262.67999999999995 L 166.66666666666669 233.1142857142857 L 233.33333333333334 176.25714285714284 L 300 134.18285714285713 L 366.6666666666667 96.65714285714284 L 433.3333333333333 54.582857142857165 L 500 39.80000000000001 L 566.6666666666667 76.18857142857144 L 633.3333333333334 133.04571428571427 L 700.0000000000001 183.08 L 766.6666666666667 231.97714285714287" stroke="#7cb5ec" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 23.333333333333336 261.54285714285714 L 33.333333333333336 261.54285714285714 L 100 262.67999999999995 L 166.66666666666669 233.1142857142857 L 233.33333333333334 176.25714285714284 L 300 134.18285714285713 L 366.6666666666667 96.65714285714284 L 433.3333333333333 54.582857142857165 L 500 39.80000000000001 L 566.6666666666667 76.18857142857144 L 633.3333333333334 133.04571428571427 L 700.0000000000001 183.08 L 766.6666666666667 231.97714285714287 L 776.6666666666667 231.97714285714287" stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-2)" style=""><path fill="#7cb5ec" d="M 766 227.97714285714287 C 771.328 227.97714285714287 771.328 235.97714285714287 766 235.97714285714287 C 760.672 235.97714285714287 760.672 227.97714285714287 766 227.97714285714287 Z"></path><path fill="#7cb5ec" d="M 700 179.08 C 705.328 179.08 705.328 187.08 700 187.08 C 694.672 187.08 694.672 179.08 700 179.08 Z"></path><path fill="#7cb5ec" d="M 633 129.04571428571427 C 638.328 129.04571428571427 638.328 137.04571428571427 633 137.04571428571427 C 627.672 137.04571428571427 627.672 129.04571428571427 633 129.04571428571427 Z"></path><path fill="#7cb5ec" d="M 566 72.18857142857144 C 571.328 72.18857142857144 571.328 80.18857142857144 566 80.18857142857144 C 560.672 80.18857142857144 560.672 72.18857142857144 566 72.18857142857144 Z"></path><path fill="#7cb5ec" d="M 500 35.80000000000001 C 505.328 35.80000000000001 505.328 43.80000000000001 500 43.80000000000001 C 494.672 43.80000000000001 494.672 35.80000000000001 500 35.80000000000001 Z"></path><path fill="#7cb5ec" d="M 433 50.582857142857165 C 438.328 50.582857142857165 438.328 58.582857142857165 433 58.582857142857165 C 427.672 58.582857142857165 427.672 50.582857142857165 433 50.582857142857165 Z"></path><path fill="#7cb5ec" d="M 366 92.65714285714284 C 371.328 92.65714285714284 371.328 100.65714285714284 366 100.65714285714284 C 360.672 100.65714285714284 360.672 92.65714285714284 366 92.65714285714284 Z"></path><path fill="#7cb5ec" d="M 300 130.18285714285713 C 305.328 130.18285714285713 305.328 138.18285714285713 300 138.18285714285713 C 294.672 138.18285714285713 294.672 130.18285714285713 300 130.18285714285713 Z"></path><path fill="#7cb5ec" d="M 233 172.25714285714284 C 238.328 172.25714285714284 238.328 180.25714285714284 233 180.25714285714284 C 227.672 180.25714285714284 227.672 172.25714285714284 233 172.25714285714284 Z"></path><path fill="#7cb5ec" d="M 166 229.1142857142857 C 171.328 229.1142857142857 171.328 237.1142857142857 166 237.1142857142857 C 160.672 237.1142857142857 160.672 229.1142857142857 166 229.1142857142857 Z"></path><path fill="#7cb5ec" d="M 100 258.67999999999995 C 105.328 258.67999999999995 105.328 266.67999999999995 100 266.67999999999995 C 94.672 266.67999999999995 94.672 258.67999999999995 100 258.67999999999995 Z"></path><path fill="#7cb5ec" d="M 33 257.54285714285714 C 38.328 257.54285714285714 38.328 265.54285714285714 33 265.54285714285714 C 27.672 265.54285714285714 27.672 257.54285714285714 33 257.54285714285714 Z"></path></g><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-1)"><path fill="none" d="M 33.333333333333336 343.41714285714284 L 100 332.04571428571427 L 166.66666666666669 276.3257142857143 L 233.33333333333334 212.64571428571426 L 300 147.82857142857142 L 366.6666666666667 90.97142857142853 L 433.3333333333333 59.13142857142856 L 500 67.09142857142854 L 566.6666666666667 112.5771428571428 L 633.3333333333334 180.80571428571426 L 700.0000000000001 243.34857142857143 L 766.6666666666667 312.7142857142857" stroke="#434348" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 23.333333333333336 343.41714285714284 L 33.333333333333336 343.41714285714284 L 100 332.04571428571427 L 166.66666666666669 276.3257142857143 L 233.33333333333334 212.64571428571426 L 300 147.82857142857142 L 366.6666666666667 90.97142857142853 L 433.3333333333333 59.13142857142856 L 500 67.09142857142854 L 566.6666666666667 112.5771428571428 L 633.3333333333334 180.80571428571426 L 700.0000000000001 243.34857142857143 L 766.6666666666667 312.7142857142857 L 776.6666666666667 312.7142857142857" stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-2)" style=""><path fill="#434348" d="M 766 308.7142857142857 L 770 312.7142857142857 766 316.7142857142857 762 312.7142857142857 Z"></path><path fill="#434348" d="M 700 239.34857142857143 L 704 243.34857142857143 700 247.34857142857143 696 243.34857142857143 Z"></path><path fill="#434348" d="M 633 176.80571428571426 L 637 180.80571428571426 633 184.80571428571426 629 180.80571428571426 Z"></path><path fill="#434348" d="M 566 108.5771428571428 L 570 112.5771428571428 566 116.5771428571428 562 112.5771428571428 Z"></path><path fill="#434348" d="M 500 63.09142857142854 L 504 67.09142857142854 500 71.09142857142854 496 67.09142857142854 Z"></path><path fill="#434348" d="M 433 55.13142857142856 L 437 59.13142857142856 433 63.13142857142856 429 59.13142857142856 Z"></path><path fill="#434348" d="M 366 86.97142857142853 L 370 90.97142857142853 366 94.97142857142853 362 90.97142857142853 Z"></path><path fill="#434348" d="M 300 143.82857142857142 L 304 147.82857142857142 300 151.82857142857142 296 147.82857142857142 Z"></path><path fill="#434348" d="M 233 208.64571428571426 L 237 212.64571428571426 233 216.64571428571426 229 212.64571428571426 Z"></path><path fill="#434348" d="M 166 272.3257142857143 L 170 276.3257142857143 166 280.3257142857143 162 276.3257142857143 Z"></path><path fill="#434348" d="M 100 328.04571428571427 L 104 332.04571428571427 100 336.04571428571427 96 332.04571428571427 Z"></path><path fill="#434348" d="M 33 339.41714285714284 L 37 343.41714285714284 33 347.41714285714284 29 343.41714285714284 Z"></path></g><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-1)"><path fill="none" d="M 33.333333333333336 351.37714285714287 L 100 334.32 L 166.66666666666669 301.34285714285716 L 233.33333333333334 245.62285714285713 L 300 187.62857142857143 L 366.6666666666667 147.82857142857142 L 433.3333333333333 129.63428571428568 L 500 137.59428571428572 L 566.6666666666667 178.53142857142856 L 633.3333333333334 238.79999999999998 L 700.0000000000001 296.7942857142857 L 766.6666666666667 329.7714285714286" stroke="#90ed7d" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 23.333333333333336 351.37714285714287 L 33.333333333333336 351.37714285714287 L 100 334.32 L 166.66666666666669 301.34285714285716 L 233.33333333333334 245.62285714285713 L 300 187.62857142857143 L 366.6666666666667 147.82857142857142 L 433.3333333333333 129.63428571428568 L 500 137.59428571428572 L 566.6666666666667 178.53142857142856 L 633.3333333333334 238.79999999999998 L 700.0000000000001 296.7942857142857 L 766.6666666666667 329.7714285714286 L 776.6666666666667 329.7714285714286" stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-2)" style=""><path fill="#90ed7d" d="M 762 325.7714285714286 L 770 325.7714285714286 770 333.7714285714286 762 333.7714285714286 Z"></path><path fill="#90ed7d" d="M 696 292.7942857142857 L 704 292.7942857142857 704 300.7942857142857 696 300.7942857142857 Z"></path><path fill="#90ed7d" d="M 629 234.79999999999998 L 637 234.79999999999998 637 242.79999999999998 629 242.79999999999998 Z"></path><path fill="#90ed7d" d="M 562 174.53142857142856 L 570 174.53142857142856 570 182.53142857142856 562 182.53142857142856 Z"></path><path fill="#90ed7d" d="M 496 133.59428571428572 L 504 133.59428571428572 504 141.59428571428572 496 141.59428571428572 Z"></path><path fill="#90ed7d" d="M 429 125.63428571428568 L 437 125.63428571428568 437 133.63428571428568 429 133.63428571428568 Z"></path><path fill="#90ed7d" d="M 362 143.82857142857142 L 370 143.82857142857142 370 151.82857142857142 362 151.82857142857142 Z"></path><path fill="#90ed7d" d="M 296 183.62857142857143 L 304 183.62857142857143 304 191.62857142857143 296 191.62857142857143 Z"></path><path fill="#90ed7d" d="M 229 241.62285714285713 L 237 241.62285714285713 237 249.62285714285713 229 249.62285714285713 Z"></path><path fill="#90ed7d" d="M 162 297.34285714285716 L 170 297.34285714285716 170 305.34285714285716 162 305.34285714285716 Z"></path><path fill="#90ed7d" d="M 96 330.32 L 104 330.32 104 338.32 96 338.32 Z"></path><path fill="#90ed7d" d="M 29 347.37714285714287 L 37 347.37714285714287 37 355.37714285714287 29 355.37714285714287 Z"></path></g><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-1)"><path fill="none" d="M 33.333333333333336 296.7942857142857 L 100 293.3828571428571 L 166.66666666666669 276.3257142857143 L 233.33333333333334 244.48571428571427 L 300 205.82285714285715 L 366.6666666666667 168.29714285714286 L 433.3333333333333 147.82857142857142 L 500 152.37714285714284 L 566.6666666666667 179.66857142857143 L 633.3333333333334 224.01714285714283 L 700.0000000000001 266.09142857142854 L 766.6666666666667 286.56" stroke="#f7a35c" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 23.333333333333336 296.7942857142857 L 33.333333333333336 296.7942857142857 L 100 293.3828571428571 L 166.66666666666669 276.3257142857143 L 233.33333333333334 244.48571428571427 L 300 205.82285714285715 L 366.6666666666667 168.29714285714286 L 433.3333333333333 147.82857142857142 L 500 152.37714285714284 L 566.6666666666667 179.66857142857143 L 633.3333333333334 224.01714285714283 L 700.0000000000001 266.09142857142854 L 766.6666666666667 286.56 L 776.6666666666667 286.56" stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-2)" style=""><path fill="#f7a35c" d="M 766 282.56 L 770 290.56 762 290.56 Z"></path><path fill="#f7a35c" d="M 700 262.09142857142854 L 704 270.09142857142854 696 270.09142857142854 Z"></path><path fill="#f7a35c" d="M 633 220.01714285714283 L 637 228.01714285714283 629 228.01714285714283 Z"></path><path fill="#f7a35c" d="M 566 175.66857142857143 L 570 183.66857142857143 562 183.66857142857143 Z"></path><path fill="#f7a35c" d="M 500 148.37714285714284 L 504 156.37714285714284 496 156.37714285714284 Z"></path><path fill="#f7a35c" d="M 433 143.82857142857142 L 437 151.82857142857142 429 151.82857142857142 Z"></path><path fill="#f7a35c" d="M 366 164.29714285714286 L 370 172.29714285714286 362 172.29714285714286 Z"></path><path fill="#f7a35c" d="M 300 201.82285714285715 L 304 209.82285714285715 296 209.82285714285715 Z"></path><path fill="#f7a35c" d="M 233 240.48571428571427 L 237 248.48571428571427 229 248.48571428571427 Z"></path><path fill="#f7a35c" d="M 166 272.3257142857143 L 170 280.3257142857143 162 280.3257142857143 Z"></path><path fill="#f7a35c" d="M 100 289.3828571428571 L 104 297.3828571428571 96 297.3828571428571 Z"></path><path fill="#f7a35c" d="M 33 292.7942857142857 L 37 300.7942857142857 29 300.7942857142857 Z"></path></g><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-1)"><path fill="none" d="M 33.333333333333336 318.4 L 100 319.53714285714284 L 166.66666666666669 289.97142857142853 L 233.33333333333334 233.1142857142857 L 300 191.04 L 366.6666666666667 153.5142857142857 L 433.3333333333333 111.44 L 500 96.65714285714284 L 566.6666666666667 133.04571428571427 L 633.3333333333334 189.90285714285713 L 700.0000000000001 239.93714285714285 L 766.6666666666667 231.97714285714287" stroke="#8085e9" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 23.333333333333336 318.4 L 33.333333333333336 318.4 L 100 319.53714285714284 L 166.66666666666669 289.97142857142853 L 233.33333333333334 233.1142857142857 L 300 191.04 L 366.6666666666667 153.5142857142857 L 433.3333333333333 111.44 L 500 96.65714285714284 L 566.6666666666667 133.04571428571427 L 633.3333333333334 189.90285714285713 L 700.0000000000001 239.93714285714285 L 766.6666666666667 231.97714285714287 L 776.6666666666667 231.97714285714287" stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-2)" style=""><path fill="#8085e9" d="M 762 227.97714285714287 L 770 227.97714285714287 766 235.97714285714287 Z"></path><path fill="#8085e9" d="M 696 235.93714285714285 L 704 235.93714285714285 700 243.93714285714285 Z"></path><path fill="#8085e9" d="M 629 185.90285714285713 L 637 185.90285714285713 633 193.90285714285713 Z"></path><path fill="#8085e9" d="M 562 129.04571428571427 L 570 129.04571428571427 566 137.04571428571427 Z"></path><path fill="#8085e9" d="M 496 92.65714285714284 L 504 92.65714285714284 500 100.65714285714284 Z"></path><path fill="#8085e9" d="M 429 107.44 L 437 107.44 433 115.44 Z"></path><path fill="#8085e9" d="M 362 149.5142857142857 L 370 149.5142857142857 366 157.5142857142857 Z"></path><path fill="#8085e9" d="M 296 187.04 L 304 187.04 300 195.04 Z"></path><path fill="#8085e9" d="M 229 229.1142857142857 L 237 229.1142857142857 233 237.1142857142857 Z"></path><path fill="#8085e9" d="M 162 285.97142857142853 L 170 285.97142857142853 166 293.97142857142853 Z"></path><path fill="#8085e9" d="M 96 315.53714285714284 L 104 315.53714285714284 100 323.53714285714284 Z"></path><path fill="#8085e9" d="M 29 314.4 L 37 314.4 33 322.4 Z"></path></g><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-1)"><path fill="none" d="M 33.333333333333336 239.93714285714285 L 100 236.5257142857143 L 166.66666666666669 219.46857142857144 L 233.33333333333334 187.62857142857143 L 300 148.96571428571428 L 366.6666666666667 111.44 L 433.3333333333333 90.97142857142853 L 500 95.51999999999998 L 566.6666666666667 122.81142857142856 L 633.3333333333334 167.16 L 700.0000000000001 209.2342857142857 L 766.6666666666667 252.44571428571427" stroke="#f15c80" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 23.333333333333336 239.93714285714285 L 33.333333333333336 239.93714285714285 L 100 236.5257142857143 L 166.66666666666669 219.46857142857144 L 233.33333333333334 187.62857142857143 L 300 148.96571428571428 L 366.6666666666667 111.44 L 433.3333333333333 90.97142857142853 L 500 95.51999999999998 L 566.6666666666667 122.81142857142856 L 633.3333333333334 167.16 L 700.0000000000001 209.2342857142857 L 766.6666666666667 252.44571428571427 L 776.6666666666667 252.44571428571427" stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(61,45) scale(1 1)" clip-path="url(#highcharts-2)" style=""><path fill="#f15c80" d="M 766 248.44571428571427 C 771.328 248.44571428571427 771.328 256.4457142857143 766 256.4457142857143 C 760.672 256.4457142857143 760.672 248.44571428571427 766 248.44571428571427 Z"></path><path fill="#f15c80" d="M 700 205.2342857142857 C 705.328 205.2342857142857 705.328 213.2342857142857 700 213.2342857142857 C 694.672 213.2342857142857 694.672 205.2342857142857 700 205.2342857142857 Z"></path><path fill="#f15c80" d="M 633 163.16 C 638.328 163.16 638.328 171.16 633 171.16 C 627.672 171.16 627.672 163.16 633 163.16 Z"></path><path fill="#f15c80" d="M 566 118.81142857142856 C 571.328 118.81142857142856 571.328 126.81142857142856 566 126.81142857142856 C 560.672 126.81142857142856 560.672 118.81142857142856 566 118.81142857142856 Z"></path><path fill="#f15c80" d="M 500 91.51999999999998 C 505.328 91.51999999999998 505.328 99.51999999999998 500 99.51999999999998 C 494.672 99.51999999999998 494.672 91.51999999999998 500 91.51999999999998 Z"></path><path fill="#f15c80" d="M 433 86.97142857142853 C 438.328 86.97142857142853 438.328 94.97142857142853 433 94.97142857142853 C 427.672 94.97142857142853 427.672 86.97142857142853 433 86.97142857142853 Z"></path><path fill="#f15c80" d="M 366 107.44 C 371.328 107.44 371.328 115.44 366 115.44 C 360.672 115.44 360.672 107.44 366 107.44 Z"></path><path fill="#f15c80" d="M 300 144.96571428571428 C 305.328 144.96571428571428 305.328 152.96571428571428 300 152.96571428571428 C 294.672 152.96571428571428 294.672 144.96571428571428 300 144.96571428571428 Z"></path><path fill="#f15c80" d="M 233 183.62857142857143 C 238.328 183.62857142857143 238.328 191.62857142857143 233 191.62857142857143 C 227.672 191.62857142857143 227.672 183.62857142857143 233 183.62857142857143 Z"></path><path fill="#f15c80" d="M 166 215.46857142857144 C 171.328 215.46857142857144 171.328 223.46857142857144 166 223.46857142857144 C 160.672 223.46857142857144 160.672 215.46857142857144 166 215.46857142857144 Z"></path><path fill="#f15c80" d="M 100 232.5257142857143 C 105.328 232.5257142857143 105.328 240.5257142857143 100 240.5257142857143 C 94.672 240.5257142857143 94.672 232.5257142857143 100 232.5257142857143 Z"></path><path fill="#f15c80" d="M 33 235.93714285714285 C 38.328 235.93714285714285 38.328 243.93714285714285 33 243.93714285714285 C 27.672 243.93714285714285 27.672 235.93714285714285 33 235.93714285714285 Z"></path></g></g><text x="486" text-anchor="middle" class="highcharts-title" zIndex="4" style="color:#333333;font-size:18px;fill:#333333;width:948px;" y="24"><tspan>Inventory Aging</tspan></text><g class="highcharts-legend" zIndex="7" transform="translate(873,224)"><g zIndex="1"><g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#7cb5ec" stroke-width="2"></path><path fill="#7cb5ec" d="M 8 7 C 13.328 7 13.328 15 8 15 C 2.6719999999999997 15 2.6719999999999997 7 8 7 Z"></path><text x="21" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2" y="15">Karma</text></g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,17)"><path fill="none" d="M 0 11 L 16 11" stroke="#434348" stroke-width="2"></path><path fill="#434348" d="M 8 7 L 12 11 8 15 4 11 Z"></path><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">Cloudtail</text></g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,31)"><path fill="none" d="M 0 11 L 16 11" stroke="#90ed7d" stroke-width="2"></path><path fill="#90ed7d" d="M 4 7 L 12 7 12 15 4 15 Z"></path><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2"><tspan>PB International</tspan></text></g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,45)"><path fill="none" d="M 0 11 L 16 11" stroke="#f7a35c" stroke-width="2"></path><path fill="#f7a35c" d="M 8 7 L 12 15 4 15 Z"></path><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">Saholic</text></g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,59)"><path fill="none" d="M 0 11 L 16 11" stroke="#8085e9" stroke-width="2"></path><path fill="#8085e9" d="M 4 7 L 12 7 8 15 Z"></path><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">Technix</text></g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,73)"><path fill="none" d="M 0 11 L 16 11" stroke="#f15c80" stroke-width="2"></path><path fill="#f15c80" d="M 8 7 C 13.328 7 13.328 15 8 15 C 2.6719999999999997 15 2.6719999999999997 7 8 7 Z"></path><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2"><tspan>Value Plus</tspan></text></g></g></g></g><g class="highcharts-axis-labels highcharts-xaxis-labels" zIndex="7"><text x="96.926058197684" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 96.926058197684 459)" y="459" opacity="1"><tspan>Pending Pickup</tspan></text><text x="163.59272486435069" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 163.59272486435069 459)" y="459" opacity="1"><tspan>Inbound Holding</tspan></text><text x="230.25939153101731" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 230.25939153101731 459)" y="459" opacity="1"><tspan>Pending QC</tspan></text><text x="296.92605819768403" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 296.92605819768403 459)" y="459" opacity="1"><tspan>Under QC</tspan></text><text x="363.59272486435066" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 363.59272486435066 459)" y="459" opacity="1"><tspan>Manager's escalation</tspan></text><text x="430.25939153101734" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 430.25939153101734 459)" y="459" opacity="1"><tspan>Out for Repair</tspan></text><text x="496.9260581976841" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 496.9260581976841 459)" y="459" opacity="1"><tspan>Ready to upload</tspan></text><text x="563.5927248643507" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 563.5927248643507 459)" y="459" opacity="1"><tspan>Listed</tspan></text><text x="630.2593915310174" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 630.2593915310174 459)" y="459" opacity="1"><tspan>Returned to Client</tspan></text><text x="696.926058197684" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 696.926058197684 459)" y="459" opacity="1"><tspan>Sell Offline</tspan></text><text x="763.5927248643507" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 763.5927248643507 459)" y="459" opacity="1"><tspan>Inventory Review</tspan></text><text x="830.2593915310174" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:548px;text-overflow:ellipsis;" text-anchor="end" transform="translate(0,0) rotate(-45 830.2593915310174 459)" y="459" opacity="1"><tspan>Sold</tspan></text></g><g class="highcharts-axis-labels highcharts-yaxis-labels" zIndex="7"><text x="46" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="448" opacity="1">-5</text><text x="46" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="391" opacity="1">0</text><text x="46" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="334" opacity="1">5</text><text x="46" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="277" opacity="1">10</text><text x="46" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="221" opacity="1">15</text><text x="46" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="164" opacity="1">20</text><text x="46" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="107" opacity="1">25</text><text x="46" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="50" opacity="1">30</text></g><g class="highcharts-tooltip" zIndex="8" style="cursor:default;padding:0;white-space:nowrap;" transform="translate(0,-9999)"><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.049999999999999996" stroke-width="5" transform="translate(1, 1)"></path><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.09999999999999999" stroke-width="3" transform="translate(1, 1)"></path><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.15" stroke-width="1" transform="translate(1, 1)"></path><path fill="rgba(249, 249, 249, .85)" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0"></path><text x="8" zIndex="1" style="font-size:12px;color:#333333;fill:#333333;" transform="translate(0,20)"></text></g><text x="1002" text-anchor="end" zIndex="8" style="cursor:pointer;color:#909090;font-size:9px;fill:#909090;" y="543">Highcharts.com</text></svg></div></div>
+    <div id="ageing_each" style="width: 100%; height: 550px; border:1px solid black;" data-highcharts-chart="1"><div class="highcharts-container" id="highcharts-4" style="position: relative; overflow: hidden; width: 1012px; height: 548px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><svg version="1.1" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" xmlns="http://www.w3.org/2000/svg" width="1012" height="548"><desc>Created with Highcharts 4.1.5</desc><defs><clippath id="highcharts-5"><rect x="0" y="0" width="412" height="934"></rect></clippath></defs><rect x="0" y="0" width="1012" height="548" strokeWidth="0" fill="#FFFFFF" class=" highcharts-background"></rect><g class="highcharts-button" style="cursor:default;" stroke-linecap="round" transform="translate(978,10)"><title>Chart context menu</title><rect x="0.5" y="0.5" width="24" height="22" strokeWidth="1" fill="white" stroke="none" stroke-width="1" rx="2" ry="2"></rect><path fill="#E0E0E0" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" stroke="#666" stroke-width="3" zIndex="1"></path><text x="0" zIndex="1" style="color:black;fill:black;" transform="translate(0,12)"></text></g><g class="highcharts-grid" zIndex="1"></g><g class="highcharts-grid" zIndex="1"><path fill="none" d="M 67.5 45 L 67.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 145.5 45 L 145.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 223.5 45 L 223.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 301.5 45 L 301.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 378.5 45 L 378.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 456.5 45 L 456.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 534.5 45 L 534.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 612.5 45 L 612.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 690.5 45 L 690.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 768.5 45 L 768.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 845.5 45 L 845.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 923.5 45 L 923.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 1002.5 45 L 1002.5 457" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path></g><g class="highcharts-axis" zIndex="2"><path fill="none" d="M 68 127.5 L 58 127.5" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 68 210.5 L 58 210.5" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 68 292.5 L 58 292.5" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 68 375.5 L 58 375.5" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 68 457.5 L 58 457.5" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 68 44.5 L 58 44.5" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 67.5 45 L 67.5 457" stroke="#C0D0E0" stroke-width="1" zIndex="7" visibility="visible"></path></g><g class="highcharts-axis" zIndex="2"><text x="535" zIndex="7" text-anchor="middle" transform="translate(0,0)" class=" highcharts-yaxis-title" style="color:#707070;fill:#707070;" visibility="visible" y="494"><tspan>Total fruit consumption</tspan></text></g><g class="highcharts-series-group" zIndex="3"><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(1002,457) rotate(90) scale(-1,1) scale(1 1)" style="" width="934" height="412" clip-path="url(#highcharts-5)"><rect x="350.5" y="156.5" width="40" height="389" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="268.5" y="234.5" width="40" height="233" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="185.5" y="78.5" width="40" height="311" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="103.5" y="78.5" width="40" height="545" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect><rect x="20.5" y="311.5" width="40" height="156" stroke="#FFFFFF" stroke-width="1" fill="#7cb5ec" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(1002,457) rotate(90) scale(-1,1) scale(1 1)" width="934" height="412" clip-path="none"></g><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(1002,457) rotate(90) scale(-1,1) scale(1 1)" style="" width="934" height="412" clip-path="url(#highcharts-5)"><rect x="350.5" y="545.5" width="40" height="156" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="268.5" y="467.5" width="40" height="156" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="185.5" y="389.5" width="40" height="234" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="103.5" y="623.5" width="40" height="155" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect><rect x="20.5" y="467.5" width="40" height="78" stroke="#FFFFFF" stroke-width="1" fill="#434348" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(1002,457) rotate(90) scale(-1,1) scale(1 1)" width="934" height="412" clip-path="none"></g><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(1002,457) rotate(90) scale(-1,1) scale(1 1)" style="" width="934" height="412" clip-path="url(#highcharts-5)"><rect x="350.5" y="701.5" width="40" height="233" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="268.5" y="623.5" width="40" height="311" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="185.5" y="623.5" width="40" height="311" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="103.5" y="778.5" width="40" height="156" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect><rect x="20.5" y="545.5" width="40" height="389" stroke="#FFFFFF" stroke-width="1" fill="#90ed7d" rx="0" ry="0"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(1002,457) rotate(90) scale(-1,1) scale(1 1)" width="934" height="412" clip-path="none"></g></g><text x="506" text-anchor="middle" class="highcharts-title" zIndex="4" style="color:#333333;font-size:18px;fill:#333333;width:948px;" y="24"><tspan>Saholic Inventory</tspan></text><g class="highcharts-legend" zIndex="7" transform="translate(408,508)"><g zIndex="1"><g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,3)"><text x="21" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2" y="15">Joe</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#90ed7d"></rect></g><g class="highcharts-legend-item" zIndex="1" transform="translate(69.6875,3)"><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">Jane</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#434348"></rect></g><g class="highcharts-legend-item" zIndex="1" transform="translate(138.046875,3)"><text x="21" y="15" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" zIndex="2">John</text><rect x="0" y="4" width="16" height="12" zIndex="3" fill="#7cb5ec"></rect></g></g></g></g><g class="highcharts-axis-labels highcharts-xaxis-labels" zIndex="7"><text x="53" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="91" opacity="1">Apples</text><text x="53" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="174" opacity="1">Oranges</text><text x="53" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="256" opacity="1">Pears</text><text x="53" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="338" opacity="1">Grapes</text><text x="53" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="421" opacity="1">Bananas</text></g><g class="highcharts-axis-labels highcharts-yaxis-labels" zIndex="7"><text x="68" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">0</text><text x="145.83333333333331" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">1</text><text x="223.66666666666666" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">2</text><text x="301.5" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">3</text><text x="379.3333333333333" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">4</text><text x="457.16666666666663" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">5</text><text x="535" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">6</text><text x="612.8333333333333" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">7</text><text x="690.6666666666666" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">8</text><text x="768.5" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">9</text><text x="846.3333333333333" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">10</text><text x="924.1666666666666" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="middle" transform="translate(0,0)" y="476" opacity="1">11</text><text x="1002" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:66px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="476" opacity="1">12</text></g><g class="highcharts-tooltip" zIndex="8" style="cursor:default;padding:0;white-space:nowrap;" transform="translate(0,-9999)"><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.049999999999999996" stroke-width="5" transform="translate(1, 1)"></path><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.09999999999999999" stroke-width="3" transform="translate(1, 1)"></path><path fill="none" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" isShadow="true" stroke="black" stroke-opacity="0.15" stroke-width="1" transform="translate(1, 1)"></path><path fill="rgba(249, 249, 249, .85)" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0"></path><text x="8" zIndex="1" style="font-size:12px;color:#333333;fill:#333333;" transform="translate(0,20)"></text></g><text x="1002" text-anchor="end" zIndex="8" style="cursor:pointer;color:#909090;font-size:9px;fill:#909090;" y="543">Highcharts.com</text></svg></div></div>
+    <script type="text/javascript">
+    $(function () { 
+        $('#ageing_each').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Saholic Inventory'
+            },
+            xAxis: {
+                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total fruit consumption'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+                name: 'John',
+                data: [5, 3, 4, 7, 2]
+            }, {
+                name: 'Jane',
+                data: [2, 2, 3, 2, 1]
+            }, {
+                name: 'Joe',
+                data: [3, 4, 4, 2, 5]
+            }]
+        });
+    });
+    </script>
+    <div id="drilldown" style="width: 100%; height: 550px; border:1px solid black;" data-highcharts-chart="2"><div class="highcharts-container" id="highcharts-6" style="position: relative; overflow: hidden; width: 1012px; height: 548px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><svg version="1.1" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" xmlns="http://www.w3.org/2000/svg" width="1012" height="548"><desc>Created with Highcharts 4.1.5</desc><defs><clippath id="highcharts-7"><rect x="0" y="0" width="947" height="468"></rect></clippath></defs><rect x="0" y="0" width="1012" height="548" strokeWidth="0" fill="#FFFFFF" class=" highcharts-background"></rect><g class="highcharts-button" style="cursor:default;" stroke-linecap="round" transform="translate(978,10)"><title>Chart context menu</title><rect x="0.5" y="0.5" width="24" height="22" strokeWidth="1" fill="white" stroke="none" stroke-width="1" rx="2" ry="2"></rect><path fill="#E0E0E0" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" stroke="#666" stroke-width="3" zIndex="1"></path><text x="0" zIndex="1" style="color:black;fill:black;" transform="translate(0,12)"></text></g><g class="highcharts-grid" zIndex="1"></g><g class="highcharts-grid" zIndex="1"><path fill="none" d="M 55 513.5 L 1002 513.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 55 435.5 L 1002 435.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 55 357.5 L 1002 357.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 55 279.5 L 1002 279.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 55 201.5 L 1002 201.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 55 123.5 L 1002 123.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 55 44.5 L 1002 44.5" stroke="#D8D8D8" stroke-width="1" zIndex="1" opacity="1"></path></g><g class="highcharts-axis" zIndex="2"><path fill="none" d="M 370.5 513 L 370.5 523" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 685.5 513 L 685.5 523" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 1001.5 513 L 1001.5 523" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 54.5 513 L 54.5 523" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 55 513.5 L 1002 513.5" stroke="#C0D0E0" stroke-width="1" zIndex="7" visibility="visible"></path></g><g class="highcharts-axis" zIndex="2"><text x="23.875" zIndex="7" text-anchor="middle" transform="translate(0,0) rotate(270 23.875 279)" class=" highcharts-yaxis-title" style="color:#707070;fill:#707070;" visibility="visible" y="279">Values</text></g><g class="highcharts-series-group" zIndex="3"><g class="highcharts-series highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(55,45) scale(1 1)" style="" clip-path="url(#highcharts-7)"><rect x="82" y="79" width="152" height="390" fill="#7cb5ec" rx="0" ry="0" class="highcharts-drilldown-point" style="cursor:pointer;"></rect><rect x="398" y="313" width="152" height="156" fill="#434348" rx="0" ry="0" class="highcharts-drilldown-point" style="cursor:pointer;"></rect><rect x="713" y="157" width="152" height="312" fill="#90ed7d" rx="0" ry="0" class="highcharts-drilldown-point" style="cursor:pointer;"></rect></g><g class="highcharts-markers" visibility="visible" zIndex="0.1" transform="translate(55,45) scale(1 1)" clip-path="none"></g></g><text x="506" text-anchor="middle" class="highcharts-title" zIndex="4" style="color:#333333;font-size:18px;fill:#333333;width:948px;" y="24"><tspan>Basic drilldown</tspan></text><g class="highcharts-data-labels highcharts-tracker" visibility="visible" zIndex="6" transform="translate(55,45) scale(1 1)" opacity="1" style=""><g zIndex="1" style="cursor:pointer;" transform="translate(150,57)" class="highcharts-drilldown-data-label"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" transform="translate(0,16)"><tspan>5</tspan></text></g><g zIndex="1" style="cursor:pointer;" transform="translate(466,291)" class="highcharts-drilldown-data-label"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" transform="translate(0,16)"><tspan>2</tspan></text></g><g zIndex="1" style="cursor:pointer;" transform="translate(781,135)" class="highcharts-drilldown-data-label"><text x="5" zIndex="1" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" transform="translate(0,16)"><tspan>4</tspan></text></g></g><g class="highcharts-axis-labels highcharts-xaxis-labels" zIndex="7"><text x="212.83333333333334" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:321px;text-overflow:clip;font-weight:bold;text-decoration:underline;" text-anchor="middle" transform="translate(0,0)" y="532" opacity="1" class=" highcharts-drilldown-axis-label">Animals</text><text x="528.5" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:321px;text-overflow:clip;font-weight:bold;text-decoration:underline;" text-anchor="middle" transform="translate(0,0)" y="532" opacity="1" class=" highcharts-drilldown-axis-label">Fruits</text><text x="844.1666666666667" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:321px;text-overflow:clip;font-weight:bold;text-decoration:underline;" text-anchor="middle" transform="translate(0,0)" y="532" opacity="1" class=" highcharts-drilldown-axis-label">Cars</text></g><g class="highcharts-axis-labels highcharts-yaxis-labels" zIndex="7"><text x="40" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="518" opacity="1">0</text><text x="40" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="440" opacity="1">1</text><text x="40" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="362" opacity="1">2</text><text x="40" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="284" opacity="1">3</text><text x="40" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="206" opacity="1">4</text><text x="40" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="128" opacity="1">5</text><text x="40" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:324px;text-overflow:clip;" text-anchor="end" transform="translate(0,0)" y="50" opacity="1">6</text></g><g class="highcharts-tooltip" zIndex="8" style="cursor:default;padding:0;white-space:nowrap;" transform="translate(175,-9999)" opacity="0" visibility="visible"><path fill="none" d="M 3.5 0.5 L 73.5 0.5 C 76.5 0.5 76.5 0.5 76.5 3.5 L 76.5 40.5 C 76.5 43.5 76.5 43.5 73.5 43.5 L 44.5 43.5 38.5 49.5 32.5 43.5 3.5 43.5 C 0.5 43.5 0.5 43.5 0.5 40.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5" isShadow="true" stroke="black" stroke-opacity="0.049999999999999996" stroke-width="5" transform="translate(1, 1)" width="76" height="43"></path><path fill="none" d="M 3.5 0.5 L 73.5 0.5 C 76.5 0.5 76.5 0.5 76.5 3.5 L 76.5 40.5 C 76.5 43.5 76.5 43.5 73.5 43.5 L 44.5 43.5 38.5 49.5 32.5 43.5 3.5 43.5 C 0.5 43.5 0.5 43.5 0.5 40.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5" isShadow="true" stroke="black" stroke-opacity="0.09999999999999999" stroke-width="3" transform="translate(1, 1)" width="76" height="43"></path><path fill="none" d="M 3.5 0.5 L 73.5 0.5 C 76.5 0.5 76.5 0.5 76.5 3.5 L 76.5 40.5 C 76.5 43.5 76.5 43.5 73.5 43.5 L 44.5 43.5 38.5 49.5 32.5 43.5 3.5 43.5 C 0.5 43.5 0.5 43.5 0.5 40.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5" isShadow="true" stroke="black" stroke-opacity="0.15" stroke-width="1" transform="translate(1, 1)" width="76" height="43"></path><path fill="rgba(249, 249, 249, .85)" d="M 3.5 0.5 L 73.5 0.5 C 76.5 0.5 76.5 0.5 76.5 3.5 L 76.5 40.5 C 76.5 43.5 76.5 43.5 73.5 43.5 L 44.5 43.5 38.5 49.5 32.5 43.5 3.5 43.5 C 0.5 43.5 0.5 43.5 0.5 40.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5" stroke="#7cb5ec" stroke-width="1"></path><text x="8" zIndex="1" style="font-size:12px;color:#333333;fill:#333333;" transform="translate(0,20)"><tspan style="font-size: 10px">Animals</tspan><tspan style="fill:#7cb5ec" x="8" dy="15">&#9679;</tspan><tspan dx="0"> Things: </tspan><tspan style="font-weight:bold" dx="0">5</tspan></text></g><text x="1002" text-anchor="end" zIndex="8" style="cursor:pointer;color:#909090;font-size:9px;fill:#909090;" y="543">Highcharts.com</text></svg></div></div>
+    <script src="./all mockups-Overboxd_ An Overcart Recommerce Product For Businesses_files/drilldown.js"></script>
+    <pre id="tsv" style="display:none">Browser Version  Total Market Share
+Microsoft Internet Explorer 8.0 26.61%
+Microsoft Internet Explorer 9.0 16.96%
+Chrome 18.0 8.01%
+Chrome 19.0 7.73%
+Firefox 12  6.72%
+Microsoft Internet Explorer 6.0 6.40%
+Firefox 11  4.72%
+Microsoft Internet Explorer 7.0 3.55%
+Safari 5.1  3.53%
+Firefox 13  2.16%
+Firefox 3.6 1.87%
+Opera 11.x  1.30%
+Chrome 17.0 1.13%
+Firefox 10  0.90%
+Safari 5.0  0.85%
+Firefox 9.0 0.65%
+Firefox 8.0 0.55%
+Firefox 4.0 0.50%
+Chrome 16.0 0.45%
+Firefox 3.0 0.36%
+Firefox 3.5 0.36%
+Firefox 6.0 0.32%
+Firefox 5.0 0.31%
+Firefox 7.0 0.29%
+Proprietary or Undetectable 0.29%
+Chrome 18.0 - Maxthon Edition 0.26%
+Chrome 14.0 0.25%
+Chrome 20.0 0.24%
+Chrome 15.0 0.18%
+Chrome 12.0 0.16%
+Opera 12.x  0.15%
+Safari 4.0  0.14%
+Chrome 13.0 0.13%
+Safari 4.1  0.12%
+Chrome 11.0 0.10%
+Firefox 14  0.10%
+Firefox 2.0 0.09%
+Chrome 10.0 0.09%
+Opera 10.x  0.09%
+Microsoft Internet Explorer 8.0 - Tencent Traveler Edition  0.09%</pre>
+    <script>
+     $(function () {
+
+    // Create the chart
+    $('#drilldown').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Basic drilldown'
+        },
+        xAxis: {
+            type: 'category'
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+
+        series: [{
+            name: 'Things',
+            colorByPoint: true,
+            data: [{
+                name: 'Animals',
+                y: 5,
+                drilldown: 'animals'
+            }, {
+                name: 'Fruits',
+                y: 2,
+                drilldown: 'fruits'
+            }, {
+                name: 'Cars',
+                y: 4,
+                drilldown: 'cars'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                id: 'animals',
+                data: [
+                    ['Cats', 4],
+                    ['Dogs', 2],
+                    ['Cows', 1],
+                    ['Sheep', 2],
+                    ['Pigs', 1]
+                ]
+            }, {
+                id: 'fruits',
+                data: [
+                    ['Apples', 4],
+                    ['Oranges', 2]
+                ]
+            }, {
+                id: 'cars',
+                data: [
+                    ['Toyota', 4],
+                    ['Opel', 2],
+                    ['Volkswagen', 2]
+                ]
+            }]
+        }
+    });
+});
+
+
+    </script>
+  </div>
+  <!-- / #content-wrapper -->
+  <div id="main-menu-bg"></div>
+</div>
+<!-- highCharts:stacked -->
+<script type="text/javascript">
+  $(function () {
+    $('#chartdiv').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Dashboard Inventory- LISTED'
+        },
+        xAxis: {
+            categories: ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']// ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Units'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            // margin: 9;
+            width:580,
+            align: 'center',
+            // x: 0,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: '#FCFFC5', //(Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'BER',
+            data: [234, 1, 0, 0, 104, 14, 24]  
+        }, { // ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
+            name: 'New',
+            data: [7, 0, 0, 0, 0, 0, 0]
+        }, {
+            name: 'Preowned',
+            data: [10, 0, 0, 0, 33, 3, 0]
+        }, {
+            name: 'Refurbished',
+            data: [499, 33, 4, 0, 1192, 132, 4]
+        }, {
+            name: 'Sealed',
+            data: [342, 0, 0, 0, 5, 2, 3]
+        }, {
+            name: 'Unboxed',
+            data: [479, 64, 42, 0, 1347, 215, 2]
+        }, {
+            name: 'Send to Service center',
+            data: [0, 0, 0, 0, 0, 0, 0]
+        }]
+    });
+});
+</script>
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div><div class="ui-front comiseo-daterangepicker-mask" style="display: none;"></div><div class="comiseo-daterangepicker ui-widget ui-widget-content ui-corner-all ui-front comiseo-daterangepicker-left" style="display: none; left: 337.59375px; top: 208px;"><div class="comiseo-daterangepicker-main ui-widget-content"><div class="comiseo-daterangepicker-calendar ui-widget-content hasDatepicker" id="dp1430707736537"><div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-datepicker-multi ui-datepicker-multi-3" style="display: block; width: 51em;"><div class="ui-datepicker-group ui-datepicker-group-first"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-left"><a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="Prev"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-month">March</span>&nbsp;<span class="ui-datepicker-year">2015</span></div></div><table class="ui-datepicker-calendar"><thead><tr><th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th><th><span title="Monday">Mo</span></th><th><span title="Tuesday">Tu</span></th><th><span title="Wednesday">We</span></th><th><span title="Thursday">Th</span></th><th><span title="Friday">Fr</span></th><th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">1</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">2</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">3</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">4</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">5</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">6</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">7</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">8</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">9</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">10</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">11</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">12</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">13</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">14</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">15</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">16</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">17</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">18</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">19</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">20</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">21</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">22</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">23</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">24</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">25</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">26</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">27</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">28</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">29</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">30</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="2" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">31</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div><div class="ui-datepicker-group ui-datepicker-group-middle"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix"><div class="ui-datepicker-title"><span class="ui-datepicker-month">April</span>&nbsp;<span class="ui-datepicker-year">2015</span></div></div><table class="ui-datepicker-calendar"><thead><tr><th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th><th><span title="Monday">Mo</span></th><th><span title="Tuesday">Tu</span></th><th><span title="Wednesday">We</span></th><th><span title="Thursday">Th</span></th><th><span title="Friday">Fr</span></th><th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">1</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">2</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">3</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">4</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">5</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">6</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">7</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">8</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">9</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">10</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">11</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">12</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">13</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">14</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">15</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">16</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">17</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">18</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">19</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">20</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">21</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">22</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">23</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">24</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">25</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">26</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">27</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">28</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">29</a></td><td class="  " data-handler="selectDay" data-event="click" data-month="3" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">30</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div><div class="ui-datepicker-group ui-datepicker-group-last"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-right"><a class="ui-datepicker-next ui-corner-all ui-state-disabled" title="Next"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-month">May</span>&nbsp;<span class="ui-datepicker-year">2015</span></div></div><table class="ui-datepicker-calendar"><thead><tr><th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th><th><span title="Monday">Mo</span></th><th><span title="Tuesday">Tu</span></th><th><span title="Wednesday">We</span></th><th><span title="Thursday">Th</span></th><th><span title="Friday">Fr</span></th><th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class="  " data-handler="selectDay" data-event="click" data-month="4" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">1</a></td><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="4" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">2</a></td></tr><tr><td class=" ui-datepicker-week-end  " data-handler="selectDay" data-event="click" data-month="4" data-year="2015"><a class="ui-state-default" href="http://www.overboxd.com/vicky/index.php/newdashboard#">3</a></td><td class=" ui-datepicker-days-cell-over   ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="4" data-year="2015"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="http://www.overboxd.com/vicky/index.php/newdashboard#">4</a></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">5</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">6</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">7</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">8</span></td><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">9</span></td></tr><tr><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">10</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">11</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">12</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">13</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">14</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">15</span></td><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">16</span></td></tr><tr><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">17</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">18</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">19</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">20</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">21</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">22</span></td><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">23</span></td></tr><tr><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">24</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">25</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">26</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">27</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">28</span></td><td class=" ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">29</span></td><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">30</span></td></tr><tr><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled  "><span class="ui-state-default">31</span></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div><div class="ui-datepicker-row-break"></div></div></div><div class="comiseo-daterangepicker-presets"><ul id="ui-id-1" class="ui-menu ui-widget ui-widget-content ui-corner-all" role="menu" tabindex="0"><li class="ui-menu-item" role="presentation"><a href="http://www.overboxd.com/vicky/index.php/newdashboard#" id="ui-id-2" class="ui-corner-all" tabindex="-1" role="menuitem">Today</a></li><li class="ui-menu-item" role="presentation"><a href="http://www.overboxd.com/vicky/index.php/newdashboard#" id="ui-id-3" class="ui-corner-all" tabindex="-1" role="menuitem">Yesterday</a></li><li class="ui-menu-item" role="presentation"><a href="http://www.overboxd.com/vicky/index.php/newdashboard#" id="ui-id-4" class="ui-corner-all" tabindex="-1" role="menuitem">Last 7 Days</a></li><li class="ui-menu-item" role="presentation"><a href="http://www.overboxd.com/vicky/index.php/newdashboard#" id="ui-id-5" class="ui-corner-all" tabindex="-1" role="menuitem">Last Week (Mo-Su)</a></li><li class="ui-menu-item" role="presentation"><a href="http://www.overboxd.com/vicky/index.php/newdashboard#" id="ui-id-6" class="ui-corner-all" tabindex="-1" role="menuitem">Month to Date</a></li><li class="ui-menu-item" role="presentation"><a href="http://www.overboxd.com/vicky/index.php/newdashboard#" id="ui-id-7" class="ui-corner-all" tabindex="-1" role="menuitem">Previous Month</a></li><li class="ui-menu-item" role="presentation"><a href="http://www.overboxd.com/vicky/index.php/newdashboard#" id="ui-id-8" class="ui-corner-all" tabindex="-1" role="menuitem">Year to Date</a></li></ul></div></div><div class="ui-helper-clearfix"><div class="comiseo-daterangepicker-buttonpanel"><button type="button" class="ui-priority-primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Apply</span></button><button type="button" class="ui-priority-secondary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Clear</span></button><button type="button" class="ui-priority-secondary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Cancel</span></button></div></div></div></body></html>
