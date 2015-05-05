@@ -28,7 +28,67 @@
 
 
 <script>
-        $(function() { $("#e1").daterangepicker(); });
+        $(function() { 
+          $("#selector_dateRange").daterangepicker(); 
+
+          $("#submit_dateRange").click(function () 
+            {
+              // alert("Selected range is: ");
+              var selectedRange = $("#selector_dateRange").val();
+              if (selectedRange) //proceed only if selectedRange is truthy. i.e. selectedRange is neither null nor undefined
+              {
+                // alert("Input value is: " + selectedRange); // {"START":"2015-04-25","END":"2015-05-01"}
+                // $('#content-wrapper > div.page-header > div > h1 > div').text(selectedRange);
+                var parsed_selectedRange = JSON.parse(selectedRange);
+                // var start = parsed.start;
+                // var end = parsed.end;
+                console.log("passing this throught ajax:");
+                console.log("start date: "+parsed_selectedRange.start+", end date: "+parsed_selectedRange.end);
+
+                //ajax :
+                $.ajax({
+                  type: "POST",
+                  url: '<?php echo site_url("admin_products").'/submitDateRange';?>', 
+                  data: parsed_selectedRange, 
+                  dataType: 'json',
+                  // async: false, //This is deprecated in the latest version of jquery must use now callbacks
+                  success: function(d)
+                  {
+                    console.log(d);
+                    return;
+                    dStringified = JSON.stringify(d);
+                    $('#mis_upload_count').text(d.mis_upload_count);
+                    $('#diff_mis').text(d.diff_mis);
+                    //add this: change image to green/red arrow acc. to diff +ve /-ve
+                    $('#mis_percent_display').text(d.mis_percent_display+"%");
+
+                    // $('#dumpDiv').text(dStringified);
+                    // console.log(dStringified);
+                    console.log(d.mis_upload_count);
+                    console.log(d.diff_mis);
+                    console.log(d.mis_percent_display);
+
+
+
+                    graph_temp_dynamic(d.a);
+                    // console.log("d.a: " +d.a);
+                    // console.log("d.toSting(): " +d.toString());
+                    // console.log("d:\n");
+                    // console.log(d);  
+
+                    // alert('begin:  '+d.begin);
+
+
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); }   
+                  
+                });
+              
+
+                          }
+                        });
+                    
+                    });
 </script>
 </head>
 <body class="theme-default main-menu-animated">
@@ -272,7 +332,8 @@
         </h1>
         <div class="col-xs-12 col-sm-4">
           <div class="row" style="text-align:right"> 
-           <input id="e1" name="e1" style="padding-right:8px" >
+           <input id="selector_dateRange" name="selector_dateRange" style="padding-right:8px" >
+           <input type="button" class="btn btn-primary" id="submit_dateRange" value="Submit">
           </div>
         </div>
       </div>
@@ -634,18 +695,17 @@
       // var_dump( gettype($percent_mis ) );
 
       // echo "</pre>";//die;
-
       ?>
         <!-- Centered text -->
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg">MIS</div>
-            <div id="mis_uploaded" class="status_per status_result"> <span class="status_text"><?php echo $mis_upload_count?></span> </div>
+            <div id="mis_uploaded" class="status_per status_result"> <span id="mis_upload_count" class="status_text"><?php echo $mis_upload_count?></span> </div>
             <span class="xlheading">Uploaded</span>
             <ul class="status_more">
-              <li><?php echo $diff_mis?></li><!-- <li>28.18</li> -->
+              <li id="diff_mis" ><?php echo $diff_mis?></li>
               <li><img <?php 
-                          if($diff_mis < 0)
+                          if($diff_mis < 0) //still not being updated by daterange selector
                           {
                             echo "src=\"". base_url() ."assets/images/template/red-arrow.png\"";
                           }elseif ($diff_mis > 0) 
@@ -658,7 +718,7 @@
                           }
                         ?>/>
               </li>
-              <li><?php echo ( (gettype($percent_mis ) == "string" ) ? $percent_mis :  number_format((float)$percent_mis, 2, '.', ''));?>%</li><!-- <li>0.44%</li> -->
+              <li id="mis_percent_display"><?php echo ( (gettype($percent_mis ) == "string" ) ? $percent_mis :  number_format((float)$percent_mis, 2, '.', ''));?>%</li><!-- <li>0.44%</li> -->
             </ul>
           </div>
           <!-- /.stat-row --> 
@@ -666,6 +726,9 @@
         <!-- /.stat-panel --> 
       </div>
     </div>
+    <!-- put divs here (for temporary graphs) -->
+        <div id="temp_dynamic" style="min-width: 310px; height: 400px; margin: 0 auto ;border:1px solid black "></div>
+        <div id="dumpDiv"></div>
   </div>
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>
@@ -753,41 +816,78 @@
     });
 });
 </script>
-<!-- total orders confirmed with amCharts barGraph: -->
-<script type="text/javascript">
-// <?php $i=1 ?>
-// var chartData = [{
-//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-// },{
-//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-// },{
-//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-// },{
-//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-// },{
-//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-// },{
-//   "country": <?php $currentKey=$tableForChart_keys[$i]; echo "\"$currentKey\"";?>,
-//   "visits": <?php  $i+=1; echo($tableForChart[$currentKey]); ?>
-// },];
+<script>
+  $(graph_temp_dynamic());
 
-// AmCharts.ready(function() {
-// var chart = new AmCharts.AmSerialChart();
-// chart.dataProvider = chartData;
-// chart.categoryField = "country";
+  function graph_temp_dynamic(parameter1) {
 
-// var graph = new AmCharts.AmGraph();
-// graph.valueField = "visits";
-// graph.type = "column";
-// chart.addGraph(graph);
-
-// chart.write('chartdiv');
-});
+    parameter1 = typeof parameter1 !== 'undefined' ? parameter1 : 13;
+    // b = typeof b !== 'undefined' ? b : 'default_b';
+    $('#temp_dynamic').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Stacked column chart'
+        },
+        xAxis: {
+            categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total fruit consumption'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'John',
+            data: [parameter1, parameter1, parameter1, parameter1, parameter1]
+        }, {
+            name: 'Jane',
+            data: [parameter1, parameter1, parameter1, parameter1, parameter1]
+        }, {
+            name: 'Joe',
+            data: [parameter1, parameter1, parameter1, parameter1, parameter1]
+        }]
+    });
+}
 </script>
 </body>
 </html>
