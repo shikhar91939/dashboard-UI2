@@ -30,21 +30,21 @@
 <script>
   var baseUrl = <?php echo'"'.base_url().'"' ;?>;
   $(function() { 
-  	$("#selector_dateRange").daterangepicker(); 
+    $("#selector_dateRange").daterangepicker(); 
 
-  	$("#submit_dateRange").click(function () 
-  		{
-  			// alert("Selected range is: ");
-  			var selectedRange = $("#selector_dateRange").val();
-  			if (selectedRange) //proceed only if selectedRange is truthy. i.e. selectedRange is neither null nor undefined
-  			{
-  				// alert("Input value is: " + selectedRange);	// {"START":"2015-04-25","END":"2015-05-01"}
-  				// $('#content-wrapper > div.page-header > div > h1 > div').text(selectedRange);
-  				var parsed_selectedRange = JSON.parse(selectedRange);
-  				// var start = parsed.start;
-  				// var end = parsed.end;
+    $("#submit_dateRange").click(function () 
+      {
+        // alert("Selected range is: ");
+        var selectedRange = $("#selector_dateRange").val();
+        if (selectedRange) //proceed only if selectedRange is truthy. i.e. selectedRange is neither null nor undefined
+        {
+          // alert("Input value is: " + selectedRange); // {"START":"2015-04-25","END":"2015-05-01"}
+          // $('#content-wrapper > div.page-header > div > h1 > div').text(selectedRange);
+          var parsed_selectedRange = JSON.parse(selectedRange);
+          // var start = parsed.start;
+          // var end = parsed.end;
           console.log("passing this throught ajax:");
-  				console.log("start date: "+parsed_selectedRange.start+", end date: "+parsed_selectedRange.end);
+          console.log("start date: "+parsed_selectedRange.start+", end date: "+parsed_selectedRange.end);
 
           //ajax :
           $.ajax({
@@ -99,7 +99,7 @@
             error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); } 
           });
         }
-   		});
+      });
     });
 </script>
 </head>
@@ -132,17 +132,17 @@
           <!-- / .navbar-nav -->
           
           <div class="right clearfix">
-            <div class="header_search">
+            <!-- <div class="header_search">
               <form class="navbar-form pull-left">
                 <input type="text" class="form-control" placeholder="Enter Keyword">
                 <button class="search_btn" type="submit" value="submit"></button>
               </form>
-            </div>
-            <ul class="nav navbar-nav pull-right right-navbar-nav">
+            </div> -->
+           <!--  <ul class="nav navbar-nav pull-right right-navbar-nav">
               
 
               <li class="nav-icon-btn nav-icon-btn-danger dropdown">
-              <a href="#notifications" class="dropdown-toggle"> <img src="<?php echo base_url(); ?>assets/images/template/notifications.png"/> <span class="small-screen-text">Notifications</span> </a>
+              <a href="#notifications" class="dropdown-toggle"> <img src="<?php echo base_url(); ?>assets/images/template/notifications.png"/> <span class="small-screen-text">Notifications</span> </a> -->
                <!--<a href="#notifications" class="dropdown-toggle" data-toggle="dropdown"> <img src="<?php echo base_url(); ?>assets/images/template/notifications.png"/> <span class="small-screen-text">Notifications</span> </a>--> 
                 
                 <!-- NOTIFICATIONS --> 
@@ -285,7 +285,7 @@
               </li>
               <!-- /3. $END_NAVBAR_ICON_BUTTONS -->
               
-              <li class="dropdown"> <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown"> <img src="<?php echo base_url(); ?>assets/images/template/3.jpg"/> <span>John Doe</span> </a>
+              <!-- <li class="dropdown"> <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown"> <img src="<?php echo base_url(); ?>assets/images/template/3.jpg"/> <span>John Doe</span> </a> -->
                 <ul class="dropdown-menu">
                   <li><a href="#"><span class="label label-warning pull-right">New</span>Profile</a></li>
                   <li><a href="#"><span class="badge badge-primary pull-right">New</span>Account</a></li>
@@ -309,13 +309,13 @@
     <div id="main-menu-inner">
       <ul class="navigation">
         <li class="active"> <a href="#"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span><span class="label label-new">1127</span></a> </li>
-        <li> <a href="#"><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Logistics</span></a> </li>
+       <!--  <li> <a href="#"><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Logistics</span></a> </li>
         <li> <a href="../../stat-panels.html"><i class="menu-icon fa fa-bolt"></i><span class="mm-text">Support</span></a> </li>
         <li> <a href="../../widgets.html"><i class="menu-icon fa fa-envelope-o"></i><span class="mm-text">Quality</span></a> </li>
         <li> <a href="#"><i class="menu-icon fa fa fa-calendar"></i><span class="mm-text">Notifications</span><span class="label label-new">16</span></a></li>
         <li> <a href="#"><i class="menu-icon fa fa-user"></i><span class="mm-text">Contacts</span></a></li>
         <li> <a href="../../tables.html"><i class="menu-icon fa fa-gear"></i><span class="mm-text">Setting</span></a> </li>
-        <li> <a href="../../charts.html"><i class="menu-icon fa-sign-out"></i><span class="mm-text">Logout</span></a> </li>
+        <li> <a href="../../charts.html"><i class="menu-icon fa-sign-out"></i><span class="mm-text">Logout</span></a> </li> -->
       </ul>
       <!-- / .navigation --> 
       
@@ -331,11 +331,11 @@
       <li><a href="#">Home</a></li>
       <li class="active"><a href="#">Dashboard</a></li>
     </ul>-->
-    <ul class="sorting_toolbar">
+    <!-- <ul class="sorting_toolbar">
       <li>View:</li>
       <li class="sorting_icons active"><i class="fa fa-th-list"></i></li>
       <li class="sorting_icons"><i class="fa fa-th"></i></li>
-    </ul>
+    </ul> -->
     <div class="page-header">
       <div class="row"> 
         <!-- Page header, center on small screens -->
@@ -528,27 +528,27 @@
           <div class="col-sm-4 col-md-12">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
-              <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
-                <!-- Small text --> 
+              <!-- <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
+                
                 <span class="text-xlg"><strong>28</strong><span class="text-lg text-slim">%</span></span><br>
-                <!-- Big text -->
-                <div class="monthly_report"> <img src="<?php echo base_url(); ?>assets/images/template/monthly_target.jpg"/>
+                
+                <div class="monthly_report"> <img src="<?php// echo base_url(); ?>assets/images/template/monthly_target.jpg"/>
                   <div class="min_max_report"> <span class="min">Minimum</span><span class="max">Maximum</span> </div>
                 </div>
                 
-                <!-- /.stat-cell --> 
-              </div>
+                
+              </div> -->
               <!-- /.stat-panel --> 
             </div>
           </div>
           <div class="col-sm-4 col-md-12">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
-              <div class="stat-cell valign-middle align_center"> <span class="text-bg">TOTAL CONFIRMED REVENUE</span><br>
+             <!--  <div class="stat-cell valign-middle align_center"> <span class="text-bg">TOTAL CONFIRMED REVENUE</span><br>
                 <div class="totoal_revenue">Rs.245,967</div>
                 
-                <!-- /.stat-cell --> 
-              </div>
+           
+              </div> -->
               <!-- /.stat-panel --> 
             </div>
           </div>
@@ -556,8 +556,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-3"> 
-        <!-- Centered text -->
+ <!--      <div class="col-xs-3"> 
+        <
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg"> LOGISTICS </div>
@@ -565,16 +565,15 @@
             <span class="xlheading">SAME DAY SHIPS </span>
             <ul class="status_more">
               <li>28.18</li>
-              <li><img src="<?php echo base_url(); ?>assets/images/template/green-arrow.png"/></li>
+              <li><img src="<?php //echo base_url(); ?>assets/images/template/green-arrow.png"/></li>
               <li>0.27%</li>
             </ul>
           </div>
-          <!-- /.stat-row --> 
+
         </div>
-        <!-- /.stat-panel --> 
-      </div>
-      <div class="col-xs-3"> 
-        <!-- Centered text -->
+
+      </div> -->
+      <!-- <div class="col-xs-3"> 
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg">CUSTOMER SUPPORT</div>
@@ -582,14 +581,14 @@
             <span class="xlheading">CONFIRMATION</span>
             <ul class="status_more">
               <li>28.18</li>
-              <li><img src="<?php echo base_url(); ?>assets/images/template/red-arrow.png"/></li>
+              <li><img src="<?php// echo base_url(); ?>assets/images/template/red-arrow.png"/></li>
               <li>-0.34%</li>
             </ul>
           </div>
-          <!-- /.stat-row --> 
+
         </div>
-        <!-- /.stat-panel --> 
-      </div>
+
+      </div> -->
       <div class="col-xs-3"> 
       <?php 
         $hours = 24;
