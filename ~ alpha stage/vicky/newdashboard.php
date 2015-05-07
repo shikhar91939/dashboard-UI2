@@ -382,4 +382,8 @@ class Newdashboard extends CI_Controller {
       $this->load->view('includes/template', $data);  
     }
   
+    public function submitDates_inventory($value='')
+    {
+      echo json_encode(array("aa"=>"bb"));
+    }
 }
