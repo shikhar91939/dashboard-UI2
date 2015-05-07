@@ -20,48 +20,12 @@
   <script src="http://code.highcharts.com/modules/drilldown.js"></script><!-- for drill down graph-->
 
 
-  <script>
-        $(function() { 
-          $("#selector_dateRange").daterangepicker({
-             onChange: function() { 
-              console.log('change') ;
-              callAjax();
-            }
-          }); 
-          renderAll();
-        });
-
-
-        function callAjax ( x ) 
-        {
-          var selector_dateRange = $("#selector_dateRange").val();
-          console.log('selected range: '+ selector_dateRange);
-
-          $.ajax({
-            type: "POST",
-            url: '<?php echo site_url("newdashboard").'/submitDates_inventory';?>', 
-            data: selector_dateRange, 
-            dataType: 'json',
-            // async: false, //This is deprecated in the latest version of jquery must use now callbacks
-            success: function(d)
-            {
-              console.log(d);
-              renderAll();
-            },
-            error: function (jqXHR, textStatus, errorThrown) { alert("ajax error"); } 
-          });
-        }
-
-        function renderAll () 
-        {
-          render_clientWise();
-        }
-  </script>
+ 
   <script >
       
       function render_clientWise () {
         
-      $('#graph_ageing').highcharts({
+      $('#graph_clientWise').highcharts({
           title: {
               text: 'Inventory Overview',
               x: -20 //center
@@ -115,6 +79,10 @@
         });
       
       }
+    </script>
+    <script >
+      
+
     </script>
     <script>
     //column drilldown chart: aging by lstatus
@@ -190,12 +158,128 @@
           });
       });
     </script>
+     <script>
+
+       function render_clientWise_2 () {
+
+      var json_clientWise = json_variable.clientWise;
+      console.log('in function render_clientWise');
+      console.log(json_clientWise.legend.Karma);
+
+      $('#graph_clientWise').highcharts({
+          title: {
+              text: 'Inventory Overview',
+              x: -20 //center
+          }/*,
+          subtitle: {
+              text: 'Source: WorldClimate.com',
+              x: -20
+          }*/,
+          xAxis: {
+              categories: json_clientWise.categories 
+          },
+          yAxis: {
+              title: {
+                  text: json_clientWise.yAxis_text
+              },
+              plotLines: [{
+                  value: 0,
+                  width: 1,
+                  color: '#808080'
+              }]
+          }/*,
+          tooltip: {
+              valueSuffix: '°C'
+          }*/,
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle',
+              borderWidth: 0
+          },
+          series: [{
+              name: 'Karma',
+              data: json_clientWise.legend.Karma
+          }, {
+              name: 'Cloudtail',
+              data: json_clientWise.legend.Cloudtail
+          }, {
+              name: 'PB International',
+              data: json_clientWise.legend.PB_International
+          }, {
+              name: 'Saholic',
+              data: json_clientWise.legend.Saholic
+          }, {
+              name: 'Technix',
+              data: json_clientWise.legend.Technix
+          }, {
+              name: 'Value Plus',
+              data: json_clientWise.legend.Value_Plus
+          }]
+        });
+      
+      }
+
+      var json_variable;
+        $(function() { 
+          $("#selector_dateRange").daterangepicker({
+             onChange: function() { 
+              console.log('change') ;
+              callAjax();
+            }
+          }); 
+          renderAll();
+        });
+
+
+        function callAjax ( x ) 
+        {
+          var selector_dateRange = $("#selector_dateRange").val();
+          console.log('selected range: '+ selector_dateRange);
+
+          $.ajax({
+            type: "POST",
+            url: '<?php echo site_url("newdashboard").'/submitDates_inventory';?>', 
+            data: JSON.parse(selector_dateRange), 
+            dataType: 'json',
+            // async: false, //This is deprecated in the latest version of jquery must use now callbacks
+            success: function(d)
+            {
+              json_variable = d;
+              console.log("sasas");
+              console.log(json_variable);
+
+              render_clientWise_2();
+            },
+            error: function (jqXHR, textStatus, errorThrown) { alert("ajax error"); } 
+          });
+        }
+
+        function renderAll () 
+        {
+          render_clientWise();
+        }
+
+        function renderAll_2 () 
+        {
+          console.log('renderAll_2');
+          render_clientWise_2();
+          // console.log(d);
+          // console.log(d.clientWise);
+          // var json_clientWise = d.clientWise;
+          // render_clientWise_2(json_clientWise);
+        }
+
+
+
+     
+  </script>
 </head>
 <body>
 
     <input id="selector_dateRange" name="selector_dateRange" style="padding-right:8px" >
-    <div id="graph_ageing" style="width: 100%; height: 550px; border:1px solid black;" ></div>
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto border:1px solid black"></div>
+    <div id="graph_clientWise" style="width: 100%; height: 550px; border:1px solid black;" ></div>
+    <!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto border:1px solid black"></div> -->
 
 </body>
 </html>

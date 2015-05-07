@@ -8,40 +8,20 @@ class Newdashboard extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-    session_start();
-    
-        // $this->load->model('products_model');
-        // $this->load->model('brands_model');
-        // $this->load->model('colors_model');
-    //$this->load->driver('session');
-       $this->load->database();
-       // $this->load->helper('url');
-        // $this->load->helper(array('form', 'url'));
-    // $config['upload_path'] = './uploads/products/';
-    // $config['allowed_types'] = 'gif|jpg|png';
-    // $config['max_size']  = '100';
-    // $config['max_width']  = '1024';
-    // $config['max_height']  = '768';
-
-    // $this->load->library('upload', $config);   
-      //  $this->load->library('grocery_CRUD');
+        session_start();
+        $this->load->database();
+       
         if(!$this->session->userdata('is_logged_in')){
             redirect('admin/login');
         }
-    
-    
-    
-    
     }
   
-  public function index()
+    public function index()
     {
-  $data['prevent_css'] = true;
-  $data['main_content'] = 'admin/newdashboard/metricsboard';
-    $this->load->view('includes/template', $data);
-  
-  
-  }
+      $data['prevent_css'] = true;
+      $data['main_content'] = 'admin/newdashboard/metricsboard';
+      $this->load->view('includes/template', $data);  
+    }
 
   public function submitDateRange()
     {
@@ -94,6 +74,57 @@ class Newdashboard extends CI_Controller {
     // echo "</pre>";
     
     echo json_encode($response_combined);
+    }
+
+    public function getSalesData($start_comparison = null, $start_ymd = '2015-05-04 00:00:00', $end_ymd ='2015-05-07 00:00:00' )
+    {
+        try {
+            $client = new SoapClient('http://www.overcart.com/index.php/api/v2_soap?wsdl');
+            $session = $client->login('dashbaord', 'jn0ar9t6j2cysb9lywbwk0bimft9l1ce');
+
+
+      $params = array('complex_filter'=>
+          array(
+              array('key'=>'created_at','value'=>array('key' =>'from','value' => $start_ymd)),
+              array('key'=>'created_at', 'value'=>array('key' => 'to', 'value' => $end_ymd))
+            )
+        );
+        $ordersList = $client->salesOrderList($session,$params);
+        // echo "<pre>";
+        // var_dump($ordersList);
+        // echo "</pre>";
+
+        $pendingCount = 0;
+        $cancelledCount = 0;
+        $confirmedCount = 0;
+        $orderCount = 0;
+
+        foreach ($ordersList as $order ) 
+        {
+            if($order->state == 'pending' || $order->state == 'pending_payment' ||  $order->status == 'processing')
+            {
+                $pendingCount++;
+            }
+            elseif ( $order->status == 'canceled')
+            {
+              $cancelledCount++;
+            }
+            else
+            {
+              $confirmedCount++;
+            }
+            $orderCount++;
+        }
+
+
+
+
+
+
+
+        } catch (SoapFault $fault) {
+            trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
+        }      
     }
 
     public function dateFormatter($date)
@@ -382,8 +413,38 @@ class Newdashboard extends CI_Controller {
       $this->load->view('includes/template', $data);  
     }
   
-    public function submitDates_inventory($value='')
+    public function submitDates_inventory()
     {
-      echo json_encode(array("aa"=>"bb"));
+      $start_ymd=$this->input->post('start');
+      $end_ymd=$this->input->post('end');
+      
+      // echo json_encode(array('start'=>$start_ymd, 'end'=> $end_ymd));
+
+      $returnArray['clientWise']['categories'] = array('Pending Pickup', 'Inbound Holding','Pending QC', 'Under QC', 'Manager\'s escalation',
+        'Out for Repair','Ready to upload', 'Listed', 'Returned to Client', 'Sell Offline', 'Inventory Review', 'Sold');
+      
+      $returnArray['clientWise']['yAxis_text'] = 'Items';
+      $returnArray['clientWise']['legend']['Karma'] = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9.6);
+      $returnArray['clientWise']['legend']['Cloudtail'] = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4.8+3);
+      $returnArray['clientWise']['legend']['PB_International'] = array( 0, 0, 0, 10, 10, 20, 20, 20, 20, 10, 10, 9.6);
+      $returnArray['clientWise']['legend']['Technix'] = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4.8);
+      $returnArray['clientWise']['legend']['Value_Plus'] = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0);
+
+
+
+      // $returnArray['clientWise']['legend']['Karma'] = array(7.0+5, 6.9+5, 9.5+5, 14.5+5, 18.2+5, 21.5+5, 25.2+5, 26.5+5, 23.3+5, 18.3+5, 13.9+5, 9.6);
+      // $returnArray['clientWise']['legend']['Cloudtail'] = array(3.9+5+5, 4.2+5+5, 5.7+5+5, 8.5+5+5, 11.9+5+5, 15.2+5+5, 17.0+5+5, 16.6+5+5, 14.2+5+5, 10.3+5+5, 6.6+5+5, 4.8+3);
+      // $returnArray['clientWise']['legend']['PB International'] = array( 7.0-5+5, 6.9-5+5, 9.5-5+5, 14.5-5+5, 18.2-5+5, 21.5-5+5, 25.2-5+5, 26.5-5+5, 23.3-5+5, 18.3-5+5, 13.9-5+5, 9.6);
+      // $returnArray['clientWise']['legend']['Technix'] = array(3.9+5, 4.2+5, 5.7+5, 8.5+5, 11.9+5, 15.2+5, 17.0+5, 16.6+5, 14.2+5, 10.3+5, 6.6+5, 4.8);
+      // $returnArray['clientWise']['legend']['Value Plus'] = array(-0.9+5, 0.6+5, 3.5+5, 8.4+5, 13.5+5, 17.0+5, 18.6+5, 17.9+5, 14.3+5, 9.0+5, 3.9+5, 1.0);
+
+      
+
+      // echo "<pre>";
+      // var_dump($returnArray);
+      echo(json_encode($returnArray));
+      // echo "<pre>";
     }
+
+
 }
