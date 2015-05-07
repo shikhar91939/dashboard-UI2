@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-<title>Overboxd: An Overcart Recommerce Product For Businesses</title>
+<title>Dashboard | Overcart Analytics</title>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css">
 <link href="<?php echo base_url(); ?>assets/css/template/jquery.comiseo.daterangepicker.css" rel="stylesheet" type="text/css">
 
@@ -25,8 +25,7 @@
 <script src="http://code.highcharts.com/highcharts.js"></script><!-- highCharts: stacked graph -->
 <script src="http://code.highcharts.com/modules/exporting.js"></script><!-- highCharts: stacked graph -->
 <!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> --><!-- highCharts: stacked graph -->
-
-
+</script>
 <script>
   var baseUrl = <?php echo'"'.base_url().'"' ;?>;
   $(function() { 
@@ -308,9 +307,9 @@
   <div id="main-menu" role="navigation">
     <div id="main-menu-inner">
       <ul class="navigation">
-        <li class="active"> <a href="#"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span><!-- <span class="label label-new">1127</span> --></a> </li>
-       <!--  <li> <a href="#"><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Logistics</span></a> </li>
-        <li> <a href="../../stat-panels.html"><i class="menu-icon fa fa-bolt"></i><span class="mm-text">Support</span></a> </li>
+        <li class="active"> <a href=<?php  echo '"'.base_url() . 'index.php/newdashboard"';?>  ><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span><!-- <span class="label label-new">1127</span> --></a> </li>
+       <li> <a href=<?php echo base_url() . "index.php/newdashboard/logisticsandinventory";?> ><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Logistics and Inventory</span></a> </li>
+       <!--  <li> <a href="../../stat-panels.html"><i class="menu-icon fa fa-bolt"></i><span class="mm-text">Support</span></a> </li>
         <li> <a href="../../widgets.html"><i class="menu-icon fa fa-envelope-o"></i><span class="mm-text">Quality</span></a> </li>
         <li> <a href="#"><i class="menu-icon fa fa fa-calendar"></i><span class="mm-text">Notifications</span><span class="label label-new">16</span></a></li>
         <li> <a href="#"><i class="menu-icon fa fa-user"></i><span class="mm-text">Contacts</span></a></li>
@@ -745,16 +744,21 @@
         <!-- /.stat-panel --> 
       </div>
     </div>
-    <!-- put divs here (for temporary graphs) -->
-        <!-- <div id="temp_dynamic" style="min-width: 310px; height: 400px; margin: 0 auto ;border:1px solid black "></div> -->
+    <!-- put/insert divs here (for temporary graphs) -->
+        <div id="temp_dynamic" style="min-width: 310px; height: 400px; margin: 0 auto ;border:1px solid black; display:none; "></div>
         <div id="dumpDiv"></div>
   </div>
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>
 </div>
 <!-- highCharts:stacked -->
-<script type="text/javascript">
-  $(function () {
+
+</body>
+<script>
+  /*
+  this script tag is responsible for the Inventory- Listed graph
+  */
+   $(function () {
     $('#chartdiv').highcharts({
         chart: {
             type: 'column'
@@ -835,78 +839,4 @@
     });
 });
 </script>
-<script>
-  $(graph_temp_dynamic());
-
-  function graph_temp_dynamic(parameter1) {
-
-    parameter1 = typeof parameter1 !== 'undefined' ? parameter1 : 13;
-    // b = typeof b !== 'undefined' ? b : 'default_b';
-    $('#temp_dynamic').highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Stacked column chart'
-        },
-        xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Total fruit consumption'
-            },
-            stackLabels: {
-                enabled: true,
-                style: {
-                    fontWeight: 'bold',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                }
-            }
-        },
-        legend: {
-            align: 'right',
-            x: -30,
-            verticalAlign: 'top',
-            y: 25,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false
-        },
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.x + '</b><br/>' +
-                    this.series.name + ': ' + this.y + '<br/>' +
-                    'Total: ' + this.point.stackTotal;
-            }
-        },
-        plotOptions: {
-            column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true,
-                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                    style: {
-                        textShadow: '0 0 3px black'
-                    }
-                }
-            }
-        },
-        series: [{
-            name: 'John',
-            data: [parameter1, parameter1, parameter1, parameter1, parameter1]
-        }, {
-            name: 'Jane',
-            data: [parameter1, parameter1, parameter1, parameter1, parameter1]
-        }, {
-            name: 'Joe',
-            data: [parameter1, parameter1, parameter1, parameter1, parameter1]
-        }]
-    });
-}
-</script>
-</body>
 </html>
