@@ -25,8 +25,8 @@ class Newdashboard extends CI_Controller {
 
   public function submitDateRange()
     {
-    $start_ymd=$this->input->post('start');
-    $end_ymd=$this->input->post('end');
+    $start_ymd=$this->input->post('start'); // $start_ymd ->  startTime in YearMonthDay
+    $end_ymd=$this->input->post('end');     //  || for $end_ymd
 
     // $start = implode('/', array_reverse(explode('-', $start)));
     // $end = implode('/', array_reverse(explode('-', $end)));
@@ -76,14 +76,29 @@ class Newdashboard extends CI_Controller {
     echo json_encode($response_combined);
     }
 
-    public function getSalesData($start_comparison = null, $start_ymd = '2015-05-04 00:00:00', $end_ymd ='2015-05-07 00:00:00' )
+    public function getSalesData($start_ymd = null , $end_ymd =null, $divisions_xAxis =5)
     {
-        try {
-            $client = new SoapClient('http://www.overcart.com/index.php/api/v2_soap?wsdl');
-            $session = $client->login('dashbaord', 'jn0ar9t6j2cysb9lywbwk0bimft9l1ce');
+      date_default_timezone_set('Asia/Kolkata');
+      if (is_null($end_ymd)) 
+      {
+        $start_ymd = date('Y-m-d 00:00:00', strtotime("yesterday"));
+        $end_ymd =  date('Y-m-d H:i:s', strtotime("now"));
+      }
+      // echo $start_ymd."<br>";
+      // echo $end_ymd;
 
+      $timeSplits = $this->splitTimeRange($start_ymd, $end_ymd, $divisions_xAxis);
+                  // echo "<pre>";
+                  // var_dump($timeSplits);
+                  // echo "</pre>";die;
+      $returnArray['xAxis'] = $timeSplits[1];
 
-      $params = array('complex_filter'=>
+      try 
+      {
+        $client = new SoapClient('http://www.overcart.com/index.php/api/v2_soap?wsdl');
+        $session = $client->login('dashbaord', 'jn0ar9t6j2cysb9lywbwk0bimft9l1ce');
+
+        $params = array('complex_filter'=>
           array(
               array('key'=>'created_at','value'=>array('key' =>'from','value' => $start_ymd)),
               array('key'=>'created_at', 'value'=>array('key' => 'to', 'value' => $end_ymd))
@@ -91,41 +106,174 @@ class Newdashboard extends CI_Controller {
         );
         $ordersList = $client->salesOrderList($session,$params);
         // echo "<pre>";
-        // var_dump($ordersList);
+        // foreach ($ordersList as $order) {
+        //   echo ".";
+        //   echo $order->created_at;
+        //   $state = $order->state;
+        //   $status = $order->status;
+        //   // echo " | <strong>".$state.'</strong> -> <em>'.$status.' </em><br>';
+        //   echo ", <strong>".$state.'</strong> , <em>'.$status.' </em><br>';
+        // }
         // echo "</pre>";
 
-        $pendingCount = 0;
-        $cancelledCount = 0;
-        $confirmedCount = 0;
-        $orderCount = 0;
+                      //   $interval_number = 1; //intervallabled as 1,2,3. No zero
+                      //   $order_time = '';
+                      //   $pendingCount = 0; $pendingAmount = 0;
+                      //   $cancelledCount = 0; $cancelledAmount = 0;
+                      //   $confirmedCount = 0; $confirmedAmount = 0;
+                      //   $totalOrderCount = 0; $totalOrderAmount = 0;
+                      //   $orderTable=null;
 
+                      // foreach ($ordersList as $order ) 
+                      // {
+                      //   $order_time = $order->created_at ;
+
+                      //   if($order->state == 'pending_payment' || $order->status == 'pending' ||   $order->status == 'processing') // (state, status) can be ( new, pending ) or ( pending_payment, pending_payment) for pending orders. // processing because waiting for IMEI ? (not sure)
+                      //     $pendingCount++;
+                      //   elseif ( $order->status == 'canceled')
+                      //     $cancelledCount++;
+                      //   else
+                      //     $confirmedCount++;
+
+
+                      //   $totalOrderCount++;
+                      // }
+                      // echo  "pendingCount = $pendingCount; "."cancelledCount = $cancelledCount;"."confirmedCount = $confirmedCount;"."totalOrderCount = $totalOrderCount;<BR>";      
+
+        $interval_number = 1; //interval labled as 1,2,3. Not 0,1,2,3...
+        $order_time = ''; $orderValue = 0;
+        $pendingCount = 0; $pendingAmount = 0;
+        $cancelledCount = 0; $cancelledAmount = 0;
+        $confirmedCount = 0; $confirmedAmount = 0;
+        $totalOrderCount = 0; $totalOrderAmount = 0;
+        $orderTable=null;
         foreach ($ordersList as $order ) 
         {
-            if($order->state == 'pending' || $order->state == 'pending_payment' ||  $order->status == 'processing')
+          $order_time = date('Y-m-d H:i:s',strtotime(" + 330 minutes", strtotime($order->created_at))) ;
+          while(strtotime($order_time) > $timeSplits[0][$interval_number])     // keep ++ing $interval_number WHILE(better than if() ) the current order is out of crrent interval,
+          {
+            // echo "$order_time > timeSplits[1][interval_number=$interval_number]=".$timeSplits[1][$interval_number].'<hr>';
+            $orderTable["interval_number".$interval_number]=array('pendingCount'=>$pendingCount,'cancelledCount'=>$cancelledCount,'confirmedCount'=>$confirmedCount, 'totalOrderCount'=>$totalOrderCount,
+                                                                      'pendingAmount'=>$pendingAmount,'cancelledAmount'=>$cancelledAmount,'confirmedAmount'=>$confirmedAmount, 'totalOrderAmount'=>$totalOrderAmount);
+            $interval_number ++;
+
+          //initialize all variables for next interval
+          $pendingCount = 0; $pendingAmount = 0;
+          $cancelledCount = 0; $cancelledAmount = 0;
+          $confirmedCount = 0; $confirmedAmount = 0;
+          $totalOrderCount = 0; $totalOrderAmount = 0;
+          }
+
+          $orderValue = $order->grand_total;
+          if($order->state == 'pending_payment' || $order->status == 'pending' ||   $order->status == 'processing') // (state, status) can be ( new, pending ) or ( pending_payment, pending_payment) for pending orders. // processing because waiting for IMEI ? (not sure)
             {
-                $pendingCount++;
+              $pendingCount++;
+              $pendingAmount += $orderValue;
             }
-            elseif ( $order->status == 'canceled')
+          elseif ( $order->status == 'canceled')
             {
               $cancelledCount++;
+              $cancelledAmount += $orderValue;
             }
-            else
+          else
             {
               $confirmedCount++;
+              $confirmedAmount += $orderValue;
             }
-            $orderCount++;
+
+
+          $totalOrderCount++;
+          $totalOrderAmount +=$orderValue;
+          // echo $order->increment_id." order_time=$order_time<br>";
         }
 
+        while (count($orderTable)<$divisions_xAxis) //again using while instead of if()
+        {
+            // ending interval $interval_number as no more orders
+            // echo "ending interval $interval_number as no more orders<br>";
+            $orderTable["interval_number".$interval_number]=array('pendingCount'=>$pendingCount,'cancelledCount'=>$cancelledCount,'confirmedCount'=>$confirmedCount, 'totalOrderCount'=>$totalOrderCount,
+                                                                      'pendingAmount'=>$pendingAmount,'cancelledAmount'=>$cancelledAmount,'confirmedAmount'=>$confirmedAmount, 'totalOrderAmount'=>$totalOrderAmount);
+            $interval_number ++;  // keep ending intervals till $orderTable)<$divisions_xAxis
+
+            //initialize all variables for next interval (if any) to have zero orders
+            $pendingCount = 0;
+            $cancelledCount = 0;
+            $confirmedCount = 0;
+            $totalOrderCount = 0;
+        }
+
+        $returnArray['sales_distribution'] = $orderTable;
+
+                  echo "<pre>";
+                  var_dump($returnArray);
+                   echo "</pre>";die;
+
+        // echo 'count($orderTable)<$divisions_xAxis -> '. count($orderTable)." <$divisions_xAxis  <br>";
+        // if(count($orderTable)<$divisions_xAxis)
+
+        // echo "<pre>";
+        // var_dump($orderTable);
+        // echo  "pendingCount = $pendingCount; "."cancelledCount = $cancelledCount;"."confirmedCount = $confirmedCount;"."totalOrderCount = $totalOrderCount;";      
+        // die;
+        // echo "</pre>";
+        /*
+        _DataStructure Map_
+
+        [inteval1]=[pendingCount1][cancelledCount1][confirmedCount1][totalOrderCount1]
+        [inteval2]=[pendingCount2][cancelledCount2][confirmedCount2][totalOrderCount2]
+        .
+        .
+        .
+        [intervaln]=[pendingCountn][cancelledCountn][confirmedCountn][totalOrderCountn]
+        */
 
 
-
-
-
-
-        } catch (SoapFault $fault) {
+      } catch (SoapFault $fault) {
             trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
         }      
     }
+
+    function splitTimeRange($start_timeStamp, $end_timeStamp, $intervals) 
+    {
+      $start_timeStamp=strtotime($start_timeStamp);
+      $end_timeStamp=strtotime($end_timeStamp);
+      
+      $timeDiff_seconds=$end_timeStamp-$start_timeStamp;
+      // $timeDiff_hours = floor($timeDiff_seconds /60 /60);
+      $interval_seconds = $timeDiff_seconds / $intervals;
+
+      $timestamp_Array=null;// timestamp array of intervals
+      $ymd_Array=null;// YearMonthDay format array of intervals
+      for($i=0; $i<=$intervals ; $i++):
+        $next_timeStamp=  $start_timeStamp + ($i * $interval_seconds);
+        $timestamp_Array[] = $next_timeStamp;
+        $ymd_Array[] =  date('Y-m-d H:i:s', $next_timeStamp);
+      endfor;
+
+      // echo "<pre>";
+      // var_dump($ymd_Array);         // <-A
+      // var_dump($timestamp_Array);
+      // foreach ($ymd_Array as $ymd) 
+      //   var_dump(strtotime($ymd));   // <-B
+      // echo "</pre>";                  // as A matches B, we can say strtotime() converts 'Y-m-d H:i:s' back to timestamp with loss of less than 1 second each time
+
+
+      $returnArray = array($timestamp_Array, $ymd_Array);      
+
+      /*
+      _DataStrucue Map_
+      $returnArray
+
+
+      array=>
+      {
+        array=>{ [timeStamp1]                 ,[timeStamp2]                 ,  ... [timeStamp5]                  }
+        array=>{ ['Y-m-d H:i:s' of timeStamp1],['Y-m-d H:i:s' of timeStamp2],  ... ['Y-m-d H:i:s' of timeStamp5] }    
+      }
+      */
+      return $returnArray;
+    }
+
 
     public function dateFormatter($date)
     {
@@ -404,6 +552,8 @@ class Newdashboard extends CI_Controller {
 
         return $returnArray;
     }
+
+
 
     
     public function logisticsandinventory()
