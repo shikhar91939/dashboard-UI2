@@ -67,9 +67,28 @@ class Newdashboard extends CI_Controller {
     $response_qc = $this->getQCdata($start_comparison, $start_ymd, $end_ymd);
     $response_combined["qc_box"] = $response_qc;
 
-    $response_sales = $this->getSalesData();
-    $response_combined["sales_graph"] = $response_sales;
+    $today = date("Y-m-d",strtotime("today"));
+    $yesterday  = date("Y-m-d",strtotime("yesterday"));
+    // var_dump($start_ymd);echo "<br>";
+    // var_dump($today);die;
+    if ($start_ymd == $today) 
+    {
+      //the function getSalesData() takes today by default
+      $response_sales = $this->getSalesData();
+      $response_combined["sales_graph"] = $response_sales;
+    }
+    else
+    {
+      $from = $start_ymd. " 00:00:00";
+      $to = $end_ymd. " 00:00:00";
 
+      // echo json_encode(array("from"=>$from, "to"=>$to));die;
+      // if ($end_ymd == $today && $start_ymd == $yesterday) {
+      //   # code... }
+      $response_sales = $this->getSalesData($from, $to);
+      $response_combined["sales_graph"] = $response_sales;
+      // echo json_encode($response_sales);die;
+    }
     echo json_encode($response_combined);
 
 
@@ -83,16 +102,17 @@ class Newdashboard extends CI_Controller {
     // echo json_encode($response_combined);
     }
 
-    public function getSalesData($start_ymd = null , $end_ymd =null, $divisions_xAxis =5)
+    public function getSalesData($start_ymd = "2015-05-02 00:00:00" , $end_ymd ="2015-05-08 00:00:00", $divisions_xAxis =5)
     {
+
       date_default_timezone_set('Asia/Kolkata');
       if (is_null($end_ymd)) 
       {
         $start_ymd = date('Y-m-d 00:00:00', strtotime("today"));
         $end_ymd =  date('Y-m-d H:i:s', strtotime("now"));
       }
-      // echo $start_ymd."<br>";
-      // echo $end_ymd;
+      // var_dump($start_ymd);echo"<br>";
+      // var_dump($end_ymd);die;
 
       $timeSplits = $this->splitTimeRange($start_ymd, $end_ymd, $divisions_xAxis);
                   // echo "<pre>";
@@ -121,7 +141,7 @@ class Newdashboard extends CI_Controller {
         //   // echo " | <strong>".$state.'</strong> -> <em>'.$status.' </em><br>';
         //   echo ", <strong>".$state.'</strong> , <em>'.$status.' </em><br>';
         // }
-        // echo "</pre>";
+        // echo "</pre>";die;
 
                       //   $interval_number = 1; //intervallabled as 1,2,3. No zero
                       //   $order_time = '';
@@ -154,10 +174,16 @@ class Newdashboard extends CI_Controller {
         $confirmedCount = 0; $confirmedAmount = 0;
         $totalOrderCount = 0; $totalOrderAmount = 0;
         $orderTable=null;
+
+
         foreach ($ordersList as $order ) 
         {
           $order_time = date('Y-m-d H:i:s',strtotime(" + 330 minutes", strtotime($order->created_at))) ;
-          while(strtotime($order_time) > $timeSplits[0][$interval_number])     // keep ++ing $interval_number WHILE(better than if() ) the current order is out of crrent interval,
+          /*
+          Wasted >2.5 hrs in debugging because of not adding "&& $interval_number<$divisions_xAxis" in the following while's condition -Shikhar
+          Thus, please pay attention while writing the condition of while statements. Infinite loops are very common
+          */
+          while(strtotime($order_time) > $timeSplits[0][$interval_number] && $interval_number<$divisions_xAxis)     // keep ++ing $interval_number WHILE(better than if() ) the current order is out of crrent interval,
           {
             // echo "$order_time > timeSplits[1][interval_number=$interval_number]=".$timeSplits[1][$interval_number].'<hr>';
             $orderTable["interval_number".$interval_number]=array('pendingCount'=>$pendingCount,'cancelledCount'=>$cancelledCount,'confirmedCount'=>$confirmedCount, 'totalOrderCount'=>$totalOrderCount,
@@ -169,6 +195,10 @@ class Newdashboard extends CI_Controller {
           $cancelledCount = 0; $cancelledAmount = 0;
           $confirmedCount = 0; $confirmedAmount = 0;
           $totalOrderCount = 0; $totalOrderAmount = 0;
+          // echo "<pre>";
+          // var_dump($orderTable);
+          // echo "</pre>";
+          // if($interval_number>7)die;
           }
 
           $orderValue = $order->grand_total;
@@ -211,12 +241,13 @@ class Newdashboard extends CI_Controller {
 
         $returnArray['sales_distribution'] = $orderTable;
 
-        return $returnArray;
-        // echo json_encode($returnArray);
-
+        
                   // echo "<pre>";
                   // var_dump($returnArray);
                   //  echo "</pre>";die;
+        return $returnArray;
+        // echo json_encode($returnArray);
+
 
         // echo 'count($orderTable)<$divisions_xAxis -> '. count($orderTable)." <$divisions_xAxis  <br>";
         // if(count($orderTable)<$divisions_xAxis)

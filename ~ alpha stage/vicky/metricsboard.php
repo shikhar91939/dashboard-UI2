@@ -30,11 +30,35 @@
   var baseUrl = <?php echo'"'.base_url().'"' ;?>;
   $(function() { 
     $("#selector_dateRange").daterangepicker(); 
+    // $("#selector_dateRange").hide();
+    $("#selector_dateRange").daterangepicker({
+      initialText : 'Select DA period...'
+    });
+
+    var defaultDateRange = {"START":"2015-05-08","END":"2015-05-08"} ;
+    // initializePage(defaultDateRange);
 
     $("#submit_dateRange").click(function () 
       {
         // alert("Selected range is: ");
         var selectedRange = $("#selector_dateRange").val();
+
+        console.log("selectedRange:");
+        console.log(selectedRange);
+        // $('#subText').text(selectedRange);
+        renderAll(selectedRange);
+
+      });
+    
+    function initializePage (argument)    //initialize all graphs
+    {
+      console.log("initializing page..");
+      renderAll(argument);
+    }
+
+      function renderAll (selectedRange) {
+        console.log(selectedRange);
+
         if (selectedRange) //proceed only if selectedRange is truthy. i.e. selectedRange is neither null nor undefined
         {
           // alert("Input value is: " + selectedRange); // {"START":"2015-04-25","END":"2015-05-01"}
@@ -104,7 +128,10 @@
             error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); } 
           });
         }
-      });
+      
+      }
+
+    
     });
 </script>
 </head>
@@ -345,7 +372,7 @@
       <div class="row"> 
         <!-- Page header, center on small screens -->
         <h1 class="col-xs-12 col-sm-8 text-center text-left-sm">Analytics<br>
-          <div class="subheading">BUSINESS OVERVIEW AT A GLANCE</div>
+          <div id="subText" class="subheading">BUSINESS OVERVIEW AT A GLANCE</div>
         </h1>
         <div class="col-xs-12 col-sm-4">
           <div class="row" style="text-align:right"> 
