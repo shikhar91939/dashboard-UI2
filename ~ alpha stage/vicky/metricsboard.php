@@ -89,11 +89,17 @@
                 console.log(d.qc_box.totalQCs_diff)
                 $('#qcbox_totalQCs').text(d.qc_box.totalQCs);
                 $('#qcbox_totalQCs_diff').text(d.qc_box.totalQCs_diff);
-                $('#qcbox_qc_percent_rise').text(qd.qc_box.cbox_qc_percent_rise);
+                $('#qcbox_qc_percent_rise').text(d.qc_box.cbox_qc_percent_rise);
               //QC data
 
+              // Sales Graph
+                console.log('salesdata');
+                console.log(d.sales_graph);
+                render_salesGraph(d.sales_graph);
+              // Sales Graph
 
-              graph_temp_dynamic(d.a);
+
+              // graph_temp_dynamic(d.a);
             },
             error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); } 
           });
@@ -905,6 +911,78 @@
     });
 });
 
+function render_salesGraph (obj)
+{
+  var init1 = obj.sales_distribution.interval_number1;
+  var init2 = obj.sales_distribution.interval_number2;
+  var init3 = obj.sales_distribution.interval_number3;
+  var init4 = obj.sales_distribution.interval_number4;
+  var init5 = obj.sales_distribution.interval_number5;
+  console.log(init5);
+    $('#chartdiv').highcharts({
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: obj.xAxis
+        },
+        labels: {
+            items: [{
+                html: 'Total',
+                style: {
+                    left: '100px',
+                    top: '20px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{
+            type: 'column',
+            name: 'Pending',
+            data: [init1.pendingAmount, init2.pendingAmount, init3.pendingAmount, init4.pendingAmount, init5.pendingAmount]
+        }, {
+            type: 'column',
+            name: 'Cancelled',
+            data: [init1.cancelledAmount, init2.cancelledAmount, init3.cancelledAmount, init4.cancelledAmount, init5.cancelledAmount]
+        }, {
+            type: 'column',
+            name: 'Confirmed',
+            data: [init1.confirmedAmount, init2.confirmedAmount, init3.confirmedAmount, init4.confirmedAmount, init5.confirmedAmount]
+        }, {
+            type: 'spline',
+            name: 'Total',
+            data: [init1.totalOrderAmount, init2.totalOrderAmount, init3.totalOrderAmount, init4.totalOrderAmount, init5.totalOrderAmount],
+            marker: {
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[3],
+                fillColor: 'white'
+            }
+        }, {
+            type: 'pie',
+            name: 'Total consumption',
+            data: [{
+                name: 'Pending',
+                y: init1.pendingAmount+ init2.pendingAmount+ init3.pendingAmount+ init4.pendingAmount+ init5.pendingAmount,
+                color: Highcharts.getOptions().colors[0] // Jane's color
+            }, {
+                name: 'Cancelled',
+                y: init1.cancelledAmount+ init2.cancelledAmount+ init3.cancelledAmount+ init4.cancelledAmount+ init5.cancelledAmount,
+                color: Highcharts.getOptions().colors[1] // John's color
+            }, {
+                name: 'Confirmed',
+                y: init1.confirmedAmount+ init2.confirmedAmount+ init3.confirmedAmount+ init4.confirmedAmount+ init5.confirmedAmount,
+                color: Highcharts.getOptions().colors[2] // Joe's color
+            }],
+            center: [100, 80],
+            size: 100,
+            showInLegend: false,
+            dataLabels: {
+                enabled: false
+            }
+        }]
+    });
+ 
+}
 
 </script>
 </html>

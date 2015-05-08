@@ -67,13 +67,20 @@ class Newdashboard extends CI_Controller {
     $response_qc = $this->getQCdata($start_comparison, $start_ymd, $end_ymd);
     $response_combined["qc_box"] = $response_qc;
 
+    $response_sales = $this->getSalesData();
+    $response_combined["sales_graph"] = $response_sales;
+
+    echo json_encode($response_combined);
+
 
     // echo "<pre>";
+    // var_dump($response_sales);
+    // echo "<hr>";
     // var_dump($response_combined);die;
     // var_dump(json_encode($response_combined));die;
     // echo "</pre>";
     
-    echo json_encode($response_combined);
+    // echo json_encode($response_combined);
     }
 
     public function getSalesData($start_ymd = null , $end_ymd =null, $divisions_xAxis =5)
@@ -81,7 +88,7 @@ class Newdashboard extends CI_Controller {
       date_default_timezone_set('Asia/Kolkata');
       if (is_null($end_ymd)) 
       {
-        $start_ymd = date('Y-m-d 00:00:00', strtotime("yesterday"));
+        $start_ymd = date('Y-m-d 00:00:00', strtotime("today"));
         $end_ymd =  date('Y-m-d H:i:s', strtotime("now"));
       }
       // echo $start_ymd."<br>";
@@ -204,9 +211,12 @@ class Newdashboard extends CI_Controller {
 
         $returnArray['sales_distribution'] = $orderTable;
 
-                  echo "<pre>";
-                  var_dump($returnArray);
-                   echo "</pre>";die;
+        return $returnArray;
+        // echo json_encode($returnArray);
+
+                  // echo "<pre>";
+                  // var_dump($returnArray);
+                  //  echo "</pre>";die;
 
         // echo 'count($orderTable)<$divisions_xAxis -> '. count($orderTable)." <$divisions_xAxis  <br>";
         // if(count($orderTable)<$divisions_xAxis)
@@ -294,9 +304,9 @@ class Newdashboard extends CI_Controller {
         $sqlo = "select t1.id,t1.productid,t4.name as client,t1.old_status,t1.new_status,t1.time_stamp,datediff(now(),t1.time_stamp) from status_update_log as t1 inner join (SELECT max(id) as mid FROM `status_update_log` group by productid) as t2 on t1.id = t2.mid inner join products as t3 on t1.productid = t3.id left join compniesdata as t4 on t3.client_id = t4.id";
         $query = $this->db->query($sqlo);
         $table_sql = $query->result_array();
-        echo "<pre>";
-        var_dump($table_sql);die;
-        echo "</pre>";
+        // echo "<pre>";
+        // var_dump($table_sql);die;
+        // echo "</pre>";
     }
 
     public function getgraph()
