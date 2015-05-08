@@ -23,6 +23,13 @@ class Newdashboard extends CI_Controller {
       $this->load->view('includes/template', $data);  
     }
 
+    public function getData_staticElements()
+    {
+      echo json_encode(array(1=>2));
+
+
+      
+    }
   public function submitDateRange()
     {
     $start_ymd=$this->input->post('start'); // $start_ymd ->  startTime in YearMonthDay
