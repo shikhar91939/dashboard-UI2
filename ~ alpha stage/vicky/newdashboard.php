@@ -138,6 +138,7 @@ class Newdashboard extends CI_Controller {
       //fomatting data before sending
       $percent_sameDayShips = floor($percent_sameDayShips);
       $percent_CSconfirmed = floor($percent_CSconfirmed);
+      $todaysConfirmedRevenue = floor($todaysConfirmedRevenue);
       $todaysConfirmedRevenue = $this->moneyFormatIndia($todaysConfirmedRevenue);
       
       $returnArray = array('count_sameDayShips'=>$count_sameDayShips, 'count_CSconfirmed'=>$count_CSconfirmed,'todaysConfirmedRevenue' =>$todaysConfirmedRevenue, 'percent_sameDayShips'=> $percent_sameDayShips,'percent_CSconfirmed'=> $percent_CSconfirmed, 'count_yesterdaysOrders' => $count_yesterdaysOrders);
