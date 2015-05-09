@@ -84,8 +84,14 @@
               todaysConfirmedRevenue: 551118.98
               */
               $('#totoal_revenue').text(d.todaysConfirmedRevenue);
-              $('#todaysConfirmedRevenue').text('Rs.'+d.todaysConfirmedRevenue);
-              $('#percent_sameDayShips').text(d.percent_sameDayShips);
+              $('#todaysConfirmedRevenue').text('Rs. '+d.todaysConfirmedRevenue);
+              render_sameDayShips(d.percent_sameDayShips);
+              // $('#percent_sameDayShips').text(d.percent_sameDayShips+'%');
+              $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.percent_sameDayShips+'%');
+              render_CSconfirmed(d.percent_CSconfirmed);
+              // $('#percent_CSconfirmed').text(d.percent_CSconfirmed+'%');
+              $('#percent_CSconfirmed2').text("CONFIRMATION "+d.percent_CSconfirmed+'%');
+
 
             },
             error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); } 
@@ -597,7 +603,7 @@
           <div class="col-sm-4 col-md-12">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
-              <!-- <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
+             <!--  <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
                 
                 <span class="text-xlg"><strong>28</strong><span class="text-lg text-slim">%</span></span><br>
                 
@@ -631,12 +637,12 @@
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg"> LOGISTICS </div>
-            <div  class="status_per"><span id="percent_sameDayShips" class="status_text"></span> </div>
-            <span  class="xlheading">SAME DAY SHIPS </span>
+            <div  id="chart_sameDayShips" class="status_per" style="background: #ffffff"><span id="percent_sameDayShips" class="status_text"></span> </div>
+            <span  id="percent_sameDayShips2" class="xlheading">SAME DAY SHIPS </span>
             <ul class="status_more">
-              <li>28.18</li>
+              <!-- <li>28.18</li>
               <li><img src="<?php //echo base_url(); ?>assets/images/template/green-arrow.png"/></li>
-              <li>0.27%</li>
+              <li>0.27%</li> -->
             </ul>
           </div>
 
@@ -647,12 +653,12 @@
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg">CUSTOMER SUPPORT</div>
-            <div id="percent_CSconfirmed" class="status_per status_per_green"> <span class="status_text">63%</span> </div>
-            <span class="xlheading">CONFIRMATION</span>
+            <div id="percent_CSconfirmed" class="status_per status_per_green" style="background: #ffffff"> <span class="status_text"></span> </div>
+            <span id="percent_CSconfirmed2" class="xlheading">CONFIRMATION</span>
             <ul class="status_more">
-              <li>28.18</li>
+             <!--  <li>28.18</li>
               <li><img src="<?php// echo base_url(); ?>assets/images/template/red-arrow.png"/></li>
-              <li>-0.34%</li>
+              <li>-0.34%</li> -->
             </ul>
           </div>
 
@@ -995,6 +1001,93 @@ function render_salesGraph (obj)
         }]
     });
  
+}
+
+
+
+function render_sameDayShips (arg)
+{
+  
+    $('#chart_sameDayShips').highcharts({
+      exporting: { enabled: false },
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            data: [
+                ['Shipped',   arg],
+                ['Pending Shipment', 100-arg]
+               
+            ]
+        }]
+    });
+
+}
+
+
+function render_CSconfirmed (arg)
+{
+  
+    $('#percent_CSconfirmed').highcharts({
+      exporting: { enabled: false },
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            data: [
+                ["PnP",0],
+                ["RTS",0],
+                ['Confirmed',   arg],
+                ['Pending', 100-arg]
+               
+            ]
+        }]
+    });
+
 }
 
 </script>
