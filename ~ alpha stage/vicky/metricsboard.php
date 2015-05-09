@@ -74,6 +74,19 @@
             {
               console.log('static ajax:');
               console.log(d);
+
+              /*
+              count_CSconfirmed: 31
+              count_sameDayShips: 29
+              count_yesterdaysOrders: 168
+              percent_CSconfirmed: 44.927536231884
+              percent_sameDayShips: 93.548387096774
+              todaysConfirmedRevenue: 551118.98
+              */
+              $('#totoal_revenue').text(d.todaysConfirmedRevenue);
+              $('#todaysConfirmedRevenue').text('Rs.'+d.todaysConfirmedRevenue);
+              $('#percent_sameDayShips').text(d.percent_sameDayShips);
+
             },
             error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); } 
           });
@@ -600,11 +613,11 @@
           <div class="col-sm-4 col-md-12">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
-             <!--  <div class="stat-cell valign-middle align_center"> <span class="text-bg">TOTAL CONFIRMED REVENUE</span><br>
-                <div class="totoal_revenue">Rs.245,967</div>
+              <div class="stat-cell valign-middle align_center"> <span class="text-bg">TOTAL CONFIRMED REVENUE</span><br>
+                <div id="todaysConfirmedRevenue" class="totoal_revenue"></div>
                 
            
-              </div> -->
+              </div>
               <!-- /.stat-panel --> 
             </div>
           </div>
@@ -612,13 +625,14 @@
       </div>
     </div>
     <div class="row">
- <!--      <div class="col-xs-3"> 
-        <
+      <div class="col-xs-3"> 
+        
+
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg"> LOGISTICS </div>
-            <div class="status_per"> <span class="status_text">87%</span> </div>
-            <span class="xlheading">SAME DAY SHIPS </span>
+            <div  class="status_per"><span id="percent_sameDayShips" class="status_text"></span> </div>
+            <span  class="xlheading">SAME DAY SHIPS </span>
             <ul class="status_more">
               <li>28.18</li>
               <li><img src="<?php //echo base_url(); ?>assets/images/template/green-arrow.png"/></li>
@@ -628,12 +642,12 @@
 
         </div>
 
-      </div> -->
-      <!-- <div class="col-xs-3"> 
+      </div>
+      <div class="col-xs-3"> 
         <div class="stat-panel text-center">
           <div class="stat-cell valign-middle align_center">
             <div class="text-bg">CUSTOMER SUPPORT</div>
-            <div class="status_per status_per_green"> <span class="status_text">63%</span> </div>
+            <div id="percent_CSconfirmed" class="status_per status_per_green"> <span class="status_text">63%</span> </div>
             <span class="xlheading">CONFIRMATION</span>
             <ul class="status_more">
               <li>28.18</li>
@@ -644,7 +658,7 @@
 
         </div>
 
-      </div> -->
+      </div>
       <div class="col-xs-3"> 
       <?php 
         $hours = 24;
@@ -898,6 +912,17 @@
 </script>
 <script>
 
+function getXaxisPoints(arr){ 
+  var ret= [];
+
+  for (i = 0; i < arr.length-1 ; i++) 
+  { 
+      // text += cars[i] + "<br>";
+    ret.push(arr[i]+'-<br>'+arr[i+1]);
+  }
+
+  return ret;
+};
 
 function render_salesGraph (obj)
 {
@@ -912,7 +937,7 @@ function render_salesGraph (obj)
             text: ''
         },
         xAxis: {
-            categories: obj.xAxis
+            categories: getXaxisPoints(obj.xAxis)
         },
         labels: {
             items: [{

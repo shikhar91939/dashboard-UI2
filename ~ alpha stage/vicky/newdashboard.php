@@ -24,11 +24,176 @@ class Newdashboard extends CI_Controller {
     }
 
     public function getData_staticElements()
+   {
+
+      $response_today = $this->getTodaysData();
+      echo json_encode($response_today);
+    }
+
+    public function getTodaysData()
     {
-      echo json_encode(array(1=>2));
-
-
+      /*
+      Get all data related to the SOAP API function called here (The aim is to run it only once)
+      */
+      date_default_timezone_set('Asia/Kolkata');
+    
+      $yesterday = date('Y-m-d 00:00:00', strtotime("yesterday"));
+      $now =  date('Y-m-d H:i:s', strtotime("now"));
+      $dayBeforeYest = date('Y-m-d H:i:s', strtotime("-2 days midnight")) ;
+      // var_dump($now);echo "now ";echo "<br>";
+      // var_dump($dayBeforeYest);echo "day bef yest ";
+      // die;
       
+      try 
+      {
+        $client = new SoapClient('http://www.overcart.com/index.php/api/v2_soap?wsdl');
+        $session = $client->login('dashbaord', 'jn0ar9t6j2cysb9lywbwk0bimft9l1ce');
+
+        $params = array('complex_filter'=>
+          array(
+              array('key'=>'created_at','value'=>array('key' =>'from','value' => $dayBeforeYest)), //taking dayBeforeYesterday to avoid missing yesterday's orders due to time zone difference
+              array('key'=>'created_at', 'value'=>array('key' => 'to', 'value' => $now))
+            )
+        );
+        $ordersList = $client->salesOrderList($session,$params);
+
+
+      } catch (SoapFault $fault) {
+            trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
+        }
+
+        //   echo "<pre>";
+        // foreach ($ordersList as $order) 
+        // {
+        //   echo $order->increment_id;
+        //   echo " . ";
+        //   echo $order->created_at;
+        //   $state = $order->state;
+        //   $status = $order->status;
+        //   // echo " | <strong>".$state.'</strong> -> <em>'.$status.' </em><br>';
+        //   echo ", <strong>".$state.'</strong> , <em>'.$status.' </em><br>';
+        // }die;
+        $today_timeStamp = strtotime("today");
+        $yesterday_timeStamp = strtotime("-2 days midnight");
+        $today = date('Y-m-d H:i:s',$today_timeStamp);
+
+        // echo $today.'<hr>';
+
+      $count_yesterdaysOrders= 0;
+      $count_todaysOrders =0;
+      $count_sameDayShips =0;
+      $count_CSconfirmed =0;
+      $todaysConfirmedRevenue =0;
+      $array_pendingStates = array('pending_payment','canceled' );
+      $array_pendingStatus = array('pending','processing', 'canceled');
+      $orderValue = 0;
+
+      foreach ($ordersList as $order)
+      {
+        //looping through each order starting yesterday and till now      
+        $order_timeStamp = strtotime(" + 330 minutes", strtotime($order->created_at)) ;
+        $order_time = date('Y-m-d H:i:s',strtotime(" + 330 minutes", strtotime($order->created_at))) ;
+        // echo "<br/>".$order->increment_id. " - created at ". $order->created_at ." - order_time=$order_time"; echo "<br>          ";
+
+        $orderValue = $order->grand_total;
+        $state = $order->state;
+        $status = $order->status;
+
+        if ($order_timeStamp >= $yesterday_timeStamp && $order_timeStamp < $today_timeStamp) //all yesterday's 
+        {
+          $count_yesterdaysOrders++;
+        }
+        elseif ($order_timeStamp >= $today_timeStamp) // if its today's order
+        {
+          // echo "  " .", <strong>".$state.'</strong> , <em>'.$status.' </em>';
+          if ($state === 'complete') // Its been shipped today
+          {
+            $count_sameDayShips ++;
+            // echo "<br>Same day ship:<span style=\"font-size:25px;\"></span>";
+          }
+          if ( in_array($state, $array_pendingStates) || in_array($status, $array_pendingStatus))  
+          {
+            // echo "<strong>Pending</strong>";
+            $count_CSconfirmed ++;
+            $todaysConfirmedRevenue
+             += $orderValue;
+          }
+          // else//debugging only
+          //   echo "<strong>Confirmed </strong>";
+          // if (in_array($state, $array_pendingStates)) echo ' in_array($state, $array_pendingStates)' ;
+          // if (in_array($status, $array_pendingStatus)) echo ' in_array($status, $array_pendingStatus)' ;
+          
+          $count_todaysOrders ++;
+        }
+        else //for debugging: to see if any of the ignored orders are today's
+        {
+          // echo "  yesterday's order<br/>  ".  date('Y-m-d H:i:s',$order_timeStamp) ."<".  date('Y-m-d H:i:s',$today_timeStamp)."   <hr>";
+        }
+  
+        // echo "<hr>";
+      }//end of foreach $ordersList as $order
+
+      $percent_sameDayShips=  $count_sameDayShips /$count_CSconfirmed * 100;
+      $percent_CSconfirmed= $count_CSconfirmed / $count_todaysOrders *100;
+      //fomatting data before sending
+      $percent_sameDayShips = floor($percent_sameDayShips);
+      $percent_CSconfirmed = floor($percent_CSconfirmed);
+      $todaysConfirmedRevenue = $this->moneyFormatIndia($todaysConfirmedRevenue);
+      
+      $returnArray = array('count_sameDayShips'=>$count_sameDayShips, 'count_CSconfirmed'=>$count_CSconfirmed,'todaysConfirmedRevenue' =>$todaysConfirmedRevenue, 'percent_sameDayShips'=> $percent_sameDayShips,'percent_CSconfirmed'=> $percent_CSconfirmed, 'count_yesterdaysOrders' => $count_yesterdaysOrders);
+
+      // echo "<pre>";
+      // var_dump($returnArray); die;
+      return $returnArray;
+    }
+
+    function moneyFormatIndia($num)
+    {
+      $explrestunits = "" ;
+      if(strlen($num)>3){
+          $lastthree = substr($num, strlen($num)-3, strlen($num));
+          $restunits = substr($num, 0, strlen($num)-3); // extracts the last three digits
+          $restunits = (strlen($restunits)%2 == 1)?"0".$restunits:$restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
+          $expunit = str_split($restunits, 2);
+          for($i=0; $i<sizeof($expunit); $i++){
+              // creates each of the 2's group and adds a comma to the end
+              if($i==0)
+              {
+                  $explrestunits .= (int)$expunit[$i].","; // if is first value , convert into integer
+              }else{
+                  $explrestunits .= $expunit[$i].",";
+              }
+          }
+          $thecash = $explrestunits.$lastthree;
+      } else {
+          $thecash = $num;
+      }
+      return $thecash; // writes the final format where $currency is the currency symbol.
+    }
+
+    public function appendInFile()
+    { 
+      // try{
+      //   echo "hello<br>";
+      //   $file = "/var/www/bootstrapp/vicky/returnfromupload/testFile.txt";
+      //   $fh = fopen($myFile, 'a') or die("can't open file");
+      //   fwrite($fh, "stringasasas");
+      //   fclose($fh);
+      //   echo "appended in file";
+      // }
+      // catch (Exception $e) {
+      // die ('exception in file writing: ' . $e->getMessage());
+      // }
+
+      // try {
+      //   $fileRead = "/var/www/bootstrapp/vicky/apiCall.php";
+      //   // $frh = fopen($fileRead, 'r');
+      //   $contents= file_get_contents($fileRead, true);
+      //   var_dump($contents);
+
+      // } catch (Exception $e) {
+      //   die ('exception in file reading: ' . $e->getMessage());
+      // }
     }
   public function submitDateRange()
     {
@@ -109,7 +274,7 @@ class Newdashboard extends CI_Controller {
     // echo json_encode($response_combined);
     }
 
-    public function getSalesData($start_ymd = "2015-05-02 00:00:00" , $end_ymd ="2015-05-08 00:00:00", $divisions_xAxis =5)
+    public function getSalesData($start_ymd = null , $end_ymd =null , $divisions_xAxis =5)
     {
 
       date_default_timezone_set('Asia/Kolkata');
