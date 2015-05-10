@@ -174,6 +174,7 @@ class Newdashboard extends CI_Controller {
       $monthlyConfirmedRevenue = floor($monthlyConfirmedRevenue);
       $monthlyConfirmedRevenue = $this->moneyFormatIndia($monthlyConfirmedRevenue);
       $percent_monthlySalesTarget = number_format((float)$percent_monthlySalesTarget, 2, '.', ''); // gives a string value with 2 places after decimal
+      $thisMonthsTarget = $this->moneyFormatIndia($thisMonthsTarget);
       
       $returnArray = array('count_sameDayShips'=>$count_sameDayShips, 'count_CSconfirmed'=>$count_CSconfirmed,'todaysConfirmedRevenue' =>$todaysConfirmedRevenue, 'percent_sameDayShips'=> $percent_sameDayShips,'percent_CSconfirmed'=> $percent_CSconfirmed, 'count_yesterdaysOrders' => $count_yesterdaysOrders ,'thisMonthsTarget'=> $thisMonthsTarget,'monthlyConfirmedRevenue'=> $monthlyConfirmedRevenue,'percent_monthlySalesTarget'=> $percent_monthlySalesTarget);
 

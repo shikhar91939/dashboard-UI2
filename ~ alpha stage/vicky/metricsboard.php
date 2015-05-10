@@ -43,16 +43,24 @@
     var defaultDateRange = $("#selector_dateRange").val();
     initializePage(defaultDateRange);
     
+    $(function() { 
+          $("#selector_dateRange").daterangepicker({
+             onChange: function() { 
+              console.log('change') ;
+              // alert("Selected range is: ");
+              var selectedRange = $("#selector_dateRange").val();
+
+              console.log("selectedRange:");
+              console.log(selectedRange);
+              // $('#subText').text(selectedRange);
+              renderAll_rangeDependant(selectedRange);
+            }
+          }); 
+        });
 
     $("#submit_dateRange").click(function () 
       {
-        // alert("Selected range is: ");
-        var selectedRange = $("#selector_dateRange").val();
-
-        console.log("selectedRange:");
-        console.log(selectedRange);
-        // $('#subText').text(selectedRange);
-        renderAll_rangeDependant(selectedRange);
+       
 
       });
     
@@ -95,7 +103,7 @@
               console.log("confirmed:");
               console.log(d.percent_CSconfirmed);
               $('#totoal_revenue').text(d.todaysConfirmedRevenue);
-              $('#todaysConfirmedRevenue').text('Rs. '+d.todaysConfirmedRevenue);
+              $('#todaysConfirmedRevenue').text('Rs. '+d.monthlyConfirmedRevenue);
               render_sameDayShips(d.percent_sameDayShips);
               // $('#percent_sameDayShips').text(d.percent_sameDayShips+'%');
               $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.percent_sameDayShips+'%');
@@ -105,6 +113,7 @@
               render_MonthlyGuage(d.percent_monthlySalesTarget);
               console.log("percent_monthlySalesTarget:");
               console.log(d.percent_monthlySalesTarget);
+              $('#thisMonthsTarget').text("TARGET: Rs."+ d.thisMonthsTarget);  // change "$thisMonthsTarget" in the newdashboard controller in getData_SoapApi() function
 
 
             },
@@ -434,7 +443,7 @@
         <div class="col-xs-12 col-sm-4">
           <div class="row" style="text-align:right"> 
            <input id="selector_dateRange" name="selector_dateRange" style="padding-right:8px" >
-           <input type="button" class="btn btn-primary" id="submit_dateRange" value="Submit">
+           <!-- <input type="button" class="btn btn-primary" id="submit_dateRange" value="Submit"> -->
           </div>
         </div>
       </div>
@@ -619,12 +628,13 @@
               <!-- Danger background, vertically centered text -->
               <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
                 
-                <span id="targetPercent_text" class="text-xlg"><strong>28</strong><span class="text-lg text-slim">%</span></span><br>
+                <!-- <span class="text-xlg"><strong></strong><span class="text-lg text-slim"></span></span><br> -->
                 
                 <div class="monthly_report">
 
                 <div id="targetPercent_guage" style="width: 350PX; height: 200px; float: left"></div>
-                  <div class="min_max_report"> <span class="min">Minimum</span><span class="max">Maximum</span> </div>
+                <span id="thisMonthsTarget" class="text-bg">TARGET: </span>
+                  <!-- <div class="min_max_report"> <span class="min">Minimum</span><span class="max">Maximum</span> </div> -->
                 </div>
                 
                 
@@ -635,7 +645,7 @@
           <div class="col-sm-4 col-md-12">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
-              <div class="stat-cell valign-middle align_center"> <span class="text-bg">TOTAL CONFIRMED REVENUE</span><br>
+              <div class="stat-cell valign-middle align_center"> <span class="text-bg">MONTH'S CONFIRMED REVENUE</span><br>
                 <div id="todaysConfirmedRevenue" class="totoal_revenue"></div>
                 
            
@@ -1109,6 +1119,12 @@ function render_MonthlyGuage(arg) {
 
   console.log("in function render_MonthlyGuage:");
   console.log(arg);
+  console.log(arg);
+
+  var a = parseFloat(arg);
+
+  console.log("after parseFloat render_MonthlyGuage:");
+  console.log(a);
     var gaugeOptions = {
       exporting: { enabled: false },
         chart: {
@@ -1181,7 +1197,7 @@ function render_MonthlyGuage(arg) {
 
         series: [{
             name: 'Target Percentage',
-            data: [arg],
+            data: [a],
             dataLabels: {
                 format: '<div style="text-align:center"><span style="font-size:25px;color:' +
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
