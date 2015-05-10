@@ -16,17 +16,12 @@
 <script src="<?php echo base_url(); ?>assets/js/template/moment.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/template/jquery.comiseo.daterangepicker.js"></script>
 
-<!--<script src="<?php// echo base_url(); ?>assets/js/template/amExtract/amcharts/amcharts.js" type="text/javascript"></script>--><!-- bar chart -->
-<!--<script src="<?php// echo base_url(); ?>assets/js/template/amExtract/amcharts/serial.js" type="text/javascript"></script>--><!-- bar chart -->
-<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>--><!-- stacked -->
-<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>--><!-- stacked -->
-<!--<script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script>--><!-- stacked -->
-
 <script src="http://code.highcharts.com/highcharts.js"></script><!-- highCharts: stacked graph -->
 <script src="http://code.highcharts.com/modules/exporting.js"></script><!-- highCharts: stacked graph -->
 <script src="http://code.highcharts.com/highcharts-more.js"></script><!-- Solid guage chart for monthly target -->
 <script src="http://code.highcharts.com/modules/solid-gauge.js"></script><!-- Solid guage chart for monthly target -->
-<!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> --><!-- highCharts: stacked graph -->
+
+
 </script>
 <script>
   var baseUrl = <?php echo'"'.base_url().'"' ;?>;
