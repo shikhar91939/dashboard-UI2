@@ -1,4 +1,4 @@
-<?php
+ <?php
 class Newdashboard extends CI_Controller {
  
     /**
@@ -26,22 +26,35 @@ class Newdashboard extends CI_Controller {
     public function getData_staticElements()
    {
 
-      $response_today = $this->getTodaysData();
-      echo json_encode($response_today);
+      $responseArray = $this->getData_SoapApi();
+      $responseArray['month_confirmedRevenue'] = 113442;
+
+      echo json_encode($responseArray);
     }
 
-    public function getTodaysData()
+    public function getData_SoapApi()
     {
       /*
-      Get all data related to the SOAP API function called here (The aim is to run it only once)
+      Get all data related to the SOAP API function called here 
       */
       date_default_timezone_set('Asia/Kolkata');
     
       $yesterday = date('Y-m-d 00:00:00', strtotime("yesterday"));
       $now =  date('Y-m-d H:i:s', strtotime("now"));
       $dayBeforeYest = date('Y-m-d H:i:s', strtotime("-2 days midnight")) ;
+      $monthStart =  date('Y-m-d H:i:s', strtotime("first day of this month midnight")) ;  //never set to $from . though $monthStart_minus1  is
+      $monthStart_minus1 =  date('Y-m-d H:i:s', strtotime("last day of previous month midnight")) ;   //taking a margin of one day so that Orders are not missed due to time diff.
+
+      $to = $now;
+      $from = $monthStart_minus1; // from is set to monthStart OR dayBeforeYest depending upon whichever comes first
+      if (strtotime("first day of this month midnight") > strtotime("-2 days midnight") ) 
+      {
+        $from = $dayBeforeYest;        
+      }
+
       // var_dump($now);echo "now ";echo "<br>";
-      // var_dump($dayBeforeYest);echo "day bef yest ";
+      // var_dump($dayBeforeYest);echo "day bef yest ";echo "<br>";
+      // var_dump($monthStart_minus1);echo "month Start";
       // die;
       
       try 
@@ -51,8 +64,8 @@ class Newdashboard extends CI_Controller {
 
         $params = array('complex_filter'=>
           array(
-              array('key'=>'created_at','value'=>array('key' =>'from','value' => $dayBeforeYest)), //taking dayBeforeYesterday to avoid missing yesterday's orders due to time zone difference
-              array('key'=>'created_at', 'value'=>array('key' => 'to', 'value' => $now))
+              array('key'=>'created_at','value'=>array('key' =>'from','value' => $from)), //taking dayBeforeYesterday to avoid missing yesterday's orders due to time zone difference
+              array('key'=>'created_at', 'value'=>array('key' => 'to', 'value' => $to))
             )
         );
         $ordersList = $client->salesOrderList($session,$params);
@@ -73,31 +86,46 @@ class Newdashboard extends CI_Controller {
         //   // echo " | <strong>".$state.'</strong> -> <em>'.$status.' </em><br>';
         //   echo ", <strong>".$state.'</strong> , <em>'.$status.' </em><br>';
         // }die;
-        $today_timeStamp = strtotime("today");
+        $monthStart_timeStamp = strtotime("first day of this month midnight");
         $yesterday_timeStamp = strtotime("-2 days midnight");
+        $today_timeStamp = strtotime("today");
         $today = date('Y-m-d H:i:s',$today_timeStamp);
 
         // echo $today.'<hr>';
 
+      $count_monthsOrders =0;
+      $monthlyCount_CSconfirmed =0;
+      $monthlyConfirmedRevenue = 0;
       $count_yesterdaysOrders= 0;
       $count_todaysOrders =0;
       $count_sameDayShips =0;
       $count_CSconfirmed =0;
       $todaysConfirmedRevenue =0;
-      $array_pendingStates = array('pending_payment','canceled' );
+      $array_pendingStates = array('pending_payment','canceled');
       $array_pendingStatus = array('pending','processing', 'canceled');
       $orderValue = 0;
 
       foreach ($ordersList as $order)
       {
-        //looping through each order starting yesterday and till now      
+        //looping through each order starting this monthStart (Or DayBefYesterday if it comes first) and till now      
         $order_timeStamp = strtotime(" + 330 minutes", strtotime($order->created_at)) ;
         $order_time = date('Y-m-d H:i:s',strtotime(" + 330 minutes", strtotime($order->created_at))) ;
-        // echo "<br/>".$order->increment_id. " - created at ". $order->created_at ." - order_time=$order_time"; echo "<br>          ";
+        // echo "<br/>".$order->increment_id. " - created at ". $order->created_at ." - order_time=$order_time"; echo "<br>";//debugging line
 
         $orderValue = $order->grand_total;
         $state = $order->state;
         $status = $order->status;
+        if ($order_timeStamp >= $monthStart_timeStamp) //if its this month's order
+        {
+          // echo "Month order";//debugging line
+          if ( ! ( in_array($state, $array_pendingStates) || in_array($status, $array_pendingStatus))) // is the order is NOT pending
+          {
+            $monthlyCount_CSconfirmed ++;
+            $monthlyConfirmedRevenue += $orderValue;
+          }
+
+          $count_monthsOrders++;
+        }
 
         if ($order_timeStamp >= $yesterday_timeStamp && $order_timeStamp < $today_timeStamp) //all yesterday's 
         {
@@ -105,43 +133,49 @@ class Newdashboard extends CI_Controller {
         }
         elseif ($order_timeStamp >= $today_timeStamp) // if its today's order
         {
-          // echo "  " .", <strong>".$state.'</strong> , <em>'.$status.' </em>';
+          // echo "  " .", <strong>".$state.'</strong> , <em>'.$status.' </em>';//debugging line
           if ($state === 'complete') // Its been shipped today
           {
             $count_sameDayShips ++;
             // echo "<br>Same day ship:<span style=\"font-size:25px;\"></span>";
           }
-          if ( in_array($state, $array_pendingStates) || in_array($status, $array_pendingStatus))  
+          if ( ! ( in_array($state, $array_pendingStates) || in_array($status, $array_pendingStatus)))  //if the order is NOT pending
           {
-            // echo "<strong>Pending</strong>";
+            // echo "<strong>Confirmed</strong>";
             $count_CSconfirmed ++;
-            $todaysConfirmedRevenue
-             += $orderValue;
+            $todaysConfirmedRevenue += $orderValue;
           }
           // else//debugging only
-          //   echo "<strong>Confirmed </strong>";
+          //   echo "<strong>Pending </strong>";
           // if (in_array($state, $array_pendingStates)) echo ' in_array($state, $array_pendingStates)' ;
           // if (in_array($status, $array_pendingStatus)) echo ' in_array($status, $array_pendingStatus)' ;
           
           $count_todaysOrders ++;
         }
-        else //for debugging: to see if any of the ignored orders are today's
-        {
-          // echo "  yesterday's order<br/>  ".  date('Y-m-d H:i:s',$order_timeStamp) ."<".  date('Y-m-d H:i:s',$today_timeStamp)."   <hr>";
-        }
+        // else //for debugging: to see if any of the ignored orders are today's
+        // {
+        //   // echo "  yesterday's order<br/>  ".  date('Y-m-d H:i:s',$order_timeStamp) ."<".  date('Y-m-d H:i:s',$today_timeStamp)."   <hr>";
+        // }
   
         // echo "<hr>";
       }//end of foreach $ordersList as $order
 
-      $percent_sameDayShips=  $count_sameDayShips /$count_CSconfirmed * 100;
+      $percent_sameDayShips=  $count_sameDayShips /$count_CSconfirmed *100;
       $percent_CSconfirmed= $count_CSconfirmed / $count_todaysOrders *100;
+      $thisMonthsTarget = 12000000;   // Change this value to current month's sales target (in Rs.)
+      $percent_monthlySalesTarget = $monthlyConfirmedRevenue / $thisMonthsTarget *100;
+
       //fomatting data before sending
       $percent_sameDayShips = floor($percent_sameDayShips);
       $percent_CSconfirmed = floor($percent_CSconfirmed);
+      // $percent_CSconfirmed = floor($percent_CSconfirmed);
       $todaysConfirmedRevenue = floor($todaysConfirmedRevenue);
       $todaysConfirmedRevenue = $this->moneyFormatIndia($todaysConfirmedRevenue);
+      $monthlyConfirmedRevenue = floor($monthlyConfirmedRevenue);
+      $monthlyConfirmedRevenue = $this->moneyFormatIndia($monthlyConfirmedRevenue);
+      $percent_monthlySalesTarget = number_format((float)$percent_monthlySalesTarget, 2, '.', ''); // gives a string value with 2 places after decimal
       
-      $returnArray = array('count_sameDayShips'=>$count_sameDayShips, 'count_CSconfirmed'=>$count_CSconfirmed,'todaysConfirmedRevenue' =>$todaysConfirmedRevenue, 'percent_sameDayShips'=> $percent_sameDayShips,'percent_CSconfirmed'=> $percent_CSconfirmed, 'count_yesterdaysOrders' => $count_yesterdaysOrders);
+      $returnArray = array('count_sameDayShips'=>$count_sameDayShips, 'count_CSconfirmed'=>$count_CSconfirmed,'todaysConfirmedRevenue' =>$todaysConfirmedRevenue, 'percent_sameDayShips'=> $percent_sameDayShips,'percent_CSconfirmed'=> $percent_CSconfirmed, 'count_yesterdaysOrders' => $count_yesterdaysOrders ,'thisMonthsTarget'=> $thisMonthsTarget,'monthlyConfirmedRevenue'=> $monthlyConfirmedRevenue,'percent_monthlySalesTarget'=> $percent_monthlySalesTarget);
 
       // echo "<pre>";
       // var_dump($returnArray); die;
@@ -291,7 +325,9 @@ class Newdashboard extends CI_Controller {
                   // echo "<pre>";
                   // var_dump($timeSplits);
                   // echo "</pre>";die;
-      $returnArray['xAxis'] = $timeSplits[1];
+      $returnArray['xAxis'] = $timeSplits[2];
+      // echo "<pre>";
+      // var_dump($returnArray);die;
 
       try 
       {
@@ -458,10 +494,12 @@ class Newdashboard extends CI_Controller {
 
       $timestamp_Array=null;// timestamp array of intervals
       $ymd_Array=null;// YearMonthDay format array of intervals
+      $readable_Array=null;// easy to read format; to be used on the xAxis on the graph
       for($i=0; $i<=$intervals ; $i++):
         $next_timeStamp=  $start_timeStamp + ($i * $interval_seconds);
         $timestamp_Array[] = $next_timeStamp;
         $ymd_Array[] =  date('Y-m-d H:i:s', $next_timeStamp);
+        $readable_Array[] = date('H:i, d M', $next_timeStamp);
       endfor;
 
       // echo "<pre>";
@@ -472,7 +510,7 @@ class Newdashboard extends CI_Controller {
       // echo "</pre>";                  // as A matches B, we can say strtotime() converts 'Y-m-d H:i:s' back to timestamp with loss of less than 1 second each time
 
 
-      $returnArray = array($timestamp_Array, $ymd_Array);      
+      $returnArray = array($timestamp_Array, $ymd_Array, $readable_Array);      
 
       /*
       _DataStrucue Map_
@@ -483,6 +521,7 @@ class Newdashboard extends CI_Controller {
       {
         array=>{ [timeStamp1]                 ,[timeStamp2]                 ,  ... [timeStamp5]                  }
         array=>{ ['Y-m-d H:i:s' of timeStamp1],['Y-m-d H:i:s' of timeStamp2],  ... ['Y-m-d H:i:s' of timeStamp5] }    
+        array=>{ ['m d' of timeStamp1],        ['m d' of timeStamp2],          ... ['m d' of timeStamp5]         }    
       }
       */
       return $returnArray;

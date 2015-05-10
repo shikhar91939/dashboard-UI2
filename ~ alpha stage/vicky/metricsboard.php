@@ -24,6 +24,8 @@
 
 <script src="http://code.highcharts.com/highcharts.js"></script><!-- highCharts: stacked graph -->
 <script src="http://code.highcharts.com/modules/exporting.js"></script><!-- highCharts: stacked graph -->
+<script src="http://code.highcharts.com/highcharts-more.js"></script><!-- Solid guage chart for monthly target -->
+<script src="http://code.highcharts.com/modules/solid-gauge.js"></script><!-- Solid guage chart for monthly target -->
 <!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> --><!-- highCharts: stacked graph -->
 </script>
 <script>
@@ -76,13 +78,22 @@
               console.log(d);
 
               /*
-              count_CSconfirmed: 31
-              count_sameDayShips: 29
-              count_yesterdaysOrders: 168
-              percent_CSconfirmed: 44.927536231884
-              percent_sameDayShips: 93.548387096774
-              todaysConfirmedRevenue: 551118.98
+                  "count_sameDayShips": 0,
+                  "count_CSconfirmed": 19,
+                  "todaysConfirmedRevenue": "85,926",
+                  "percent_sameDayShips": 0,
+                  "percent_CSconfirmed": 57,
+                  "count_yesterdaysOrders": 153,
+                  "thisMonthsTarget": 12000000,
+                  "monthlyConfirmedRevenue": "30,51,156",
+                  "percent_monthlySalesTarget": "25.43",
+                  "month_confirmedRevenue": 113442
               */
+
+              $('#count_CSconfirmed').text(d.count_CSconfirmed);
+              $('#text_percentCSconfirmed').text(d.percent_CSconfirmed);
+              console.log("confirmed:");
+              console.log(d.percent_CSconfirmed);
               $('#totoal_revenue').text(d.todaysConfirmedRevenue);
               $('#todaysConfirmedRevenue').text('Rs. '+d.todaysConfirmedRevenue);
               render_sameDayShips(d.percent_sameDayShips);
@@ -91,6 +102,9 @@
               render_CSconfirmed(d.percent_CSconfirmed);
               // $('#percent_CSconfirmed').text(d.percent_CSconfirmed+'%');
               $('#percent_CSconfirmed2').text("CONFIRMATION "+d.percent_CSconfirmed+'%');
+              render_MonthlyGuage(d.percent_monthlySalesTarget);
+              console.log("percent_monthlySalesTarget:");
+              console.log(d.percent_monthlySalesTarget);
 
 
             },
@@ -588,8 +602,8 @@
         <div class="stat-panel">
           <div class="stat-row">
             <div class="padding-sm-hr-custom">
-              <div class="row"> <span class="order_total_count">147</span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
-                56% OF BOOKED ORDERS</span> </div>
+              <div class="row"> <span id="count_CSconfirmed" class="order_total_count"></span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
+                <span  id="text_percentCSconfirmed" ></span>% OF BOOKED ORDERS</span> </div>
               <!-- <img src="<?php //echo base_url(); ?>assets/images/template/chart.jpg"/>  -->
               <div id="chartdiv" style="width: 100%; height: 550px;"><br/></div>
               </div>
@@ -603,16 +617,18 @@
           <div class="col-sm-4 col-md-12">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
-             <!--  <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
+              <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
                 
-                <span class="text-xlg"><strong>28</strong><span class="text-lg text-slim">%</span></span><br>
+                <span id="targetPercent_text" class="text-xlg"><strong>28</strong><span class="text-lg text-slim">%</span></span><br>
                 
-                <div class="monthly_report"> <img src="<?php// echo base_url(); ?>assets/images/template/monthly_target.jpg"/>
+                <div class="monthly_report">
+
+                <div id="targetPercent_guage" style="width: 350PX; height: 200px; float: left"></div>
                   <div class="min_max_report"> <span class="min">Minimum</span><span class="max">Maximum</span> </div>
                 </div>
                 
                 
-              </div> -->
+              </div>
               <!-- /.stat-panel --> 
             </div>
           </div>
@@ -822,8 +838,7 @@
       </div>
     </div>
     <!-- put/insert divs here (for temporary graphs) -->
-        <div id="temp_dynamic" style="min-width: 310px; height: 400px; margin: 0 auto ;border:1px solid black; display:none; "></div>
-        <div id="dumpDiv"></div>
+        <!-- <div id="targetPercent_guage" style="width: 300px; height: 200px; float: left"></div> -->
   </div>
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>
@@ -924,7 +939,7 @@ function getXaxisPoints(arr){
   for (i = 0; i < arr.length-1 ; i++) 
   { 
       // text += cars[i] + "<br>";
-    ret.push(arr[i]+'-<br>'+arr[i+1]);
+    ret.push(arr[i]+' -<br>'+arr[i+1]);
   }
 
   return ret;
@@ -1087,6 +1102,97 @@ function render_CSconfirmed (arg)
             ]
         }]
     });
+
+}
+
+function render_MonthlyGuage(arg) {
+
+  console.log("in function render_MonthlyGuage:");
+  console.log(arg);
+    var gaugeOptions = {
+      exporting: { enabled: false },
+        chart: {
+            type: 'solidgauge'
+        },
+
+        title: null,
+
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+
+        tooltip: {
+            enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+            stops: [
+                [0.25, '#2574A9'], // blue
+                [0.60, '#2ECC71'], // green
+                [0.60, '#F9690E'], // orange
+                [0.9, '#DF5353'] // red
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+            title: {
+                y: -70
+            },
+            labels: {
+                y: 16
+            }
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    };
+
+    // The speed gauge
+    $('#targetPercent_guage').highcharts(Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 0,
+            max: 100,// This month's Target 
+            title: {
+                text: ''/'Target Percentage'
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Target Percentage',
+            data: [arg],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
+                       '<span style="font-size:12px;color:silver"></span></div>'
+            },
+            tooltip: {
+                valueSuffix: '%'
+            }
+        }]
+
+    }));
 
 }
 
