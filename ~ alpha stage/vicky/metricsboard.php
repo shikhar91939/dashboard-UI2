@@ -81,16 +81,19 @@
               console.log(d);
 
               /*
+              d = 
+              {
                   "count_sameDayShips": 0,
-                  "count_CSconfirmed": 19,
-                  "todaysConfirmedRevenue": "85,926",
+                  "count_CSconfirmed": 9,
+                  "todaysConfirmedRevenue": "52,631",
                   "percent_sameDayShips": 0,
-                  "percent_CSconfirmed": 57,
-                  "count_yesterdaysOrders": 153,
-                  "thisMonthsTarget": 12000000,
-                  "monthlyConfirmedRevenue": "30,51,156",
-                  "percent_monthlySalesTarget": "25.43",
-                  "month_confirmedRevenue": 113442
+                  "percent_CSconfirmed": 64,
+                  "percent_CScancelled": 14,
+                  "count_yesterdaysOrders": 127,
+                  "thisMonthsTarget": "1,20,00,000",
+                  "monthlyConfirmedRevenue": "31,49,902",
+                  "percent_monthlySalesTarget": "26.25"
+              }
               */
 
               $('#count_CSconfirmed').text(d.count_CSconfirmed);
@@ -102,7 +105,7 @@
               render_sameDayShips(d.percent_sameDayShips);
               // $('#percent_sameDayShips').text(d.percent_sameDayShips+'%');
               $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.percent_sameDayShips+'%');
-              render_CSconfirmed(d.percent_CSconfirmed);
+              render_CSconfirmed(d.percent_CSconfirmed, d.percent_CScancelled);
               // $('#percent_CSconfirmed').text(d.percent_CSconfirmed+'%');
               $('#percent_CSconfirmed2').text("CONFIRMATION "+d.percent_CSconfirmed+'%');
               render_MonthlyGuage(d.percent_monthlySalesTarget);
@@ -139,6 +142,7 @@
             // async: false, //This is deprecated in the latest version of jquery must use now callbacks
             success: function(d)
             {
+              console.log('return from submitDateRange:');
               console.log(d);
               // return;
               dStringified = JSON.stringify(d);
@@ -182,8 +186,6 @@
                 console.log(d.sales_graph);
                 render_salesGraph(d.sales_graph);
               // Sales Graph
-
-
               // graph_temp_dynamic(d.a);
             },
             error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); } 
@@ -444,162 +446,7 @@
       </div>
     </div>
     <!-- / .page-header -->
-  <?php
-  $query = $this->db->query("SELECT concat(t2.name,' ',t1.sell_as) as catstat,count(t1.id) as quant FROM `products` as t1 left join categories as t2 on t1.category_id = t2.id group by catstat");
-  $table = $query->result_array();
-  // echo "<pre>";
-  // var_dump($table);
-  // echo "</pre>";
-
-  $tableForChart =  array();
-  $sellAsStatus = 'x';
-  $qty = 'y';
-  foreach ($table as $rowNumber => $array_ofRow)
-  {
-    foreach ($array_ofRow as $key => $value) 
-    {
-      // echo "key = ";var_dump($key); echo "value=";  var_dump($value); echo "<br/>" ;
-      if ($key == "catstat") 
-        $sellAsStatus = $value;
-      elseif ($key == "quant")
-        $qty = $value;
-      else
-      {
-        echo "unknown key value";
-        die;
-      }
-    }
-    $tableForChart[$sellAsStatus] = $qty;
-  }
-  array_splice($tableForChart, 0, 1); // REMOVING 1ST element. (key,value ) => (, 2958)
-  $tableForChart_keys = array_keys($tableForChart);
-  $array_hardwareTypes = array();
-  getHardwareTypes($tableForChart_keys, $array_hardwareTypes);
-
-  function getHardwareTypes($tableForChart_keys, &$array_hardwareTypes)
-  {
-    foreach ($tableForChart_keys as $currentKey)
-    {
-      $exploded_currentKey = explode(" ", $currentKey);
-      $firstWord_currentKey = $exploded_currentKey[0];
-      if (! in_array($firstWord_currentKey, $array_hardwareTypes)) 
-        $array_hardwareTypes[] = $firstWord_currentKey;
-      
-    }
-
-    // change "Featured" hardware type to "Feaured Phone"
-    if ($index_Feature = array_search("Feature", $array_hardwareTypes))
-      $array_hardwareTypes[$index_Feature] = "Feaured Phone";
-    
-  }
-  // var_dump(array(0,""));die;
-    //now devide the inventory in Unboxed, Refurbished, ...
-  $array_sellAsStatus = get_All_SellAsStatus($tableForChart_keys);
-  function get_All_SellAsStatus($tableForChart_keys)
-  {
-    $returnArray = array();
-    foreach ($tableForChart_keys as $currentKey)
-    {
-      $exploded_currentKey = explode(" ", $currentKey);
-      $sellAs_currentKey = ( ( $exploded_currentKey[1] != "Phone") ? $exploded_currentKey[1] : $exploded_currentKey[2]); //find the 1st word that gives a clue about the sell as. "Send" in "Feature Phone Send to Service Center" tells us that its send to SC
-      if (in_array($sellAs_currentKey, array('','0')))
-        {
-          continue;// remove "" and int(0) from arraay as they are not sellAs statuses
-      }
-      if (! in_array($sellAs_currentKey, $returnArray))
-        $returnArray[] =  $sellAs_currentKey; 
-    }
-
-    // change "Send" hardware type to "Sent to Service center"
-    if ($index_send = array_search("Send", $returnArray))
-        $returnArray[$index_send] = "Send to Service center";
-
-    // remove "" and int(0) from arraay as they are not sellAs statuses
-    if (in_array("", $returnArray))
-        $returnArray[array_search("", $returnArray)] = "(empty)";
-    return $returnArray;
-  }
-  
-  $array_accessories = getDistribution("Accessories", $array_sellAsStatus, $tableForChart);
-  $array_Camera = getDistribution("Camera", $array_sellAsStatus, $tableForChart);
-  $array_Computer = getDistribution("Computer", $array_sellAsStatus, $tableForChart);
-  $array_Feaured_Phone = getDistribution("Feature", $array_sellAsStatus, $tableForChart);
-  $array_Smartphone = getDistribution("Smartphone", $array_sellAsStatus, $tableForChart);
-  $array_Tablet = getDistribution("Tablet", $array_sellAsStatus, $tableForChart);
-  $array_Television = getDistribution("Television", $array_sellAsStatus, $tableForChart);
-//['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
-
-  // echo "<pre>";
-  // // var_dump($array_accessories);
-  // var_dump($array_Feaured_Phone);
-  // echo "</pre>";die;
-
-  function getDistribution($hardwareType, $array_sellAsStatus, $tableForChart)
-  {
-  $returnArray = array_combine(array_values($array_sellAsStatus), makeAnArray(count($array_sellAsStatus), "0")); //needed an array of same no. of elements in the second argument. 
-    foreach ($tableForChart as $key => $value) 
-    {
-      $exploded_currentKey = explode(" ", $key);
-      if ($exploded_currentKey[0] == $hardwareType) 
-      {
-        $sellAs_iteration= ( ( $exploded_currentKey[1] != "Phone") ? $exploded_currentKey[1] : $exploded_currentKey[2]); //find the 1st word that gives a clue about the sell as. "Send" in "Feature Phone Send to Service Center" tells us that its send to SC
-        if ( in_array($exploded_currentKey[1], array('','0')) )
-        {
-          continue;
-        }
-        $updating_thisIndex = array_search($sellAs_iteration, $returnArray);
-        $returnArray[$sellAs_iteration] = $value;
-      }
-            //     else//for ebugging only
-            // {echo "hardware type=$hardwareType, exploded_currentKey[0]=$exploded_currentKey[0]<br/>";}
-
-      
-    }
-    return $returnArray;
-  }
-  
-  //   O C D
-  // $chartArray_BER = getChartArray('BER',$array_accessories, $array_Camera, $array_Computer, $array_Feaured_Phone, $array_Smartphone, $array_Tablet, $array_Television);
-  // function getChartArray($sellAs, $array_accessories, $array_Camera, $array_Computer, $array_Feaured_Phone, $array_Smartphone, $array_Tablet, $array_Television)
-  // {
-  //   $returnArray = array();
-  //   foreach ($array_accessories as $key => $value) 
-  //   {
-  //       if ($key == $sell_as) 
-  //       {
-  //         $returnArray[]
-  //       }
-  //   }
-  // }
-
-  function makeAnArray($length, $element)
-  {
-    $returnArray = array();// Overcart.com
-    for ($i=0; $i < $length; $i++) { 
-      $returnArray[] = $element;
-    }
-    return $returnArray;
-  }
-
-
-  // echo "<hr/><pre/>";
-  // var_dump($tableForChart);
-  // foreach ($tableForChart as $key => $value) {echo "($key, $value)<br/>"; }
-  // foreach ($tableForChart as $key => $value) {var_dump($key);echo "->";var_dump($value);}
-  // foreach ($array_accessories as $key => $value) {echo "($key, $value)<br/>"; }
-  // foreach ($array_accessories as $key => $value) {var_dump($key);echo "->";var_dump($value);}
-  // foreach ($array_sellAsStatus as $key => $value) {echo "($key, $value)<br/>"; }
-  // print_r($tableForChart_keys);
-  // print_r($array_hardwareTypes);
-  // echo "</pre>";die;
-  // echo $tableForChart["Accessories BER"];
-  // foreach ($tableForChart_keys as $this_key) 
-  // {
-  //   print_r($tableForChart[$this_key]);
-    // echo "<br/>";die;
-  // }
-  // die;
-  ?>
+    <?php $comment="all php code(stackd column graph , inventory) deleted"; ?>
 
     <div class="row">
       <div class="col-md-8">
@@ -844,6 +691,7 @@
     </div>
     <!-- put/insert divs here (for temporary graphs) -->
         <!-- <div id="targetPercent_guage" style="width: 300px; height: 200px; float: left"></div> -->
+        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>
@@ -967,7 +815,7 @@ function render_salesGraph (obj)
         },
         labels: {
             items: [{
-                html: 'Total',
+                // html: 'Total', //appears just above the pie chart
                 style: {
                     left: '100px',
                     top: '20px',
@@ -996,7 +844,7 @@ function render_salesGraph (obj)
                 lineColor: Highcharts.getOptions().colors[3],
                 fillColor: 'white'
             }
-        }, {
+        }, /*{
             type: 'pie',
             name: 'Total consumption',
             data: [{
@@ -1018,7 +866,7 @@ function render_salesGraph (obj)
             dataLabels: {
                 enabled: false
             }
-        }]
+        }*/]
     });
  
 }
@@ -1067,7 +915,7 @@ function render_sameDayShips (arg)
 }
 
 
-function render_CSconfirmed (arg)
+function render_CSconfirmed (confirmed, canceled)//series
 {
   
     $('#percent_CSconfirmed').highcharts({
@@ -1099,10 +947,9 @@ function render_CSconfirmed (arg)
         series: [{
             type: 'pie',
             data: [
-                ["PnP",0],
-                ["RTS",0],
-                ['Confirmed',   arg],
-                ['Pending', 100-arg]
+                ['Confirmed',   confirmed],
+                ['canceled', canceled],
+                ['Pending', 100-confirmed-canceled]
                
             ]
         }]
@@ -1207,5 +1054,97 @@ function render_MonthlyGuage(arg) {
 
 }
 
+
+
+
+// experimental
+
+$(function () {
+    $('#container').highcharts({
+
+        chart: {
+            type: 'column'
+        },
+
+        title: {
+            text: ''
+        },
+
+        xAxis: {
+            categories: ['8am-9am', '9am-10am', '10am-11am', '11am-12noon', '12noon-1pm', '1pm-2pm', '2pm-3pm']
+        },
+
+        yAxis: {
+            allowDecimals: false,
+            min: 0,
+            title: {
+                text: 'Number of orders'
+            }
+        },
+
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
+        },
+
+        plotOptions: {
+            column: {
+                stacking: 'normal'
+            }
+        },
+
+        series: [{
+            name: "Pending",
+            data: [
+            49.9,
+            71.5,
+            106.4,
+            25,
+            75,
+            50,
+            85],
+            type: "column",
+            color : "#D91E18"
+        }, {
+            name: "Confirmed",
+            data: [
+            83.6,
+            78.8,
+            98.5,
+            50,
+            75,
+            50,
+            85],
+            type: "column",
+            color:"#2ECC71"
+        }, {
+            name: "Cancelled",
+            data: [
+            48.9,
+            38.8,
+            39.3,
+            75,
+            75,
+            50,
+            85],
+            type: "column",
+            color: "#22313F"
+        }, {
+            name: "Orders Recieved",
+            data: [
+            182.4,
+            189.1,
+            244.2,
+            150,
+            225,
+            150,
+            255],
+            type: "line"
+        }]
+    });
+});
 </script>
 </html>
