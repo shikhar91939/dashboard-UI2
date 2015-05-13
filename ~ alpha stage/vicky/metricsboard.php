@@ -184,8 +184,21 @@
               // Sales Graph
                 console.log('salesdata');
                 console.log(d.sales_graph);
-                render_salesGraph(d.sales_graph);
+                // render_salesGraph(d.sales_graph);
+                renderSales_hourly(d.sales_graph);
               // Sales Graph
+              //Sales revenue in selected range
+                console.log('d:');
+                console.log(d);              
+                console.log('confirmedAmt_totalRange:');
+                console.log(d.sales_graph.confirmedAmt_totalRange);
+                $('#revenue_selectedRage').text("Rs. "+ d.sales_graph.confirmedAmt_totalRange);
+                $('#rangeUnderRevenue').text(parsed_selectedRange.start+" "+parsed_selectedRange.end+ " : ");
+                
+                console.log('count_CSconfirmed:');
+                console.log(d.sales_graph.count_CSconfirmed);
+                $('#count_CSconfirmed').text(d.sales_graph.count_CSconfirmed);
+              //Sales revenue in selected range
               // graph_temp_dynamic(d.a);
             },
             error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); } 
@@ -431,7 +444,7 @@
       <li class="sorting_icons active"><i class="fa fa-th-list"></i></li>
       <li class="sorting_icons"><i class="fa fa-th"></i></li>
     </ul> -->
-    <div class="page-header">
+    <div class="page-header" style="  margin: 10px 0 10px;">
       <div class="row"> 
         <!-- Page header, center on small screens -->
         <h1 class="col-xs-12 col-sm-8 text-center text-left-sm">Analytics<br>
@@ -449,23 +462,25 @@
     <?php $comment="all php code(stackd column graph , inventory) deleted"; ?>
 
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <div class="stat-panel">
           <div class="stat-row">
             <div class="padding-sm-hr-custom">
-              <div class="row"> <span id="count_CSconfirmed" class="order_total_count"></span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
+              <div class="row"> <span id="count_CSconfirmed" class="order_total_count" style="margin-bottom: 0;" ></span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
                 <span  id="text_percentCSconfirmed" ></span>% OF BOOKED ORDERS</span> </div>
               <!-- <img src="<?php //echo base_url(); ?>assets/images/template/chart.jpg"/>  -->
-              <div id="chartdiv" style="width: 100%; height: 550px;"><br/></div>
+              <!-- <div id="chartdiv" style="width: 100%; height: 400px;"><br/></div> -->
+              <div id="container" style="width: 100%; height: 400px;"><br/></div>
               </div>
           </div>
         </div>
       </div>
       <!-- /6. $EASY_PIE_CHARTS -->
-      
-      <div class="col-md-4">
+      </div>
+      <div class="row">
+      <div class="col-md-12">
         <div class="row">
-          <div class="col-sm-4 col-md-12">
+          <div class="col-sm-4 col-md-6">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
               <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
@@ -484,12 +499,12 @@
               <!-- /.stat-panel --> 
             </div>
           </div>
-          <div class="col-sm-4 col-md-12">
+          <div class="col-sm-4 col-md-6">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
               <div class="stat-cell valign-middle align_center"> <span class="text-bg">MONTH'S CONFIRMED REVENUE</span><br>
                 <div id="todaysConfirmedRevenue" class="totoal_revenue"></div>
-                
+              <div class="stat-panel-date valign-middle align_center"> <span id="rangeUnderRevenue" class="text-bg">2015-05-12 - 2015-05-12 : </span><strong><span class="text-bg" id="revenue_selectedRage">Rs.</span></strong><br>
            
               </div>
               <!-- /.stat-panel --> 
@@ -607,7 +622,7 @@
       <div class="col-xs-3"> 
       <?php
 
-        $hours = 240;
+        $hours = 24;
         $hours_compare = 2*$hours;
 
         $query_total = $this->db->query("SELECT count(id) FROM `status_update_log` where new_status = 'listed' and time_stamp > date_sub(now(),interval $hours_compare hour)");
@@ -691,7 +706,8 @@
     </div>
     <!-- put/insert divs here (for temporary graphs) -->
         <!-- <div id="targetPercent_guage" style="width: 300px; height: 200px; float: left"></div> -->
-        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> -->
+        <div id="container_stacedArea" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>
@@ -792,84 +808,85 @@ function getXaxisPoints(arr){
   for (i = 0; i < arr.length-1 ; i++) 
   { 
       // text += cars[i] + "<br>";
-    ret.push(arr[i]+' -<br>'+arr[i+1]);
+    ret.push(arr[i]+'-'+arr[i+1]);
   }
 
   return ret;
 };
 
-function render_salesGraph (obj)
-{
-  var init1 = obj.sales_distribution.interval_number1;
-  var init2 = obj.sales_distribution.interval_number2;
-  var init3 = obj.sales_distribution.interval_number3;
-  var init4 = obj.sales_distribution.interval_number4;
-  var init5 = obj.sales_distribution.interval_number5;
-  console.log(init5);
-    $('#chartdiv').highcharts({
-        title: {
-            text: ''
-        },
-        xAxis: {
-            categories: getXaxisPoints(obj.xAxis)
-        },
-        labels: {
-            items: [{
-                // html: 'Total', //appears just above the pie chart
-                style: {
-                    left: '100px',
-                    top: '20px',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
-                }
-            }]
-        },
-        series: [{
-            type: 'column',
-            name: 'Pending',
-            data: [init1.pendingAmount, init2.pendingAmount, init3.pendingAmount, init4.pendingAmount, init5.pendingAmount]
-        }, {
-            type: 'column',
-            name: 'Cancelled',
-            data: [init1.cancelledAmount, init2.cancelledAmount, init3.cancelledAmount, init4.cancelledAmount, init5.cancelledAmount]
-        }, {
-            type: 'column',
-            name: 'Confirmed',
-            data: [init1.confirmedAmount, init2.confirmedAmount, init3.confirmedAmount, init4.confirmedAmount, init5.confirmedAmount]
-        }, {
-            type: 'spline',
-            name: 'Total',
-            data: [init1.totalOrderAmount, init2.totalOrderAmount, init3.totalOrderAmount, init4.totalOrderAmount, init5.totalOrderAmount],
-            marker: {
-                lineWidth: 2,
-                lineColor: Highcharts.getOptions().colors[3],
-                fillColor: 'white'
-            }
-        }, /*{
-            type: 'pie',
-            name: 'Total consumption',
-            data: [{
-                name: 'Pending',
-                y: init1.pendingAmount+ init2.pendingAmount+ init3.pendingAmount+ init4.pendingAmount+ init5.pendingAmount,
-                color: Highcharts.getOptions().colors[0] // Jane's color
-            }, {
-                name: 'Cancelled',
-                y: init1.cancelledAmount+ init2.cancelledAmount+ init3.cancelledAmount+ init4.cancelledAmount+ init5.cancelledAmount,
-                color: Highcharts.getOptions().colors[1] // John's color
-            }, {
-                name: 'Confirmed',
-                y: init1.confirmedAmount+ init2.confirmedAmount+ init3.confirmedAmount+ init4.confirmedAmount+ init5.confirmedAmount,
-                color: Highcharts.getOptions().colors[2] // Joe's color
-            }],
-            center: [100, 80],
-            size: 100,
-            showInLegend: false,
-            dataLabels: {
-                enabled: false
-            }
-        }*/]
-    });
+// DO NOT DELETE this function
+// function render_salesGraph (obj)
+// {
+//   var init1 = obj.sales_distribution.interval_number1;
+//   var init2 = obj.sales_distribution.interval_number2;
+//   var init3 = obj.sales_distribution.interval_number3;
+//   var init4 = obj.sales_distribution.interval_number4;
+//   var init5 = obj.sales_distribution.interval_number5;
+//   console.log(init5);
+//     $('#chartdiv').highcharts({
+//         title: {
+//             text: ''
+//         },
+//         xAxis: {
+//             categories: getXaxisPoints(obj.xAxis)
+//         },
+//         labels: {
+//             items: [{
+//                 // html: 'Total', //appears just above the pie chart
+//                 style: {
+//                     left: '100px',
+//                     top: '20px',
+//                     color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+//                 }
+//             }]
+//         },
+//         series: [{
+//             type: 'column',
+//             name: 'Pending',
+//             data: [init1.pendingAmount, init2.pendingAmount, init3.pendingAmount, init4.pendingAmount, init5.pendingAmount]
+//         }, {
+//             type: 'column',
+//             name: 'Cancelled',
+//             data: [init1.cancelledAmount, init2.cancelledAmount, init3.cancelledAmount, init4.cancelledAmount, init5.cancelledAmount]
+//         }, {
+//             type: 'column',
+//             name: 'Confirmed',
+//             data: [init1.confirmedAmount, init2.confirmedAmount, init3.confirmedAmount, init4.confirmedAmount, init5.confirmedAmount]
+//         }, {
+//             type: 'spline',
+//             name: 'Total',
+//             data: [init1.totalOrderAmount, init2.totalOrderAmount, init3.totalOrderAmount, init4.totalOrderAmount, init5.totalOrderAmount],
+//             marker: {
+//                 lineWidth: 2,
+//                 lineColor: Highcharts.getOptions().colors[3],
+//                 fillColor: 'white'
+//             }
+//         }, /*{
+//             type: 'pie',
+//             name: 'Total consumption',
+//             data: [{
+//                 name: 'Pending',
+//                 y: init1.pendingAmount+ init2.pendingAmount+ init3.pendingAmount+ init4.pendingAmount+ init5.pendingAmount,
+//                 color: Highcharts.getOptions().colors[0] // Jane's color
+//             }, {
+//                 name: 'Cancelled',
+//                 y: init1.cancelledAmount+ init2.cancelledAmount+ init3.cancelledAmount+ init4.cancelledAmount+ init5.cancelledAmount,
+//                 color: Highcharts.getOptions().colors[1] // John's color
+//             }, {
+//                 name: 'Confirmed',
+//                 y: init1.confirmedAmount+ init2.confirmedAmount+ init3.confirmedAmount+ init4.confirmedAmount+ init5.confirmedAmount,
+//                 color: Highcharts.getOptions().colors[2] // Joe's color
+//             }],
+//             center: [100, 80],
+//             size: 100,
+//             showInLegend: false,
+//             dataLabels: {
+//                 enabled: false
+//             }
+//         }*/]
+//     });
  
-}
+// }
 
 
 
@@ -1057,9 +1074,36 @@ function render_MonthlyGuage(arg) {
 
 
 
-// experimental
+// stacked+line mockup with dummy data
 
-$(function () {
+function renderSales_hourly (obj) 
+{
+  
+  var init1 = obj.sales_distribution.interval_number1;
+  var init2 = obj.sales_distribution.interval_number2;
+  var init3 = obj.sales_distribution.interval_number3;
+  var init4 = obj.sales_distribution.interval_number4;
+  var init5 = obj.sales_distribution.interval_number5;
+  var init6 = obj.sales_distribution.interval_number6;
+  var init7 = obj.sales_distribution.interval_number7;
+  var init8 = obj.sales_distribution.interval_number8;
+  var init9 = obj.sales_distribution.interval_number9;
+  var init10 = obj.sales_distribution.interval_number10;
+  var init11 = obj.sales_distribution.interval_number11;
+  var init12 = obj.sales_distribution.interval_number12;
+  var init13 = obj.sales_distribution.interval_number13;
+  var init14 = obj.sales_distribution.interval_number14;
+  var init15 = obj.sales_distribution.interval_number15;
+  var init16 = obj.sales_distribution.interval_number16;
+  var init17 = obj.sales_distribution.interval_number17;
+  var init18 = obj.sales_distribution.interval_number18;
+  var init19 = obj.sales_distribution.interval_number19;
+  var init20 = obj.sales_distribution.interval_number20;
+  var init21 = obj.sales_distribution.interval_number21;
+  var init22 = obj.sales_distribution.interval_number22;
+  var init23 = obj.sales_distribution.interval_number23;
+  var init24 = obj.sales_distribution.interval_number24;
+
     $('#container').highcharts({
 
         chart: {
@@ -1071,7 +1115,10 @@ $(function () {
         },
 
         xAxis: {
-            categories: ['8am-9am', '9am-10am', '10am-11am', '11am-12noon', '12noon-1pm', '1pm-2pm', '2pm-3pm']
+            categories: getXaxisPoints(obj.xAxis)
+            // categories: ['12midnight-1am', '1am-2am', '2am-3am', '3am-4am', '4am-5am', '5am-6am', '6am-7am',
+            // '7am-8am','8am-9am', '9am-10am', '10am-11am', '11am-12noon', '12noon-1pm', '1pm-2pm', '2pm-3pm',
+            // '3pm-4pm','4pm-5pm','5pm-6pm','6pm-7pm','7pm-8pm','8pm-9pm','9pm-10pm','10pm-11pm','11pm-12midnight']
         },
 
         yAxis: {
@@ -1099,80 +1146,126 @@ $(function () {
         series: [{
             name: "Pending",
             data: [
-            49.9,
-            71.5,
-            106.4,
-            25,
-            75,
-            50,
-            85,
-            49.9,
-            71.5,
-            106.4,
-            25,
-            75,
-            50,
-            85],
+            init1.pendingAmount,
+            init2.pendingAmount,
+            init3.pendingAmount, 
+            init4.pendingAmount,
+            init5.pendingAmount,
+            init6.pendingAmount,
+            init7.pendingAmount,
+            init8.pendingAmount,
+            init9.pendingAmount,
+            init10.pendingAmount,
+            init11.pendingAmount,
+            init12.pendingAmount,
+            init13.pendingAmount,
+            init14.pendingAmount,
+            init15.pendingAmount,
+            init16.pendingAmount,
+            init17.pendingAmount,
+            init18.pendingAmount,
+            init19.pendingAmount,
+            init20.pendingAmount,
+            init21.pendingAmount,
+            init22.pendingAmount,
+            init23.pendingAmount,
+            init24.pendingAmount],
             type: "column",
             color : "#D91E18"
         }, {
             name: "Cancelled",
             data: [
-            48.9,
-            38.8,
-            39.3,
-            75,
-            75,
-            50,
-            85,
-            48.9,
-            38.8,
-            39.3,
-            75,
-            75,
-            50,
-            85],
-            type: "column",
-            color: "#22313F"
-        }, {
-            name: "Confirmed",
-            data: [
-            83.6,
-            78.8,
-            98.5,
-            50,
-            75,
-            50,
-            85,
-            83.6,
-            78.8,
-            98.5,
-            50,
-            75,
-            50,
-            85],
+            init1.cancelledAmount,
+            init2.cancelledAmount,
+            init3.cancelledAmount,
+            init4.cancelledAmount,
+            init5.cancelledAmount,
+            init6.cancelledAmount,
+            init7.cancelledAmount,
+            init8.cancelledAmount,
+            init9.cancelledAmount,
+            init10.cancelledAmount,
+            init11.cancelledAmount,
+            init12.cancelledAmount,
+            init13.cancelledAmount,
+            init14.cancelledAmount,
+            init15.cancelledAmount,
+            init16.cancelledAmount,
+            init17.cancelledAmount,
+            init18.cancelledAmount,
+            init19.cancelledAmount,
+            init20.cancelledAmount,
+            init21.cancelledAmount,
+            init22.cancelledAmount,
+            init23.cancelledAmount,
+            init24.cancelledAmount],
             type: "column",
             color:"#2ECC71"
         }, {
+            name: "Confirmed",
+            data: [
+            init1.confirmedAmount,
+            init2.confirmedAmount,
+            init3.confirmedAmount,
+            init4.confirmedAmount,
+            init5.confirmedAmount,
+            init6.confirmedAmount,
+            init7.confirmedAmount,
+            init8.confirmedAmount,
+            init9.confirmedAmount,
+            init10.confirmedAmount,
+            init11.confirmedAmount,
+            init12.confirmedAmount,
+            init13.confirmedAmount,
+            init14.confirmedAmount,
+            init15.confirmedAmount,
+            init16.confirmedAmount,
+            init17.confirmedAmount,
+            init18.confirmedAmount,
+            init19.confirmedAmount,
+            init20.confirmedAmount,
+            init21.confirmedAmount,
+            init22.confirmedAmount,
+            init23.confirmedAmount,
+            init24.confirmedAmount],
+            type: "column",
+            color: "#22313F"
+        }, {
             name: "Orders Recieved",
             data: [
-            182.4,
-            189.1,
-            244.2,
-            150,
-            225,
-            150,
-            255,
-            182.4,
-            189.1,
-            244.2,
-            150,
-            225,
-            150,
-            255],
+            init1.pendingAmount + init1.cancelledAmount + init1.confirmedAmount,
+            init2.pendingAmount + init2.cancelledAmount + init2.confirmedAmount,
+            init3.pendingAmount + init3.cancelledAmount + init3.confirmedAmount,
+            init4.pendingAmount + init4.cancelledAmount + init4.confirmedAmount,
+            init5.pendingAmount + init5.cancelledAmount + init5.confirmedAmount,
+            init6.pendingAmount   + init6.cancelledAmount  + init6.confirmedAmount,
+            init7.pendingAmount   + init7.cancelledAmount  + init7.confirmedAmount,
+            init8.pendingAmount   + init8.cancelledAmount  + init8.confirmedAmount,
+            init9.pendingAmount   + init9.cancelledAmount  + init9.confirmedAmount,
+            init10.pendingAmount  + init10.cancelledAmount  + init10.confirmedAmount,
+            init11.pendingAmount  + init11.cancelledAmount  + init11.confirmedAmount,
+            init12.pendingAmount  + init12.cancelledAmount  + init12.confirmedAmount,
+            init13.pendingAmount  + init13.cancelledAmount  + init13.confirmedAmount,
+            init14.pendingAmount  + init14.cancelledAmount  + init14.confirmedAmount,
+            init15.pendingAmount  + init15.cancelledAmount  + init15.confirmedAmount,
+            init16.pendingAmount  + init16.cancelledAmount  + init16.confirmedAmount,
+            init17.pendingAmount  + init17.cancelledAmount  + init17.confirmedAmount,
+            init18.pendingAmount  + init18.cancelledAmount  + init18.confirmedAmount,
+            init19.pendingAmount  + init19.cancelledAmount  + init19.confirmedAmount,
+            init20.pendingAmount  + init20.cancelledAmount  + init20.confirmedAmount,
+            init21.pendingAmount  + init21.cancelledAmount  + init21.confirmedAmount,
+            init22.pendingAmount  + init22.cancelledAmount  + init22.confirmedAmount,
+            init23.pendingAmount  + init23.cancelledAmount  + init23.confirmedAmount,
+            init24.pendingAmount  + init24.cancelledAmount  + init24.confirmedAmount],
             type: "line"
         }]
     });
-});
+
+}
+// ~ stacked+line mockup with dummy data
+
+
+// trying stacked area graph:
+// ~trying stacked area graph
 </script>
 </html>
