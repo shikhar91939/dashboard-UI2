@@ -74,6 +74,10 @@
             url: '<?php echo site_url("newdashboard").'/getData_staticElements';?>', 
             data: null, 
             dataType: 'json',
+            // beforeSubmit: function () {
+            //     // jq("#product_name").val('Loading...')
+            //     alert('loading');
+            // },
             // async: false, //This is deprecated in the latest version of jquery must use now callbacks
             success: function(d)
             {
@@ -133,12 +137,24 @@
           console.log("passing this throught ajax:");
           console.log("start date: "+parsed_selectedRange.start+", end date: "+parsed_selectedRange.end);
 
+          $('#loading').hide().ajaxStart(function(){
+              $(this).show();
+              // alert('111');
+          }).ajaxStop(function() {
+              $(this).hide();
+              // alert('112');
+          });
+
           //ajax :
           $.ajax({
             type: "POST",
             url: '<?php echo site_url("newdashboard").'/submitDateRange';?>', 
             data: parsed_selectedRange, 
             dataType: 'json',
+            // beforeSubmit: function () {
+            //     // jq("#product_name").val('Loading...')
+            //     alert('loading2');
+            // },
             // async: false, //This is deprecated in the latest version of jquery must use now callbacks
             success: function(d)
             {
@@ -434,6 +450,8 @@
   <!-- /4. $MAIN_MENU -->
   
   <div id="content-wrapper"> 
+
+    <!-- a bunch of tables and stuff that doesn't have a conveniently fixed size  -->
     <!--<ul class="breadcrumb breadcrumb-page">
       <div class="breadcrumb-label text-light-gray">You are here: </div>
       <li><a href="#">Home</a></li>
@@ -465,12 +483,14 @@
       <div class="col-md-12">
         <div class="stat-panel">
           <div class="stat-row">
-            <div class="padding-sm-hr-custom">
+            <div class="padding-sm-hr-custom" style="position: relative;">
               <div class="row"> <span id="count_CSconfirmed" class="order_total_count" style="margin-bottom: 0;" ></span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
                 <span  id="text_percentCSconfirmed" ></span>% OF BOOKED ORDERS</span> </div>
               <!-- <img src="<?php //echo base_url(); ?>assets/images/template/chart.jpg"/>  -->
               <!-- <div id="chartdiv" style="width: 100%; height: 400px;"><br/></div> -->
-              <div id="container" style="width: 100%; height: 400px;"><br/></div>
+    <img id="loading"  style="position: relative; width: 400px; height: 400px;display:block; margin:auto;" src="http://sierrafire.cr.usgs.gov/images/loading.gif" />
+
+              <div id="container" style="width: 100%; height: 400px;"><br/></div> 
               </div>
           </div>
         </div>
@@ -719,86 +739,86 @@
   /*
   this script tag is responsible for the Inventory- Listed graph
   */
-   $(function () {
-    $(''/*'#chartdiv'*/).highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Dashboard Inventory- LISTED'
-        },
-        xAxis: {
-            categories: <?php echo "['". implode("', '", $array_hardwareTypes) ."']" ?>// ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Units'
-            },
-            stackLabels: {
-                enabled: true,
-                style: {
-                    fontWeight: 'bold',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                }
-            }
-        },
-        legend: {
-            // margin: 9;
-            width:580,
-            align: 'center',
-            // x: 0,
-            verticalAlign: 'top',
-            y: 25,
-            floating: true,
-            backgroundColor: '#FCFFC5', //(Highcharts.theme && Highcharts.theme.background2) || 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false
-        },
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.x + '</b><br/>' +
-                    this.series.name + ': ' + this.y + '<br/>' +
-                    'Total: ' + this.point.stackTotal;
-            }
-        },
-        plotOptions: {
-            column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true,
-                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                    style: {
-                        textShadow: '0 0 3px black'
-                    }
-                }
-            }
-        },
-        series: [{
-            name: 'BER',
-            data: [<?php echo $array_accessories['BER'].", ".$array_Camera['BER'] . ", ". $array_Computer['BER'].", ". $array_Feaured_Phone['BER'] . ", ". $array_Smartphone['BER'] . ", ". $array_Tablet['BER']. ", ". $array_Television['BER'];?>]  
-        }, { // ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
-            name: 'New',
-            data: [<?php echo $array_accessories['New'].", ".$array_Camera['New'] . ", ". $array_Computer['New'].", ". $array_Feaured_Phone['New'] . ", ". $array_Smartphone['New'] . ", ". $array_Tablet['New']. ", ". $array_Television['New'];?>]
-        }, {
-            name: 'Preowned',
-            data: [<?php echo $array_accessories['Preowned'].", ".$array_Camera['Preowned'] . ", ". $array_Computer['Preowned'].", ". $array_Feaured_Phone['Preowned'] . ", ". $array_Smartphone['Preowned'] . ", ". $array_Tablet['Preowned']. ", ". $array_Television['Preowned'];?>]
-        }, {
-            name: 'Refurbished',
-            data: [<?php echo $array_accessories['Refurbished'].", ".$array_Camera['Refurbished'] . ", ". $array_Computer['Refurbished'].", ". $array_Feaured_Phone['Refurbished'] . ", ". $array_Smartphone['Refurbished'] . ", ". $array_Tablet['Refurbished']. ", ". $array_Television['Refurbished'];?>]
-        }, {
-            name: 'Sealed',
-            data: [<?php echo $array_accessories['Sealed'].", ".$array_Camera['Sealed'] . ", ". $array_Computer['Sealed'].", ". $array_Feaured_Phone['Sealed'] . ", ". $array_Smartphone['Sealed'] . ", ". $array_Tablet['Sealed']. ", ". $array_Television['Sealed'];?>]
-        }, {
-            name: 'Unboxed',
-            data: [<?php echo $array_accessories['Unboxed'].", ".$array_Camera['Unboxed'] . ", ". $array_Computer['Unboxed'].", ". $array_Feaured_Phone['Unboxed'] . ", ". $array_Smartphone['Unboxed'] . ", ". $array_Tablet['Unboxed']. ", ". $array_Television['Unboxed'];?>]
-        }, {
-            name: 'Send to Service center',
-            data: [<?php echo $array_accessories['Send to Service center'].", ".$array_Camera['Send to Service center'] . ", ". $array_Computer['Send to Service center'].", ". $array_Feaured_Phone['Send to Service center'] . ", ". $array_Smartphone['Send to Service center'] . ", ". $array_Tablet['Send to Service center']. ", ". $array_Television['Send to Service center'];?>]
-        }]
-    });
-});
+//    $(function () {
+//     $(''/*'#chartdiv'*/).highcharts({
+//         chart: {
+//             type: 'column'
+//         },
+//         title: {
+//             text: 'Dashboard Inventory- LISTED'
+//         },
+//         xAxis: {
+//             categories: <?php echo "['". implode("', '", $array_hardwareTypes) ."']" ?>// ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
+//         },
+//         yAxis: {
+//             min: 0,
+//             title: {
+//                 text: 'Units'
+//             },
+//             stackLabels: {
+//                 enabled: true,
+//                 style: {
+//                     fontWeight: 'bold',
+//                     color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+//                 }
+//             }
+//         },
+//         legend: {
+//             // margin: 9;
+//             width:580,
+//             align: 'center',
+//             // x: 0,
+//             verticalAlign: 'top',
+//             y: 25,
+//             floating: true,
+//             backgroundColor: '#FCFFC5', //(Highcharts.theme && Highcharts.theme.background2) || 'white',
+//             borderColor: '#CCC',
+//             borderWidth: 1,
+//             shadow: false
+//         },
+//         tooltip: {
+//             formatter: function () {
+//                 return '<b>' + this.x + '</b><br/>' +
+//                     this.series.name + ': ' + this.y + '<br/>' +
+//                     'Total: ' + this.point.stackTotal;
+//             }
+//         },
+//         plotOptions: {
+//             column: {
+//                 stacking: 'normal',
+//                 dataLabels: {
+//                     enabled: true,
+//                     color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+//                     style: {
+//                         textShadow: '0 0 3px black'
+//                     }
+//                 }
+//             }
+//         },
+//         series: [{
+//             name: 'BER',
+//             data: [<?php echo $array_accessories['BER'].", ".$array_Camera['BER'] . ", ". $array_Computer['BER'].", ". $array_Feaured_Phone['BER'] . ", ". $array_Smartphone['BER'] . ", ". $array_Tablet['BER']. ", ". $array_Television['BER'];?>]  
+//         }, { // ['Accessories', 'Camera', 'Computer', 'Feaured Phone', 'Smartphone', 'Tablet', 'Television']
+//             name: 'New',
+//             data: [<?php echo $array_accessories['New'].", ".$array_Camera['New'] . ", ". $array_Computer['New'].", ". $array_Feaured_Phone['New'] . ", ". $array_Smartphone['New'] . ", ". $array_Tablet['New']. ", ". $array_Television['New'];?>]
+//         }, {
+//             name: 'Preowned',
+//             data: [<?php echo $array_accessories['Preowned'].", ".$array_Camera['Preowned'] . ", ". $array_Computer['Preowned'].", ". $array_Feaured_Phone['Preowned'] . ", ". $array_Smartphone['Preowned'] . ", ". $array_Tablet['Preowned']. ", ". $array_Television['Preowned'];?>]
+//         }, {
+//             name: 'Refurbished',
+//             data: [<?php echo $array_accessories['Refurbished'].", ".$array_Camera['Refurbished'] . ", ". $array_Computer['Refurbished'].", ". $array_Feaured_Phone['Refurbished'] . ", ". $array_Smartphone['Refurbished'] . ", ". $array_Tablet['Refurbished']. ", ". $array_Television['Refurbished'];?>]
+//         }, {
+//             name: 'Sealed',
+//             data: [<?php echo $array_accessories['Sealed'].", ".$array_Camera['Sealed'] . ", ". $array_Computer['Sealed'].", ". $array_Feaured_Phone['Sealed'] . ", ". $array_Smartphone['Sealed'] . ", ". $array_Tablet['Sealed']. ", ". $array_Television['Sealed'];?>]
+//         }, {
+//             name: 'Unboxed',
+//             data: [<?php echo $array_accessories['Unboxed'].", ".$array_Camera['Unboxed'] . ", ". $array_Computer['Unboxed'].", ". $array_Feaured_Phone['Unboxed'] . ", ". $array_Smartphone['Unboxed'] . ", ". $array_Tablet['Unboxed']. ", ". $array_Television['Unboxed'];?>]
+//         }, {
+//             name: 'Send to Service center',
+//             data: [<?php echo $array_accessories['Send to Service center'].", ".$array_Camera['Send to Service center'] . ", ". $array_Computer['Send to Service center'].", ". $array_Feaured_Phone['Send to Service center'] . ", ". $array_Smartphone['Send to Service center'] . ", ". $array_Tablet['Send to Service center']. ", ". $array_Television['Send to Service center'];?>]
+//         }]
+//     });
+// });
 </script>
 <script>
 
@@ -904,7 +924,7 @@ function render_sameDayShips (arg)
             text: ''
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '<b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
@@ -946,7 +966,7 @@ function render_CSconfirmed (confirmed, canceled)//series
             text: ''
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '<b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
@@ -1115,7 +1135,10 @@ function renderSales_hourly (obj)
         },
 
         xAxis: {
-            categories: getXaxisPoints(obj.xAxis)
+            categories: getXaxisPoints(obj.xAxis),
+            labels: {
+            rotation: 270              
+        }
             // categories: ['12midnight-1am', '1am-2am', '2am-3am', '3am-4am', '4am-5am', '5am-6am', '6am-7am',
             // '7am-8am','8am-9am', '9am-10am', '10am-11am', '11am-12noon', '12noon-1pm', '1pm-2pm', '2pm-3pm',
             // '3pm-4pm','4pm-5pm','5pm-6pm','6pm-7pm','7pm-8pm','8pm-9pm','9pm-10pm','10pm-11pm','11pm-12midnight']
@@ -1144,35 +1167,6 @@ function renderSales_hourly (obj)
         },
 
         series: [{
-            name: "Pending",
-            data: [
-            init1.pendingAmount,
-            init2.pendingAmount,
-            init3.pendingAmount, 
-            init4.pendingAmount,
-            init5.pendingAmount,
-            init6.pendingAmount,
-            init7.pendingAmount,
-            init8.pendingAmount,
-            init9.pendingAmount,
-            init10.pendingAmount,
-            init11.pendingAmount,
-            init12.pendingAmount,
-            init13.pendingAmount,
-            init14.pendingAmount,
-            init15.pendingAmount,
-            init16.pendingAmount,
-            init17.pendingAmount,
-            init18.pendingAmount,
-            init19.pendingAmount,
-            init20.pendingAmount,
-            init21.pendingAmount,
-            init22.pendingAmount,
-            init23.pendingAmount,
-            init24.pendingAmount],
-            type: "column",
-            color : "#D91E18"
-        }, {
             name: "Cancelled",
             data: [
             init1.cancelledAmount,
@@ -1200,7 +1194,38 @@ function renderSales_hourly (obj)
             init23.cancelledAmount,
             init24.cancelledAmount],
             type: "column",
-            color:"#2ECC71"
+            color : "#D91E18"
+            // color:"#2ECC71"
+        }, {
+            name: "Pending",
+            data: [
+            init1.pendingAmount,
+            init2.pendingAmount,
+            init3.pendingAmount, 
+            init4.pendingAmount,
+            init5.pendingAmount,
+            init6.pendingAmount,
+            init7.pendingAmount,
+            init8.pendingAmount,
+            init9.pendingAmount,
+            init10.pendingAmount,
+            init11.pendingAmount,
+            init12.pendingAmount,
+            init13.pendingAmount,
+            init14.pendingAmount,
+            init15.pendingAmount,
+            init16.pendingAmount,
+            init17.pendingAmount,
+            init18.pendingAmount,
+            init19.pendingAmount,
+            init20.pendingAmount,
+            init21.pendingAmount,
+            init22.pendingAmount,
+            init23.pendingAmount,
+            init24.pendingAmount],
+            type: "column",
+            color: "#22313F"
+            // color : "#D91E18"
         }, {
             name: "Confirmed",
             data: [
@@ -1229,7 +1254,8 @@ function renderSales_hourly (obj)
             init23.confirmedAmount,
             init24.confirmedAmount],
             type: "column",
-            color: "#22313F"
+            color:"#2ECC71"
+            // color: "#22313F"
         }, {
             name: "Orders Recieved",
             data: [

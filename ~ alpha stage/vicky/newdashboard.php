@@ -168,9 +168,9 @@ class Newdashboard extends CI_Controller {
 
       // echo "$monthlyCount_CSconfirmed";die;
 
-      $percent_sameDayShips=  $count_sameDayShips /$count_CSconfirmed *100;
-      $percent_CSconfirmed= $count_CSconfirmed / $count_todaysOrders *100;
-      $percent_CScancelled = $count_CScancelled/ $count_todaysOrders *100;
+      $percent_sameDayShips= $count_CSconfirmed==0 ? 0 : $count_sameDayShips /$count_CSconfirmed *100;
+      $percent_CSconfirmed= $count_todaysOrders==0 ? 0 :  $count_CSconfirmed / $count_todaysOrders *100;
+      $percent_CScancelled = $count_todaysOrders==0 ? 0 :  $count_CScancelled/ $count_todaysOrders *100;
       $thisMonthsTarget = 12000000;   // Change this value to current month's sales target (in Rs.)
       $percent_monthlySalesTarget = $monthlyConfirmedRevenue / $thisMonthsTarget *100;
 
@@ -242,8 +242,18 @@ class Newdashboard extends CI_Controller {
     }
   public function submitDateRange()
     {
+      date_default_timezone_set('Asia/Kolkata');
+
+      // log_message('error', 'entered submitRange');
+      // log_message( 'error',var_export( $object, true ) );
+
     $start_ymd=$this->input->post('start'); // $start_ymd ->  startTime in YearMonthDay
     $end_ymd=$this->input->post('end');     //  || for $end_ymd
+
+    // log_message('error','recieved this from post:');
+    // log_message('error', var_export($start_ymd));
+    // log_message('error', var_export($end_ymd));
+
 
     // $start = implode('/', array_reverse(explode('-', $start)));
     // $end = implode('/', array_reverse(explode('-', $end)));
@@ -290,6 +300,7 @@ class Newdashboard extends CI_Controller {
     // var_dump($today);die;
     if ($start_ymd == $today) 
     {
+      // log_message('error', 'in ($start_ymd == $today)');
       //the function getSalesData() takes today by default
       $response_sales = $this->getSalesData();
       $response_combined["sales_graph"] = $response_sales;
@@ -298,11 +309,15 @@ class Newdashboard extends CI_Controller {
     {
       if ($start_ymd === $end_ymd)
       {
+        // log_message('error','$start_ymd === $end_ymd ('.$start_ymd.'). Thus entered if');
+        // log_message('debug',var_export($start_ymd));
         $end_ymd = date("Y-m-d",strtotime("+1 day",strtotime($start_ymd))); // made this correction as chosing "yesterday" gives (yesterday 00:00:00) to (yesterday 00:00:00)
       }
 
       $from = $start_ymd. " 00:00:00";
       $to = $end_ymd. " 00:00:00";
+
+      // log_message('error',"passing to getSalesData: \nfrom = $from, to= $to");
 
       // $from = "2015-07-10 00:00:00";// debuging only
 
@@ -430,27 +445,39 @@ class Newdashboard extends CI_Controller {
       return true;
     */}
 
-    public function getSalesData($start_ymd = null , $end_ymd =null , $divisions_xAxis =24)
+    public function getSalesData($start_ymd =null , $end_ymd =null , $divisions_xAxis =24)
     {
+      date_default_timezone_set('Asia/Kolkata');
+
+      // log_message('error', "entered getsalesData() with $start_ymd , $end_ymd , $divisions_xAxis " );
       // $ret = array('start_ymd'=>$start_ymd , 'end_ymd'=>$end_ymd  , 'divisions_xAxis'=>$divisions_xAxis);
       // return $ret; //check console .log() to see this value below "return from submitDateRange"
       // die;//i know it will not be executed after return, but helps in Ctrl+F"die"
 
-
-      date_default_timezone_set('Asia/Kolkata');
-      if (is_null($end_ymd) || is_null($start_ymd)) 
+      if (is_null($start_ymd) && is_null($end_ymd))  //for debugging: only triggers when controller is accessed from the browser url(with no arguements)
       {
-        $start_ymd = date('Y-m-d 00:00:00', strtotime("today"));
-        $end_ymd =  date('Y-m-d 00:00:00', strtotime("tomorrow"));
+        $start_ymd = date('Y m d H:i:s',strtotime("today"));
+        $end_ymd = date('Y m d H:i:s',strtotime(" midnight - 7 days "));
       }
-      // var_dump($start_ymd);echo"<br>";
-      // var_dump($end_ymd);die;
 
-      $timeSplits = $this->splitTimeRange($start_ymd, $end_ymd, $divisions_xAxis);
-                  // echo "<pre>";
+      // log_message('error', "after nullCheck, $start_ymd , $end_ymd , $divisions_xAxis " );
+
+
+      // var_dump($start_ymd);echo"<br>";
+      // var_dump($end_ymd);echo"<br>";
+      // die;
+
+      // var_dump(strtotime($start_ymd));die;
+
+      $timeSplits = $this->splitTimeRange(strtotime($start_ymd), strtotime($end_ymd), $divisions_xAxis);
+                  // echo "return from time splits:<pre>";
                   // var_dump($timeSplits);
                   // echo "</pre>";die;
       $returnArray['xAxis'] = $timeSplits[2];
+
+      // log_message('error', "xAxis reurned from splitTimeRange function:" );
+      // log_message('error', var_dump($timeSplits));
+
       // echo "<pre>";
       // var_dump($returnArray);die;
 
@@ -500,6 +527,8 @@ class Newdashboard extends CI_Controller {
             $orderTable["interval_number".$interval_number]=array('pendingCount'=>$pendingCount,'cancelledCount'=>$cancelledCount,'confirmedCount'=>$confirmedCount, 'totalOrderCount'=>$totalOrderCount,
                                                                       'pendingAmount'=>$pendingAmount,'cancelledAmount'=>$cancelledAmount,'confirmedAmount'=>$confirmedAmount, 'totalOrderAmount'=>$totalOrderAmount);
             $interval_number ++;
+            // echo "<hr>";
+            // echo "interval_number: ".$interval_number ."<br>";
 
           //initialize all variables for next interval
           $pendingCount = 0; $pendingAmount = 0;
@@ -547,20 +576,30 @@ class Newdashboard extends CI_Controller {
             $cancelledCount = 0;
             $confirmedCount = 0;
             $totalOrderCount = 0;
+            $pendingAmount = 0;
+            $cancelledAmount = 0;
+            $confirmedAmount = 0;
+            $totalOrderAmount = 0;
         }
 
         $returnArray['sales_distribution'] = $orderTable;
 
+                            // echo "<pre>";  
+                            // var_dump($orderTable);
+                            // die;
+
         foreach ($orderTable as $intervalArray) 
         {
-          $confirmedAmt_totalRange += $confirmedAmount;
+          // var_dump($intervalArray); 
+          // echo "confirmed number:"; var_dump($intervalArray['confirmedAmount']);echo "<br>";
+          // echo "confirmed amount:"; var_dump($intervalArray['confirmedCount']);echo "<br>";
+          $confirmedAmt_totalRange += $intervalArray['confirmedAmount'];
           $totalConfirmed_count += $intervalArray['confirmedCount'];
         }
         $confirmedAmt_totalRange = $this->moneyFormatIndia($confirmedAmt_totalRange);
         $returnArray['confirmedAmt_totalRange']= $confirmedAmt_totalRange;
         $returnArray['totalConfirmed_count']= $totalConfirmed_count;
-
-        
+    
                   // echo "<pre>";
                   // var_dump($returnArray);
                   //  echo "</pre>";die;
@@ -593,10 +632,20 @@ class Newdashboard extends CI_Controller {
         }      
     }
 
-    function splitTimeRange($start_timeStamp= '2015-05-13', $end_timeStamp='2015-05-13', $intervals='24') //remove all 3 default values after debugging
+    function splitTimeRange($start_timeStamp = null, $end_timeStamp = null, $intervals='24') //remove all 3 default values after debugging
     {
-      $start_timeStamp=strtotime($start_timeStamp);
-      $end_timeStamp=strtotime($end_timeStamp);
+
+      // var_dump($start_timeStamp);
+      // var_dump($end_timeStamp);die;
+      if (is_null($start_timeStamp) || is_null($start_timeStamp))      
+      {   
+        $today_debug = date('Y-m-d',strtotime('now'));
+        $yest_debug  = date('Y-m-d', strtotime('yesterday'));
+        $start_timeStamp=strtotime($today_debug);
+        $end_timeStamp=strtotime($yest_debug);
+      }
+      // $start_timeStamp=strtotime($start_timeStamp);
+      // $end_timeStamp=strtotime($end_timeStamp);
       
       $timeDiff_seconds=$end_timeStamp-$start_timeStamp;
       // $timeDiff_hours = floor($timeDiff_seconds /60 /60);
@@ -609,8 +658,13 @@ class Newdashboard extends CI_Controller {
         $next_timeStamp=  $start_timeStamp + ($i * $interval_seconds);
         $timestamp_Array[] = $next_timeStamp;
         $ymd_Array[] =  date('Y-m-d H:i:s', $next_timeStamp);
-        $readable_Array[] = date('ga, d M', $next_timeStamp);
+        $readable_Array[] = date('ga, d M Y', $next_timeStamp);
       endfor;
+
+      // echo "<pre>";
+      // var_dump($start_timeStamp);echo "<hr>";
+      // var_dump($end_timeStamp);echo "<hr>";
+      // var_dump($readable_Array);echo "<br>"; die;
 
       // echo "<pre>";
       // var_dump($ymd_Array);         // <-A
@@ -638,6 +692,53 @@ class Newdashboard extends CI_Controller {
             $readable_Array[$i] = $exploded_hour[0];
         }
       }
+      // else 
+      // {
+      //   $count_readable_Array= count($readable_Array);
+      //   for ($i=0; $i < ($count_readable_Array); $i++) //not running the loop for the last element as $readable_Array[$i+1] will give a php notice
+      //   { 
+      //     //  date('ga d M Y', $next_timeStamp);
+      //     $exploded_interval = explode(" ", $readable_Array[$i]);
+      //         // var_dump($exploded_interval );die;
+
+      //     $hour= $exploded_interval[0];
+      //     $day= $exploded_interval[1];
+      //     $month= $exploded_interval[2];
+      //     $year= $exploded_interval[3];
+
+      //     if ($i!=($count_readable_Array-1)) 
+      //     {
+      //       $exploded_interval_next = explode(" ", $readable_Array[$i+1]);
+      //     }else
+      //     {// compare last element to the second last element as there is no 'next element'
+      //       $exploded_interval_next = explode(" ", $readable_Array[$i-1]);
+      //     }
+      //     $hour_next= $exploded_interval_next[0];
+      //     $day_next= $exploded_interval_next[1];
+      //     $month_next= $exploded_interval_next[2];
+      //     // var_dump($month_next);die;
+      //     // var_dump($exploded_interval_next); echo "<br>";// die;
+      //     $year_next= $exploded_interval_next[3];
+
+
+      //     if ($year !== $year_next)
+      //     {
+      //       $readable_Array[$i] = $day."".$month." ".$year;
+      //     }
+      //     elseif ($month !== $month_next) 
+      //     {
+      //       $readable_Array[$i] = $day." ".$month;
+      //     }
+      //     elseif ($day !== $day) 
+      //     {
+      //       $readable_Array[$i] = $hour." ".$day;
+      //     }
+      //     else
+      //     {
+      //       $readable_Array[$i] = $hour;
+      //     }
+      //   }//for ends
+      // }
 
 
       $returnArray = array($timestamp_Array, $ymd_Array, $readable_Array);
@@ -823,13 +924,13 @@ class Newdashboard extends CI_Controller {
   // foreach ($array_accessories as $key => $value) {echo "($key, $value)<br/>"; }
   // foreach ($array_accessories as $key => $value) {var_dump($key);echo "->";var_dump($value);}
   // foreach ($array_sellAsStatus as $key => $value) {echo "($key, $value)<br/>"; }
-  // print_r($tableForChart_keys);
-  // print_r($array_hardwareTypes);
+  // var_export($tableForChart_keys);
+  // var_export($array_hardwareTypes);
   // echo "</pre>";die;
   // echo $tableForChart["Accessories BER"];
   // foreach ($tableForChart_keys as $this_key) 
   // {
-  //   print_r($tableForChart[$this_key]);
+  //   var_export($tableForChart[$this_key]);
     // echo "<br/>";die;
   // }
   // die;
