@@ -52,12 +52,6 @@
             }
           }); 
         });
-
-    $("#submit_dateRange").click(function () 
-      {
-       
-
-      });
     
     function initializePage (argument)    //initialize all graphs
     {
@@ -137,13 +131,19 @@
           console.log("passing this throught ajax:");
           console.log("start date: "+parsed_selectedRange.start+", end date: "+parsed_selectedRange.end);
 
-          $('#loading').hide().ajaxStart(function(){
-              $(this).show();
-              // alert('111');
-          }).ajaxStop(function() {
-              $(this).hide();
-              // alert('112');
-          });
+          $('#loading').hide().ajaxStart(function(){$(this).show(); }).ajaxStop(function() {$(this).hide(); });//show loading gif
+          //hide elements while loading
+          $('#container').css({"margin-left":"0cm"}).ajaxStart(function(){$(this).css({"margin-left":"100cm"}); }).ajaxStop(function() {$(this).css({"margin-left":"0cm"}); });//hide sales graph
+          // jQuery('.order-ends').delay(3200).slideDown(700);
+       // $('#highcharts-9').delay(2200).css({"width": "100% !important" ,"height": "400px", "float": "left",});
+       // $('#highcharts-9 svg').delay(2200).css({"width": "100% !important" ,"height": "400px", "float": "left"});
+          $('#monthlyRevenueBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
+          $('#targetPercentBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
+          $('#logisticsBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
+          $('#CustSupportBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
+          $('#QltySupportBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
+          $('#misBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
+
 
           //ajax :
           $.ajax({
@@ -151,10 +151,6 @@
             url: '<?php echo site_url("newdashboard").'/submitDateRange';?>', 
             data: parsed_selectedRange, 
             dataType: 'json',
-            // beforeSubmit: function () {
-            //     // jq("#product_name").val('Loading...')
-            //     alert('loading2');
-            // },
             // async: false, //This is deprecated in the latest version of jquery must use now callbacks
             success: function(d)
             {
@@ -209,7 +205,9 @@
                 console.log('confirmedAmt_totalRange:');
                 console.log(d.sales_graph.confirmedAmt_totalRange);
                 $('#revenue_selectedRage').text("Rs. "+ d.sales_graph.confirmedAmt_totalRange);
-                $('#rangeUnderRevenue').text(parsed_selectedRange.start+" "+parsed_selectedRange.end+ " : ");
+                // $('#rangeUnderRevenue').text(parsed_selectedRange.start+" "+parsed_selectedRange.end+ " : ");
+                $('#rangeUnderRevenue').text(d.dateRange+': ');
+
                 
                 console.log('count_CSconfirmed:');
                 console.log(d.sales_graph.count_CSconfirmed);
@@ -222,9 +220,37 @@
         }
       
       }
-
-    
     });
+  function setNewTarget()
+   {
+    var newTarget = document.getElementById("targetRevenue").value;
+    var newTarget_parsed = {"newTarget": newTarget};
+    console.log("newTarget_parsed:");
+    console.log(newTarget_parsed);
+      $.ajax({
+      type: "POST",
+      url: '<?php echo site_url("newdashboard").'/onChange_targetRevenue';?>', 
+      data: newTarget_parsed, 
+      dataType: 'json',
+      // async: false, //This is deprecated in the latest version of jquery must use now callbacks
+      success: function(d)
+      {
+        console.log('d:');
+        console.log(d);
+        if (d.inputIsNumber === false ) 
+          {
+            alert("Please enter a numeric value");
+            return;
+          };
+        console.log('its a number');
+        render_MonthlyGuage(d.percent_newTarget);
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) { alert("Connection error3"); } 
+    });
+
+
+   }
 </script>
 </head>
 <body class="theme-default main-menu-animated">
@@ -243,7 +269,7 @@
       <div class="navbar-header"> 
         
         <!-- Logo --> 
-        <a href="../../index.html" class="navbar-brand"> <img src="<?php echo base_url(); ?>assets/images/template/logo.png"/> </a> 
+        <a href="../../index.php" class="navbar-brand"> <img src="<?php echo base_url(); ?>assets/images/template/logo.png"/> </a> 
         
         <!-- Main navbar toggle -->
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
@@ -482,7 +508,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="stat-panel">
-          <div class="stat-row">
+          <div id="graphBox" class="stat-row">
             <div class="padding-sm-hr-custom" style="position: relative;">
               <div class="row"> <span id="count_CSconfirmed" class="order_total_count" style="margin-bottom: 0;" ></span> <span class="order_confram">TOTAL ORDERS CONFIRMED<br/>
                 <span  id="text_percentCSconfirmed" ></span>% OF BOOKED ORDERS</span> </div>
@@ -490,7 +516,7 @@
               <!-- <div id="chartdiv" style="width: 100%; height: 400px;"><br/></div> -->
     <img id="loading"  style="position: relative; width: 400px; height: 400px;display:block; margin:auto;" src="http://sierrafire.cr.usgs.gov/images/loading.gif" />
 
-              <div id="container" style="width: 100%; height: 400px;"><br/></div> 
+              <div id="container" style="width: 100%; height: 400px;position: relative;"><br/></div> 
               </div>
           </div>
         </div>
@@ -503,15 +529,19 @@
           <div class="col-sm-4 col-md-6">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
-              <div class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
+              <div id="targetPercentBox" class="stat-cell valign-middle align_center"> <span class="text-bg">PERCENTAGE OF MONTHLY TARGET CONFIRMED ONLY </span><br>
                 
                 <!-- <span class="text-xlg"><strong></strong><span class="text-lg text-slim"></span></span><br> -->
                 
                 <div class="monthly_report">
 
                 <div id="targetPercent_guage" style="width: 350PX; height: 200px; float: left"></div>
-                <span id="thisMonthsTarget" class="text-bg">TARGET: </span>
-                  <!-- <div class="min_max_report"> <span class="min">Minimum</span><span class="max">Maximum</span> </div> -->
+                <!-- <span id="thisMonthsTarget" class="text-bg">TARGET: </span> -->
+                <form action="javascript:setNewTarget()">
+                  <span class="text-bg" style="float:left">TARGET: Rs. <input id="targetRevenue" type="text" name="targetRevenue" value="1,20,00,000"><br>
+                  <!-- <input type="submit" value="Submit form"> --></span>
+                </form>
+                <!-- <div class="min_max_report"> <span class="min">Minimum</span><span class="max">Maximum</span> </div> -->
                 </div>
                 
                 
@@ -522,7 +552,7 @@
           <div class="col-sm-4 col-md-6">
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
-              <div class="stat-cell valign-middle align_center"> <span class="text-bg">MONTH'S CONFIRMED REVENUE</span><br>
+              <div id="monthlyRevenueBox" class="stat-cell valign-middle align_center"> <span class="text-bg">MONTH'S CONFIRMED REVENUE</span><br>
                 <div id="todaysConfirmedRevenue" class="totoal_revenue"></div>
               <div class="stat-panel-date valign-middle align_center"> <span id="rangeUnderRevenue" class="text-bg">2015-05-12 - 2015-05-12 : </span><strong><span class="text-bg" id="revenue_selectedRage">Rs.</span></strong><br>
            
@@ -538,7 +568,7 @@
         
 
         <div class="stat-panel text-center">
-          <div class="stat-cell valign-middle align_center">
+          <div id="logisticsBox" class="stat-cell valign-middle align_center">
             <div class="text-bg"> LOGISTICS </div>
             <div  id="chart_sameDayShips" class="status_per" style="background: #ffffff"><span id="percent_sameDayShips" class="status_text"></span> </div>
             <span  id="percent_sameDayShips2" class="xlheading">SAME DAY SHIPS </span>
@@ -554,7 +584,7 @@
       </div>
       <div class="col-xs-3"> 
         <div class="stat-panel text-center">
-          <div class="stat-cell valign-middle align_center">
+          <div id="CustSupportBox" class="stat-cell valign-middle align_center">
             <div class="text-bg">CUSTOMER SUPPORT</div>
             <div id="percent_CSconfirmed" class="status_per status_per_green" style="background: #ffffff"> <span class="status_text"></span> </div>
             <span id="percent_CSconfirmed2" class="xlheading">CONFIRMATION</span>
@@ -613,7 +643,7 @@
       ?>
         <!-- Centered text -->
         <div class="stat-panel text-center">
-          <div class="stat-cell valign-middle align_center">
+          <div id="QltySupportBox" class="stat-cell valign-middle align_center">
             <div class="text-bg">QUALITY SUPPORT</div>
             <div class="status_per status_result"> <span id="qcbox_totalQCs" class="status_text"><?php echo $totalQCs ?></span> </div>
             <span class="xlheading">CHECKS</span>
@@ -696,7 +726,7 @@
       ?>
         <!-- Centered text -->
         <div class="stat-panel text-center">
-          <div class="stat-cell valign-middle align_center">
+          <div id="misBox" class="stat-cell valign-middle align_center">
             <div class="text-bg">MIS</div>
             <div id="mis_uploaded" class="status_per status_result"> <span id="mis_upload_count" class="status_text"><?php echo $mis_upload_count?></span> </div>
             <span class="xlheading">Uploaded</span>
@@ -727,7 +757,6 @@
     <!-- put/insert divs here (for temporary graphs) -->
         <!-- <div id="targetPercent_guage" style="width: 300px; height: 200px; float: left"></div> -->
         <!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> -->
-        <div id="container_stacedArea" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>

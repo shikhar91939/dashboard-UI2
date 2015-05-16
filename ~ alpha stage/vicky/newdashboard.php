@@ -25,12 +25,15 @@ class Newdashboard extends CI_Controller {
 
     public function getData_staticElements()
    {
-
+      // log_message('error', 'entered getData_staticElements() now calling getData_SoapApi()'); //mylog
       $responseArray = $this->getData_SoapApi();
+      // log_message('error', 'returned from getData_SoapApi(), result stored in responseArray'); //mylog
+      // log_message('error', 'responseArray:'); //mylog
+      // log_message('error', var_export($responseArray,true)); //mylog
       echo json_encode($responseArray);
     }
 
-    public function getData_SoapApi()
+    public function getData_SoapApi($thisMonthsTarget = 12000000)
     {
       /*
       Get all data related to the SOAP API function called here 
@@ -168,10 +171,10 @@ class Newdashboard extends CI_Controller {
 
       // echo "$monthlyCount_CSconfirmed";die;
 
-      $percent_sameDayShips= $count_CSconfirmed==0 ? 0 : $count_sameDayShips /$count_CSconfirmed *100;
+      $percent_sameDayShips= $count_CSconfirmed==0 ? 0 : $count_sameDayShips /$count_CSconfirmed *100; // ? : ; prevents the php notice 'can't devide by zero'
       $percent_CSconfirmed= $count_todaysOrders==0 ? 0 :  $count_CSconfirmed / $count_todaysOrders *100;
       $percent_CScancelled = $count_todaysOrders==0 ? 0 :  $count_CScancelled/ $count_todaysOrders *100;
-      $thisMonthsTarget = 12000000;   // Change this value to current month's sales target (in Rs.)
+      // $thisMonthsTarget = 12000000;   // moved to arguement of this function
       $percent_monthlySalesTarget = $monthlyConfirmedRevenue / $thisMonthsTarget *100;
 
       //fomatting data before sending
@@ -244,16 +247,13 @@ class Newdashboard extends CI_Controller {
     {
       date_default_timezone_set('Asia/Kolkata');
 
-      // log_message('error', 'entered submitRange');
-      // log_message( 'error',var_export( $object, true ) );
+      // log_message('error', 'entered submitRange'); //mylog
 
-    $start_ymd=$this->input->post('start'); // $start_ymd ->  startTime in YearMonthDay
-    $end_ymd=$this->input->post('end');     //  || for $end_ymd
+      $start_ymd=$this->input->post('start'); // $start_ymd ->  startTime in YearMonthDay
+      $end_ymd=$this->input->post('end');     //  || for $end_ymd
 
-    // log_message('error','recieved this from post:');
-    // log_message('error', var_export($start_ymd));
-    // log_message('error', var_export($end_ymd));
-
+    // log_message('error','recieved this from post as $start_ymd and $end_ymd:'); //mylog
+    // log_message('error', var_export($start_ymd,true) ." and ". var_export($end_ymd,true)); //mylog
 
     // $start = implode('/', array_reverse(explode('-', $start)));
     // $end = implode('/', array_reverse(explode('-', $end)));
@@ -262,9 +262,12 @@ class Newdashboard extends CI_Controller {
     $start = str_replace('/','-',$start_ymd);
     $end = str_replace('/','-',$end_ymd);
 
+
+    // log_message('error', '(remove this)after replacing / with - $start_ymd and $end_ymd:'); //mylog
+    // log_message('error', "$start_ymd and $end_ymd"); //mylog
+
     // $start = "2015-05-01";
     // $end = "2015-05-05";
-
 
     $date_interval_obj = date_diff(date_create($start), date_create($end));// date_diff() works in yyyy-mm--dd . e.g. 2013-03-15
     // var_dump($date_interval_obj->format("%a")); // format("%R%a") will give string(2) "+4"   --where--   format("%a") gives string(1) "4"
@@ -272,11 +275,14 @@ class Newdashboard extends CI_Controller {
 
     $start = $this->dateFormatter($start);
     $end = $this->dateFormatter($end);
+    // log_message('error', "called dateFormatter() for $start and $end" ); //mylog
+    // log_message('error', "start_ymd=$start_ymd and end_ymd=$end_ymd"); //mylog
 
     $start_comparison = date('Y-m-d',strtotime($start . "-$date_interval days"));
 
 
     $response_x = array('start'=> $start_ymd, 'end' => $end_ymd, 'start_comparison' => $start_comparison, 'interval'=> $date_interval);
+    // log_message('error', 'delete $response_x, unused variable' ); //mylog    
     // echo json_encode($response_x);
     // $response_combined = array("mis_box"=> $response_x , "two"=>"two_val");
     // echo "<pre>";
@@ -285,60 +291,103 @@ class Newdashboard extends CI_Controller {
     // echo "</pre>";
 
 
+    $dateRange_readable = $this->getDisplayDate($start_ymd, $end_ymd);
+
+    $response_combined = array();
+    $response_combined['dateRange'] = $dateRange_readable;
+    // log_message('error', "added dateRange_readable $dateRange_readable"); //mylog
+
 
     $response_mis = $this->getMISdata($start_comparison, $start_ymd, $end_ymd);
     // $response_combined = array("mis_box"=> $response_mis , "two"=>"two_val");
-    $response_combined = array();
     $response_combined["mis_box"] = $response_mis;
+    // log_message('error', "added misData to response_combined"); //mylog
+    // log_message('error', var_export($response_combined,true)); //mylog
 
     $response_qc = $this->getQCdata($start_comparison, $start_ymd, $end_ymd);
     $response_combined["qc_box"] = $response_qc;
+    // log_message('error', "added qc data to response_combined"); //mylog
+    // log_message('error', var_export($response_combined,true)); //mylog
+
+
+    // log_message('error', "formatting dates for calling getSalesData() for graph data"); //mylog
 
     $today = date("Y-m-d",strtotime("today"));
     $yesterday  = date("Y-m-d",strtotime("yesterday"));
-    // var_dump($start_ymd);echo "<br>";
-    // var_dump($today);die;
+    // log_message('error', "for comparison, today=$today and yesterday=$yesterday"); //mylog
+
     if ($start_ymd == $today) 
     {
-      // log_message('error', 'in ($start_ymd == $today)');
-      //the function getSalesData() takes today by default
-      $response_sales = $this->getSalesData();
+      // log_message('error', 'inside if clause, $start_ymd == $today =true'); //mylog
+      // log_message('error', "start=$start_ymd and today=$today "); //mylog
+      
+      // log_message('error', 'calling getSalesData() with no arguements'); //mylog
+      $response_sales = $this->getSalesData(); //the function getSalesData() takes today by default
+      // log_message('error', 'back from getSalesData()'); //mylog
       $response_combined["sales_graph"] = $response_sales;
+      // log_message('error', 'response_combined:'); //mylog
+      // log_message('error', var_export($response_combined,true)); //mylog
     }
     else
     {
       if ($start_ymd === $end_ymd)
       {
+        // log_message('error', 'did not enter "if ($start_ymd == $today)" '); //mylog
+        // log_message('error', 'inside if clause, "if($start_ymd === $end_ymd)"'); //mylog
+        // log_message('error', "start=$start_ymd and today=$today "); //mylog
         // log_message('error','$start_ymd === $end_ymd ('.$start_ymd.'). Thus entered if');
-        // log_message('debug',var_export($start_ymd));
+        // log_message('debug',var_export($start_ymd,true));
         $end_ymd = date("Y-m-d",strtotime("+1 day",strtotime($start_ymd))); // made this correction as chosing "yesterday" gives (yesterday 00:00:00) to (yesterday 00:00:00)
+        // log_message('error', '1 day added to $end_ymd'); //mylog
+        // log_message('error', "end_ymd = $end_ymd"); //mylog
+      }else 
+      {
+        // log_message('error', 'did not enter "if ($start_ymd == $today)" '); //mylog
+        // log_message('error', 'did not enter "if($start_ymd === $end_ymd)" '); //mylog
+        // log_message('error', "start=$start_ymd and today=$today "); //mylog
       }
 
       $from = $start_ymd. " 00:00:00";
       $to = $end_ymd. " 00:00:00";
 
-      // log_message('error',"passing to getSalesData: \nfrom = $from, to= $to");
+      // log_message('error', ' " 00:00:00" appended to both these:'); //mylog
+      // log_message('error', "from = $from and to = $to"); //mylog
+
+
 
       // $from = "2015-07-10 00:00:00";// debuging only
 
-      // echo json_encode(array("from"=>$from, "to"=>$to));die;
       // if ($end_ymd == $today && $start_ymd == $yesterday) {
       //   # code... }
+      // log_message('error', 'calling getSalesData($from, $to) ='. "getSalesData($from, $to)"); //mylog
       $response_sales = $this->getSalesData($from, $to);
+      // log_message('error', 'response_sales: '); //mylog
+      // log_message('error', var_export($response_sales,true)); //mylog
       $response_combined["sales_graph"] = $response_sales;
       // echo json_encode($response_sales);die;
     }
+
+  // log_message('error', 'echoing json response:' ); //mylog
+  // log_message('error', var_export(json_encode($response_combined),true) ); //mylog
+
+
     echo json_encode($response_combined);
+    }
 
 
-    // echo "<pre>";
-    // var_dump($response_sales);
-    // echo "<hr>";
-    // var_dump($response_combined);die;
-    // var_dump(json_encode($response_combined));die;
-    // echo "</pre>";
+    public function getDisplayDate($start_ymd, $end_ymd)
+    {
     
-    // echo json_encode($response_combined);
+      log_message('error', 'entered getDisplayDate($start_ymd, $end_ymd):' ); //mylog
+      log_message('error', "'entered getDisplayDate($start_ymd, $end_ymd):'" ); //mylog
+
+      if ($start_ymd === $end_ymd) 
+      {
+        $returnDate = date('M d, Y',strtotime($start_ymd));
+        return $returnDate;
+      }
+
+      return "Date";
     }
 
     public function getLogisticsData($from='2015-05-01 00:00:00' , $to='2015-05-07 00:00:00' )
@@ -445,35 +494,71 @@ class Newdashboard extends CI_Controller {
       return true;
     */}
 
+    public function onChange_targetRevenue()
+    {
+      $newTarget/*="20,00,000";//*/=$this->input->post('newTarget'); //debuging
+
+      $newTarget_exploded = $this->multiexplode(array(',',' '),$newTarget);
+      $newTarget = implode("", $newTarget_exploded);
+
+      if (!is_numeric($newTarget)) 
+      {
+        echo json_encode(array('inputIsNumber'=>false));
+        return;
+      }
+      $newTarget = $newTarget + 0; //convert it to a number
+
+      $resultArray = $this->getData_SoapApi($newTarget);
+      $percent_newTarget = $resultArray['percent_monthlySalesTarget'];
+
+      echo json_encode(array("percent_newTarget"=>$percent_newTarget,'inputIsNumber'=>true));
+    }
+
+    public function multiexplode ($delimiters,$string) 
+    {
+      $ready = str_replace($delimiters, $delimiters[0], $string);
+      $launch = explode($delimiters[0], $ready);
+      return  $launch;
+    }
+
     public function getSalesData($start_ymd =null , $end_ymd =null , $divisions_xAxis =24)
     {
       date_default_timezone_set('Asia/Kolkata');
 
-      // log_message('error', "entered getsalesData() with $start_ymd , $end_ymd , $divisions_xAxis " );
-      // $ret = array('start_ymd'=>$start_ymd , 'end_ymd'=>$end_ymd  , 'divisions_xAxis'=>$divisions_xAxis);
-      // return $ret; //check console .log() to see this value below "return from submitDateRange"
-      // die;//i know it will not be executed after return, but helps in Ctrl+F"die"
+      // log_message('error', " entered getSalesData() with ($start_ymd , $end_ymd , $divisions_xAxis)" ); //mylog
 
-      if (is_null($start_ymd) && is_null($end_ymd))  //for debugging: only triggers when controller is accessed from the browser url(with no arguements)
+      if (is_null($start_ymd) && is_null($end_ymd))  
       {
-        $start_ymd = date('Y m d H:i:s',strtotime("today"));
-        $end_ymd = date('Y m d H:i:s',strtotime(" midnight - 7 days "));
+        // log_message('error', "start_ymd and end_ymd are null. entered if clause" ); //mylog
+        $start_ymd = date('Y-m-d H:i:s',strtotime("today"));
+        $end_ymd = date('Y-m-d H:i:s',strtotime(" midnight tomorrow"));
+        // log_message('error', 'exiting if with $start_ymd and $end_ymd as '."$start_ymd and $end_ymd" ); //mylog
       }
+      else
+      {        
+        // log_message('error', "start_ymd and end_ymd NOT null. did not enter if clause" ); //mylog
+      }
+      
+      $start_ymd_timeStamp = strtotime($start_ymd);
+      $end_ymd_timeStamp = strtotime($end_ymd);
+      // log_message('error', "start_ymd:" ); //mylog
+      // log_message('error', var_export($start_ymd_timeStamp,true) ); //mylog
 
-      // log_message('error', "after nullCheck, $start_ymd , $end_ymd , $divisions_xAxis " );
+      // log_message('error', 'calling splitTimeRange( $start_ymd_timeStamp, $end_ymd_timeStamp, $divisions_xAxis) =' ); //mylog
+      // log_message('error', "splitTimeRange( $start_ymd_timeStamp, $end_ymd_timeStamp, $divisions_xAxis)" ); //mylog
 
+      $timeSplits = $this->splitTimeRange( $start_ymd_timeStamp, $end_ymd_timeStamp, $divisions_xAxis);
 
-      // var_dump($start_ymd);echo"<br>";
-      // var_dump($end_ymd);echo"<br>";
-      // die;
+      // log_message('error', 'returned from splitTimeRange(). the response $timeSplits=' ); //mylog
+      // log_message('error', var_export($timeSplits,true) ); //mylog
 
-      // var_dump(strtotime($start_ymd));die;
-
-      $timeSplits = $this->splitTimeRange(strtotime($start_ymd), strtotime($end_ymd), $divisions_xAxis);
-                  // echo "return from time splits:<pre>";
-                  // var_dump($timeSplits);
-                  // echo "</pre>";die;
       $returnArray['xAxis'] = $timeSplits[2];
+
+      // log_message('error', '$returnArray[\'xAxis\'] assigned value:' ); //mylog
+      // log_message('error', var_export($timeSplits[2],true) ); //mylog
+      // log_message('error', '$returnArray now:' ); //mylog
+      // log_message('error', var_export($returnArray,true) ); //mylog
+
 
       // log_message('error', "xAxis reurned from splitTimeRange function:" );
       // log_message('error', var_dump($timeSplits));
@@ -486,6 +571,7 @@ class Newdashboard extends CI_Controller {
         $client = new SoapClient('http://www.overcart.com/index.php/api/v2_soap?wsdl');
         $session = $client->login('dashbaord', 'jn0ar9t6j2cysb9lywbwk0bimft9l1ce');
 
+      // log_message('error', "calling SOAP\'s salesOrderList with start_ymd=$start_ymd  and end_ymd=$end_ymd" ); //mylog
         $params = array('complex_filter'=>
           array(
               array('key'=>'created_at','value'=>array('key' =>'from','value' => $start_ymd)),
@@ -493,6 +579,8 @@ class Newdashboard extends CI_Controller {
             )
         );
         $ordersList = $client->salesOrderList($session,$params);
+      // log_message('error', 'SOAp\'s result, ordersList:' ); //my.log
+      // log_message('error', var_export($ordersList,true) ); //my.log
         // echo "<pre>";
         // foreach ($ordersList as $order) {
         //   echo ".";
@@ -513,7 +601,7 @@ class Newdashboard extends CI_Controller {
         $totalConfirmed_count = 0; /*$totalConfirmed_amount = 0; //amount not being used*/
         $orderTable=null;
 
-
+        // log_message('error', 'all variables initialized, running foreach loop' ); //mylog
         foreach ($ordersList as $order ) 
         {
           $order_time = date('Y-m-d H:i:s',strtotime(" + 330 minutes", strtotime($order->created_at))) ;
@@ -563,6 +651,11 @@ class Newdashboard extends CI_Controller {
           // echo $order->increment_id." order_time=$order_time<br>";
         }
 
+      // log_message('error', 'foreach ends' ); //mylog
+      // log_message('error', 'now, orderTable:' ); //mylog
+      // log_message('error', var_export($orderTable,true) ); //mylog
+      // log_message('error', 'running while to fill remaining intervals' ); //mylog
+
         while (count($orderTable)<$divisions_xAxis) //again using while instead of if()
         {
             // ending interval $interval_number as no more orders
@@ -581,12 +674,11 @@ class Newdashboard extends CI_Controller {
             $confirmedAmount = 0;
             $totalOrderAmount = 0;
         }
+      // log_message('error', 'while ends' ); //mylog
+      // log_message('error', 'now, orderTable:' ); //mylog
+      // log_message('error', var_export($orderTable,true) ); //mylog
 
         $returnArray['sales_distribution'] = $orderTable;
-
-                            // echo "<pre>";  
-                            // var_dump($orderTable);
-                            // die;
 
         foreach ($orderTable as $intervalArray) 
         {
@@ -596,13 +688,19 @@ class Newdashboard extends CI_Controller {
           $confirmedAmt_totalRange += $intervalArray['confirmedAmount'];
           $totalConfirmed_count += $intervalArray['confirmedCount'];
         }
+      // log_message('error', 'looping through orderTable for $confirmedAmt_totalRange and $totalConfirmed_amount' ); //mylog
+      // log_message('error', '$confirmedAmt_totalRange: ' ); //mylog
+      // log_message('error', var_export($confirmedAmt_totalRange,true) ); //mylog
+      // log_message('error', '$totalConfirmed_amount: ' ); //mylog
+      // log_message('error', var_export($totalConfirmed_amount,true) ); //mylog
+
         $confirmedAmt_totalRange = $this->moneyFormatIndia($confirmedAmt_totalRange);
         $returnArray['confirmedAmt_totalRange']= $confirmedAmt_totalRange;
         $returnArray['totalConfirmed_count']= $totalConfirmed_count;
     
-                  // echo "<pre>";
-                  // var_dump($returnArray);
-                  //  echo "</pre>";die;
+      // log_message('error', 'returning from function, $returnArray: ' ); //mylog
+      // log_message('error', var_export($returnArray,true) ); //mylog
+
         return $returnArray;
         // echo json_encode($returnArray);
 
@@ -629,27 +727,39 @@ class Newdashboard extends CI_Controller {
 
       } catch (SoapFault $fault) {
             trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
+        // log_message('error', 'ENCOUNTERED SOAP FAULT' ); //mylog
         }      
+    }
+
+    public function seconds_to_hms($seconds) 
+    {
+      $t = round($seconds);
+      return sprintf('%02d:%02d:%02d', ($t/3600),($t/60%60), $t%60);
     }
 
     function splitTimeRange($start_timeStamp = null, $end_timeStamp = null, $intervals='24') //remove all 3 default values after debugging
     {
+      // log_message('error', 'entered splitTimeRange($start_timeStamp, $end_timeStamp, $intervals) with these arguments: '); //mylog
+      // log_message('error', "($start_timeStamp, $end_timeStamp, $intervals)"); //mylog
 
-      // var_dump($start_timeStamp);
-      // var_dump($end_timeStamp);die;
-      if (is_null($start_timeStamp) || is_null($start_timeStamp))      
-      {   
+      if (is_null($start_timeStamp) || is_null($end_timeStamp))      
+      {
+        // log_message('error', '$start_timeStamp'."=$start_timeStamp, end_timeStamp=$end_timeStamp"); //mylog
         $today_debug = date('Y-m-d',strtotime('now'));
         $yest_debug  = date('Y-m-d', strtotime('yesterday'));
         $start_timeStamp=strtotime($today_debug);
         $end_timeStamp=strtotime($yest_debug);
+
+        // log_message('error', '"($start_timeStamp, $end_timeStamp, $intervals)" are now:'); //mylog
+        // log_message('error', "($start_timeStamp, $end_timeStamp, $intervals)"); //mylog
       }
-      // $start_timeStamp=strtotime($start_timeStamp);
-      // $end_timeStamp=strtotime($end_timeStamp);
       
       $timeDiff_seconds=$end_timeStamp-$start_timeStamp;
-      // $timeDiff_hours = floor($timeDiff_seconds /60 /60);
       $interval_seconds = $timeDiff_seconds / $intervals;
+      // log_message('error', "calculated timeDiff_seconds and interval_seconds"); //mylog
+      // log_message('error', '$timeDiff_seconds='.$this->seconds_to_hms($timeDiff_seconds)); //mylog
+      // log_message('error', ' $interval_seconds='.$this->seconds_to_hms($interval_seconds)); //mylog
+
 
       $timestamp_Array=null;// timestamp array of intervals
       $ymd_Array=null;// YearMonthDay format array of intervals
@@ -658,21 +768,25 @@ class Newdashboard extends CI_Controller {
         $next_timeStamp=  $start_timeStamp + ($i * $interval_seconds);
         $timestamp_Array[] = $next_timeStamp;
         $ymd_Array[] =  date('Y-m-d H:i:s', $next_timeStamp);
-        $readable_Array[] = date('ga, d M Y', $next_timeStamp);
+        $readable_Array[] = date('ga d M y', $next_timeStamp);
       endfor;
 
-      // echo "<pre>";
-      // var_dump($start_timeStamp);echo "<hr>";
-      // var_dump($end_timeStamp);echo "<hr>";
-      // var_dump($readable_Array);echo "<br>"; die;
+      // log_message('error','the 3 arrays created by the for loop:'); //mylog
+      // log_message('error','timestamp_Array:');//mylog
+      // log_message('error',var_export($timestamp_Array,true));//mylog
+      // log_message('error','ymd_Array:');//mylog
+      // log_message('error',var_export($ymd_Array,true));//mylog
+      // log_message('error',"readable_Array:");//mylog
+      // log_message('error',var_export($readable_Array,true));//mylog
 
       // echo "<pre>";
       // var_dump($ymd_Array);         // <-A
       // var_dump($timestamp_Array);
       // foreach ($ymd_Array as $ymd) 
       //   var_dump(strtotime($ymd));   // <-B
-      // echo "</pre>";                  // as A matches B, we can say strtotime() converts 'Y-m-d H:i:s' back to timestamp with loss of less than 1 second each time
+      // echo "</pre>";                  // as A matches B, we can say strtotime() converts 'Y-m-d H:i:s' back to timestamp with loss of less than 1 second 
 
+      // log_message('error','making readble values for xAxis');//mylog
       $start_range = $readable_Array[0];
       $end_range = $readable_Array[count($readable_Array) -2]; //2nd last element as the las one is onf next day. for e.g midnight13may tomidnight14thmay, so we take 23hrs13thmay as $end_range
 
@@ -683,23 +797,42 @@ class Newdashboard extends CI_Controller {
       // var_dump($start_explode);echo "<br>";
       // var_dump($start_explode[1]);
       // die;
-      if ( $start_date === $end_date) //if its for one day only
+      // log_message('error',' comparing  $end_timeStamp to $start_timeStamp:');//mylog
+      // log_message('error',"' comparing $end_timeStamp to $start_timeStamp:'");//mylog
+      if (  $end_timeStamp-$start_timeStamp <= (60*60*24)) //if its for one day or less 
        {
+        // log_message('error','entered if clause start_date === $end_date is true');//mylog
         $count_readable_Array= count($readable_Array);
         for ($i=0; $i < $count_readable_Array ; $i++) 
         {
-            $exploded_hour = explode(",", $readable_Array[$i]);
+            $exploded_hour = explode(" ", $readable_Array[$i]);
             $readable_Array[$i] = $exploded_hour[0];
         }
+        // log_message('error',' exiting if clause, $readable_Array:');//mylog
+        // log_message('error', var_export($readable_Array,true));//mylog
+      }
+      else //only temporarily using this. (use the next else afterwords)
+         {
+        // log_message('error','entered if clause start_date === $end_date is true');//mylog
+        $count_readable_Array= count($readable_Array);
+        for ($i=0; $i < $count_readable_Array ; $i++) 
+        {
+            $exploded_hour = explode(" ", $readable_Array[$i]);
+            $readable_Array[$i] = $exploded_hour[1]. " ".$exploded_hour[2];
+        }
+        // log_message('error',' exiting if clause, $readable_Array:');//mylog
+        // log_message('error', var_export($readable_Array,true));//mylog
       }
       // else 
       // {
+      //   // log_message('error','entered else clause start_date === $end_date is false');//mylog
       //   $count_readable_Array= count($readable_Array);
       //   for ($i=0; $i < ($count_readable_Array); $i++) //not running the loop for the last element as $readable_Array[$i+1] will give a php notice
       //   { 
       //     //  date('ga d M Y', $next_timeStamp);
       //     $exploded_interval = explode(" ", $readable_Array[$i]);
-      //         // var_dump($exploded_interval );die;
+      //     // log_message('error', 'var_export($exploded_interval,true)');//my.log
+      //     // log_message('error', var_export($exploded_interval,true));//my.log
 
       //     $hour= $exploded_interval[0];
       //     $day= $exploded_interval[1];
@@ -729,7 +862,7 @@ class Newdashboard extends CI_Controller {
       //     {
       //       $readable_Array[$i] = $day." ".$month;
       //     }
-      //     elseif ($day !== $day) 
+      //     elseif ($day !== $day_next) 
       //     {
       //       $readable_Array[$i] = $hour." ".$day;
       //     }
@@ -754,8 +887,8 @@ class Newdashboard extends CI_Controller {
         array=>{ ['m d' of timeStamp1],        ['m d' of timeStamp2],          ... ['m d' of timeStamp5]         }    
       }
       */
-
-
+      // log_message('error','returning from splitTimeRange() with :');//mylog
+      // log_message('error',var_export($returnArray,true));//mylog
       return $returnArray;
     }
 
@@ -924,13 +1057,13 @@ class Newdashboard extends CI_Controller {
   // foreach ($array_accessories as $key => $value) {echo "($key, $value)<br/>"; }
   // foreach ($array_accessories as $key => $value) {var_dump($key);echo "->";var_dump($value);}
   // foreach ($array_sellAsStatus as $key => $value) {echo "($key, $value)<br/>"; }
-  // var_export($tableForChart_keys);
-  // var_export($array_hardwareTypes);
+  // var_export($tableForChart_keys,true);
+  // var_export($array_hardwareTypes,true);
   // echo "</pre>";die;
   // echo $tableForChart["Accessories BER"];
   // foreach ($tableForChart_keys as $this_key) 
   // {
-  //   var_export($tableForChart[$this_key]);
+  //   var_export($tableForChart[$this_ke,truey]);
     // echo "<br/>";die;
   // }
   // die;
