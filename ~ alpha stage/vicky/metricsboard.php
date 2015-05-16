@@ -94,22 +94,19 @@
               }
               */
 
-              $('#count_CSconfirmed').text(d.count_CSconfirmed);
-              $('#text_percentCSconfirmed').text(d.percent_CSconfirmed);
               console.log("confirmed:");
-              console.log(d.percent_CSconfirmed);
-              $('#totoal_revenue').text(d.todaysConfirmedRevenue);
-              $('#todaysConfirmedRevenue').text('Rs. '+d.monthlyConfirmedRevenue);
-              render_sameDayShips(d.percent_sameDayShips);
+              console.log(d.CCmetrics.confirmed_revenue);
+              $('#todaysConfirmedRevenue').text('Rs. '+d.CCmetrics.confirmed_revenue);
+              render_sameDayShips(d.data_notCCmetrics.percent_sameDayShips);
               // $('#percent_sameDayShips').text(d.percent_sameDayShips+'%');
-              $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.percent_sameDayShips+'%');
-              render_CSconfirmed(d.percent_CSconfirmed, d.percent_CScancelled);
+              $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.data_notCCmetrics.percent_sameDayShips+'%');
+              render_CSconfirmed(d.data_notCCmetrics.percent_CSconfirmed, d.data_notCCmetrics.percent_CScancelled);
               // $('#percent_CSconfirmed').text(d.percent_CSconfirmed+'%');
-              $('#percent_CSconfirmed2').text("CONFIRMATION "+d.percent_CSconfirmed+'%');
-              render_MonthlyGuage(d.percent_monthlySalesTarget);
+              $('#percent_CSconfirmed2').text("CONFIRMATION "+d.data_notCCmetrics.percent_CSconfirmed+'%');
+              render_MonthlyGuage(d.data_notCCmetrics.percent_monthlySalesTarget);
               console.log("percent_monthlySalesTarget:");
-              console.log(d.percent_monthlySalesTarget);
-              $('#thisMonthsTarget').text("TARGET: Rs."+ d.thisMonthsTarget);  // change "$thisMonthsTarget" in the newdashboard controller in getData_SoapApi() function
+              console.log(d.data_notCCmetrics.percent_monthlySalesTarget);
+              $('#thisMonthsTarget').text("TARGET: Rs."+ d.data_notCCmetrics.thisMonthsTarget);  // change "$thisMonthsTarget" in the newdashboard controller in getData_SoapApi() function
 
 
             },
@@ -143,6 +140,8 @@
           $('#CustSupportBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
           $('#QltySupportBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
           $('#misBox').hide().ajaxStart(function(){$(this).css("z-index",-100); }).ajaxStop(function() {$(this).css("z-index","auto"); });
+
+          // $('#mis_arrow_img').hide();//removing arrows 
 
 
           //ajax :
@@ -191,6 +190,7 @@
                 $('#qcbox_totalQCs').text(d.qc_box.totalQCs);
                 $('#qcbox_totalQCs_diff').text(d.qc_box.totalQCs_diff);
                 $('#qcbox_qc_percent_rise').text(d.qc_box.cbox_qc_percent_rise);
+                // ds.localeCompare( "Infinite" ) || ds.localeCompare("Undefined" );
               //QC data
 
               // Sales Graph
@@ -199,6 +199,10 @@
                 // render_salesGraph(d.sales_graph);
                 renderSales_hourly(d.sales_graph);
               // Sales Graph
+
+              //above sales graph
+              $('#text_percentCSconfirmed').text(d.response_CCmetrics.confirmed_percentage);
+              //above sales graph
               //Sales revenue in selected range
                 console.log('d:');
                 console.log(d);              
@@ -211,7 +215,7 @@
                 
                 console.log('count_CSconfirmed:');
                 console.log(d.sales_graph.count_CSconfirmed);
-                $('#count_CSconfirmed').text(d.sales_graph.count_CSconfirmed);
+                $('#count_CSconfirmed').text(d.response_CCmetrics.confirmed_orders);
               //Sales revenue in selected range
               // graph_temp_dynamic(d.a);
             },
@@ -459,7 +463,9 @@
     <div id="main-menu-inner">
       <ul class="navigation">
         <li class="active"> <a href=<?php  echo '"'.base_url() . 'index.php/newdashboard"';?>  ><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span><!-- <span class="label label-new">1127</span> --></a> </li>
-       <li> <a href=<?php echo base_url() . "index.php/newdashboard/logisticsandinventory";?> ><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Logistics and Inventory</span></a> </li>
+       <li> <a href=<?php echo base_url() . "index.php/newdashboard/logistics";?> ><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Logistics</span></a> </li>
+       <li> <a href=<?php echo base_url() . "index.php/newdashboard/quality";?> ><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Quality</span></a> </li>
+       <li> <a href=<?php echo base_url() . "index.php/newdashboard/inventory";?> ><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Inventory</span></a> </li>
        <!--  <li> <a href="../../stat-panels.html"><i class="menu-icon fa fa-bolt"></i><span class="mm-text">Support</span></a> </li>
         <li> <a href="../../widgets.html"><i class="menu-icon fa fa-envelope-o"></i><span class="mm-text">Quality</span></a> </li>
         <li> <a href="#"><i class="menu-icon fa fa fa-calendar"></i><span class="mm-text">Notifications</span><span class="label label-new">16</span></a></li>

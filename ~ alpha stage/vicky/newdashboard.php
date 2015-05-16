@@ -25,18 +25,30 @@ class Newdashboard extends CI_Controller {
 
     public function getData_staticElements()
    {
-      // log_message('error', 'entered getData_staticElements() now calling getData_SoapApi()'); //mylog
-      $responseArray = $this->getData_SoapApi();
-      // log_message('error', 'returned from getData_SoapApi(), result stored in responseArray'); //mylog
+      // log_message('error', 'entered getData_staticElements() now calling data_notCCmetrics()'); //mylog
+      $responseArray['data_notCCmetrics'] = $this->data_notCCmetrics();
+      // log_message('error', 'returned from data_notCCmetrics(), result stored in responseArray'); //mylog
       // log_message('error', 'responseArray:'); //mylog
       // log_message('error', var_export($responseArray,true)); //mylog
+
+      $start_ymd = date('Y-m-d',strtotime('first day of this month'));
+      $end_ymd = date('Y-m-d',strtotime('today'));
+        // log_message('error', 'for monthly revenue, calling getCCmetrics($start_ymd, $end_ymd)'); //cmylog
+        // log_message('error', "getCCmetrics($start_ymd, $end_ymd)"); //cmylog
+      $responseArray['CCmetrics'] = $this->getCCmetrics($start_ymd, $end_ymd);
+
       echo json_encode($responseArray);
     }
 
-    public function getData_SoapApi($thisMonthsTarget = 12000000)
+    public function data_notCCmetrics($thisMonthsTarget = 12000000)
     {
       /*
       Get all data related to the SOAP API function called here 
+
+      edit:
+      this function was made to get (all the static data (not dependant on the dateSalector)) the whole 
+      mmonth's orders->cal. confirmed orders this month and %revenue ingauge
+      But then we had to match it to cc metrics so month's data is not taken from here.
       */
       date_default_timezone_set('Asia/Kolkata');
     
@@ -316,6 +328,19 @@ class Newdashboard extends CI_Controller {
     $yesterday  = date("Y-m-d",strtotime("yesterday"));
     // log_message('error', "for comparison, today=$today and yesterday=$yesterday"); //mylog
 
+
+     // log_message('error', '"Calling function getCCmetrics($start_ymd, $end_ymd):"'); //_mylog
+      // log_message('error', "getCCmetrics($start_ymd, $end_ymd):"); //cmylog
+    $response_CCmetrics = $this->getCCmetrics($start_ymd, $end_ymd); //getting exct same data as in CC metrics
+      // log_message('error', '"returned from getCCmetrics() with $response_CCmetrics:"'); //cmylog
+      // log_message('error', var_export($response_CCmetrics,true)); //cmylog
+    $response_combined['response_CCmetrics'] = $response_CCmetrics;
+
+
+/*
+getSalesData() called below and json echo'ed. getSalesData() is the function I initially made 
+this data (in $response_sales) is being sent in json form but not being used. Remove this once CCmetrics function is ready
+*/
     if ($start_ymd == $today) 
     {
       // log_message('error', 'inside if clause, $start_ymd == $today =true'); //mylog
@@ -374,12 +399,141 @@ class Newdashboard extends CI_Controller {
     echo json_encode($response_combined);
     }
 
+    public function getCCmetrics($start_ymd, $end_ymd)
+    {
+      date_default_timezone_set("UTC"); //this is the time zone ccMetrics runs on
 
+      // log_message('error', 'entered "getCCmetrics($start_ymd, $end_ymd):"'); //cmylog
+      // log_message('error', "getCCmetrics($start_ymd, $end_ymd):"); //cmylog
+
+      $from = $start_ymd .' 00:00:00';
+      $to = $end_ymd ." 23:59:59" ;
+
+      // log_message('error', "calling SoapClient. from= $from, to=$to):"); //cmylog
+      try
+      {
+        $client = new SoapClient('http://www.overcart.com/index.php/api/v2_soap?wsdl');
+        $session = $client->login('dashbaord', 'jn0ar9t6j2cysb9lywbwk0bimft9l1ce');
+
+        $params = array('complex_filter'=>
+          array(
+              array('key'=>'created_at','value'=>array('key' =>'from','value' => $from)), //taking dayBeforeYesterday to avoid missing yesterday's orders due to time zone difference
+              array('key'=>'created_at', 'value'=>array('key' => 'to', 'value' => $to))
+            )
+        );
+        $ordersList = $client->salesOrderList($session,$params);
+      } catch (SoapFault $fault) {trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR); }
+
+      // log_message('error', "OrderList:"); //cmylog
+      // log_message('error', var_export($ordersList,true)); //
+
+      // foreach ($ordersList as $order)//debugging
+      // {
+      //   $increment_id = $order->increment_id;
+      //   $created_at= strtotime($order->created_at);
+      //   // $ist = strtotime(" + 330 minutes", $created_at) ;
+      //   $order_time_utc = date('Y-m-d H:i:s', $created_at) ;
+      //   $ist = date('Y-m-d H:i:s',strtotime(" + 330 minutes", $created_at)) ; //ist time is not being used
+      //   // not being used
+      //   // $orderValue = $order->grand_total;
+      //   // $state = $order->state;
+      //   // $status = $order->status;
+      // log_message('error', "".$increment_id.": ". ", at ". $order_time_utc. ', ist '.$ist ); //cmylog
+      // }
+
+        /*
+        Exact copy of CC metrics below
+        */
+        $canceled_orders = 0;
+        $duplicate_order = 0;        
+        $fake_orders = 0;
+        $pending_orders = 0;
+        $canceled_revenue = 0;
+        $total_revenue = 0;
+        $pending_revenue=0;
+        $total_orders = count($ordersList);
+
+        foreach ($ordersList as $order) 
+        { 
+          $increment_id = $order->increment_id;
+          $created_at= strtotime($order->created_at);
+          $order_time_utc = date('Y-m-d H:i:s', $created_at) ;
+          $ist = date('Y-m-d H:i:s',strtotime(" + 330 minutes", $created_at)) ; //ist time is not being used
+          // log_message('error', "".$increment_id.": ". ", at ". $order_time_utc. ', ist '.$ist."->" ); //cmylog
+
+          if($order->status=='canceled')
+          {
+            // log_message('error', "cancelled,"); //cmylog
+            $canceled_orders++;
+            $canceled_revenue += $order->grand_total;
+          }
+          // if($order['sel_cancelled_val']=='Fake order')
+          // {
+          //   $fake_orders++;
+          // }
+          // if($order['sel_cancelled_val']=='Duplicate order')
+          // {
+          //   $duplicate_order++; 
+          // }
+          if($order->status=='pending' || $order->status == 'pending_payment')
+          {
+            // log_message('error', "pending(/payment),"); //cmylog
+            $pending_orders++;
+            $pending_revenue += $order->grand_total;
+          }
+          $total_revenue +=  $order->grand_total;
+
+          // log_message('error', "\n"); //cmylog
+       }
+
+       $cancel_rev_percentage = number_format(round(($canceled_revenue/intval($total_revenue))*100));
+       $pending_rev_percentage = number_format(round(($pending_revenue/intval($total_revenue))*100));
+       $confirmed_revenue = $total_revenue - ($canceled_revenue + $pending_revenue);
+       $confirmed_rev_percentage = number_format(round(($confirmed_revenue/intval($total_revenue))*100));
+       $confirmed_revenue = number_format(round(($total_revenue - ($canceled_revenue + $pending_revenue))));
+       $total_revenue = number_format(round($total_revenue));
+       $canceled_revenue = number_format(round($canceled_revenue));
+       $pending_revenue = number_format(round($pending_revenue));
+       $confirmed_orders = $total_orders - $canceled_orders - $pending_orders;
+       $confirmed_percentage = number_format(round(($confirmed_orders/$total_orders)*100));
+       $canceled_percentage = number_format(round(($canceled_orders/$total_orders)*100));
+       $duplicate_percentage = number_format(round(($duplicate_order/$total_orders)*100));
+       $fake_percentage = number_format(round(($fake_orders/$total_orders)*100));
+       $pending_percentage = number_format(round(($pending_orders/$total_orders)*100));
+
+
+      // log_message('error', "final valvues: "); //cmylog
+
+      // log_message('error' ,'$report_date= '. $report_date);//cmylog
+      // log_message('error' ,'$total_orders= '. $total_orders);//cmylog
+      // log_message('error' ,'$confirmed_orders= '. $confirmed_orders);//cmylog
+      // log_message('error' ,'$confirmed_percentage= '. $confirmed_percentage);//cmylog
+      // log_message('error' ,'$canceled_orders= '. $canceled_orders);//cmylog
+      // log_message('error' ,'$canceled_percentage= '. $canceled_percentage);//cmylog
+      // log_message('error' ,'$duplicate_order= '. $duplicate_order);//cmylog
+      // log_message('error' ,'$duplicate_percentage= '. $duplicate_percentage);//cmylog
+      // log_message('error' ,'$fake_orders= '. $fake_orders);//cmylog
+      // log_message('error' ,'$fake_percentage= '. $fake_percentage);//cmylog
+      // log_message('error' ,'$pending_orders= '. $pending_orders);//cmylog
+      // log_message('error' ,'$pending_percentage= '. $pending_percentage);//cmylog
+      // log_message('error' ,'$total_revenue= '. $total_revenue);//cmylog
+      // log_message('error' ,'$canceled_revenue= '. $canceled_revenue);//cmylog
+      // log_message('error' ,'$cancel_rev_percentage= '. $cancel_rev_percentage);//cmylog
+      // log_message('error' ,'$confirmed_revenue= '. $confirmed_revenue);//cmylog
+      // log_message('error' ,'$confirmed_rev_percentage= '. $confirmed_rev_percentage);//cmylog
+      // log_message('error' ,'$pending_revenue= '. $pending_revenue);//cmylog
+      // log_message('error' ,'$pending_rev_percentage= '. $pending_rev_percentage);//cmylog
+      // log_message('error', "total_revenue= ". $total_revenue); //cmylog
+
+      $returnArray = array('confirmed_orders'=>$confirmed_orders, 'confirmed_rev_percentage'=>$confirmed_rev_percentage, 'confirmed_revenue'=>$confirmed_revenue,
+        'confirmed_percentage'=>$confirmed_percentage, 'canceled_percentage'=>$canceled_percentage, 'pending_percentage'=>$pending_percentage);
+      return $returnArray;
+    }
     public function getDisplayDate($start_ymd, $end_ymd)
     {
     
-      log_message('error', 'entered getDisplayDate($start_ymd, $end_ymd):' ); //mylog
-      log_message('error', "'entered getDisplayDate($start_ymd, $end_ymd):'" ); //mylog
+      // log_message('error', 'entered getDisplayDate($start_ymd, $end_ymd):' ); //mylog
+      // log_message('error', "'entered getDisplayDate($start_ymd, $end_ymd):'" ); //mylog
 
       if ($start_ymd === $end_ymd) 
       {
@@ -508,7 +662,7 @@ class Newdashboard extends CI_Controller {
       }
       $newTarget = $newTarget + 0; //convert it to a number
 
-      $resultArray = $this->getData_SoapApi($newTarget);
+      $resultArray = $this->data_notCCmetrics($newTarget);
       $percent_newTarget = $resultArray['percent_monthlySalesTarget'];
 
       echo json_encode(array("percent_newTarget"=>$percent_newTarget,'inputIsNumber'=>true));
@@ -819,13 +973,14 @@ class Newdashboard extends CI_Controller {
         {
             $exploded_hour = explode(" ", $readable_Array[$i]);
             $readable_Array[$i] = $exploded_hour[1]. " ".$exploded_hour[2];
+            // $readable_Array[$i] = $i%2!==0 ? null : $exploded_hour[1]. " ".$exploded_hour[2]; // dontDelete
         }
         // log_message('error',' exiting if clause, $readable_Array:');//mylog
         // log_message('error', var_export($readable_Array,true));//mylog
       }
       // else 
       // {
-      //   // log_message('error','entered else clause start_date === $end_date is false');//mylog
+        log_message('error','entered else clause start_date === $end_date is false');//mylog
       //   $count_readable_Array= count($readable_Array);
       //   for ($i=0; $i < ($count_readable_Array); $i++) //not running the loop for the last element as $readable_Array[$i+1] will give a php notice
       //   { 
@@ -1174,10 +1329,22 @@ class Newdashboard extends CI_Controller {
 
 
     
-    public function logisticsandinventory()
+    public function logistics()
     {
       $data['prevent_css'] = true;
-      $data['main_content'] = 'admin/newdashboard/logisticsandinventory';
+      $data['main_content'] = 'admin/newdashboard/logistics';
+      $this->load->view('includes/template', $data);  
+    }
+    public function quality()
+    {
+      $data['prevent_css'] = true;
+      $data['main_content'] = 'admin/newdashboard/quality';
+      $this->load->view('includes/template', $data);  
+    }
+    public function inventory()
+    {
+      $data['prevent_css'] = true;
+      $data['main_content'] = 'admin/newdashboard/inventory';
       $this->load->view('includes/template', $data);  
     }
   
