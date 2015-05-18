@@ -42,12 +42,12 @@
     $(function() { 
           $("#selector_dateRange").daterangepicker({
              onChange: function() { 
-              console.log('change') ;
+              // console.log('change') ;
               // alert("Selected range is: ");
               var selectedRange = $("#selector_dateRange").val();
 
-              console.log("selectedRange:");
-              console.log(selectedRange);
+              // console.log("selectedRange:");
+              // console.log(selectedRange);
               // $('#subText').text(selectedRange);
               renderAll_rangeDependant(selectedRange);
             }
@@ -56,14 +56,14 @@
     
     function initializePage (argument)    //initialize all graphs
     {
-      console.log("initializing page..");
+      // console.log("initializing page..");
       renderAll_rangeDependant(argument);
       renderAll_static();
     }
 
     function renderAll_static ()
     {
-      console.log('in static');
+      // console.log('in static');
       $.ajax({
             type: "POST",
             url: '<?php echo site_url("newdashboard").'/getData_staticElements';?>', 
@@ -95,20 +95,20 @@
               }
               */
 
-              console.log("confirmed:");
-              console.log(d.CCmetrics.confirmed_revenue);
+              // console.log("confirmed:");
+              // console.log(d.CCmetrics.confirmed_revenue);
               $('#todaysConfirmedRevenue').text('Rs. '+d.CCmetrics.confirmed_revenue);
               monthsConfirmedRevenue = d.CCmetrics.confirmed_revenue;
-              console.log('monthsConfirmedRevenuekey: "value", ');
-              console.log(monthsConfirmedRevenue);
+              // console.log('monthsConfirmedRevenuekey: "value", ');
+              // console.log(monthsConfirmedRevenue);
               render_sameDayShips(d.data_notCCmetrics.percent_sameDayShips);
               // $('#percent_sameDayShips').text(d.percent_sameDayShips+'%');
               $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.data_notCCmetrics.percent_sameDayShips+'%');
               // $('#percent_CSconfirmed').text(d.percent_CSconfirmed+'%');  // this pie chart should be range dependant . not static
               $('#percent_CSconfirmed2').text("CONFIRMATION "+d.data_notCCmetrics.percent_CSconfirmed+'%');
               render_MonthlyGuage(d.data_notCCmetrics.percent_monthlySalesTarget);
-              console.log("percent_monthlySalesTarget:");
-              console.log(d.data_notCCmetrics.percent_monthlySalesTarget);
+              // console.log("percent_monthlySalesTarget:");
+              // console.log(d.data_notCCmetrics.percent_monthlySalesTarget);
               $('#thisMonthsTarget').text("TARGET: Rs."+ d.data_notCCmetrics.thisMonthsTarget);  // change "$thisMonthsTarget" in the newdashboard controller in getData_SoapApi() function
 
 
@@ -128,8 +128,8 @@
           var parsed_selectedRange = JSON.parse(selectedRange);
           // var start = parsed.start;
           // var end = parsed.end;
-          console.log("passing this throught ajax:");
-          console.log("start date: "+parsed_selectedRange.start+", end date: "+parsed_selectedRange.end);
+          // console.log("passing this throught ajax:");
+          // console.log("start date: "+parsed_selectedRange.start+", end date: "+parsed_selectedRange.end);
 
           $('#loading').hide().ajaxStart(function(){$(this).show(); }).ajaxStop(function() {$(this).hide(); });//show loading gif
           //hide elements while loading
@@ -173,41 +173,70 @@
               //mis uploads update
                 $('#mis_upload_count').text(d.mis_box.mis_upload_count);
                 $('#diff_mis').text(d.mis_box.diff_mis);
-                if (d.mis_box.isDiffPositive)         // add this: change image to green/red arrow acc. to diff +ve /-ve
-                {
-                  console.log(true);
-                  //echo "src=\"". base_url() ."assets/images/template/red-arrow.png\"";
-                  // $('mis_arrow_img').attr('src',baseUrl+'assets/images/template/green-arrow.png');
-                  $('mis_arrow_img').attr('src','http://overboxd.com/vicky/assets/images/template/green-arrow.png');
-                } 
-                else 
-                {
-                  console.log(false);
-                  // $('mis_arrow_img').attr('src',baseUrl+'assets/images/template/red-arrow.png');
-                  $('mis_arrow_img').attr('src','http://overboxd.com/vicky/assets/images/template/red-arrow.png');
-                }
-                $('#mis_percent_display').text(d.mis_box.mis_percent_display+"%");
-                // $('#dumpDiv').text(dStringified);
-                // console.log(d.mis_box.mis_upload_count);
-                // console.log(d.mis_box.diff_mis);
+                var risePercent_mis = d.mis_box.mis_percent_display;
+                // console.log('comparing value :');
                 // console.log(d.mis_box.mis_percent_display);
-                // console.log(d.mis_box.isDiffPositive);
+                // console.log(risePercent_mis);
+                // console.log('type:');
+                // console.log( typeof(risePercent_mis));
+                // console.log( typeof("risePercent_mis.localeCompare('Undefined'):"));
+                // console.log(risePercent_mis.localeCompare('Undefined'));
+                
+                if (typeof risePercent_mis == 'undefined'|| risePercent_mis.localeCompare('Undefined')== 0) 
+                {
+                  // console.log('case: Undefined/Infinite');
+                  $('#diff_mis').hide();
+                  $('#mis_percent_display').hide();
+                  $('#mis_arrow_img').hide();
+                }
+                else
+                {
+                  // console.log('case:nomal value');
+                  if (d.mis_box.isDiffPositive)         // add this: change image to green/red arrow acc. to diff +ve /-ve
+                  {
+                    // console.log(true);
+                    //echo "src=\"". base_url() ."assets/images/template/red-arrow.png\"";
+                    // $('mis_arrow_img').attr('src',baseUrl+'assets/images/template/green-arrow.png');
+                    $('mis_arrow_img').attr('src','http://overboxd.com/vicky/assets/images/template/green-arrow.png');
+                  } 
+                  else 
+                  {
+                    // console.log(false);
+                    // $('mis_arrow_img').attr('src',baseUrl+'assets/images/template/red-arrow.png');
+                    $('mis_arrow_img').attr('src','http://overboxd.com/vicky/assets/images/template/red-arrow.png');
+                  }
+                  $('#mis_percent_display').text(d.mis_box.mis_percent_display+"%");
+                }
               //mis uploads ends
 
               //QC data
-                console.log(d.qc_box.isDiffPositive)
-                console.log(d.qc_box.qc_percent_rise)
-                console.log(d.qc_box.totalQCs)
-                console.log(d.qc_box.totalQCs_diff)
+                // console.log(d.qc_box.isDiffPositive)
+                // console.log(d.qc_box.qc_percent_rise)
+                // console.log(d.qc_box.totalQCs)
+                // console.log(d.qc_box.totalQCs_diff)
                 $('#qcbox_totalQCs').text(d.qc_box.totalQCs);
-                $('#qcbox_totalQCs_diff').text(d.qc_box.totalQCs_diff);
-                $('#qcbox_qc_percent_rise').text(d.qc_box.cbox_qc_percent_rise);
-                // ds.localeCompare( "Infinite" ) || ds.localeCompare("Undefined" );
+                var risePercent_qc = d.qc_box.cbox_qc_percent_rise;
+                // console.log('comparing value :');
+                // console.log(d.qc_box.qc_percent_rise);
+                if(typeof risePercent_qc == 'undefined')
+                {                
+                  // console.log('case: Undefined/Infinite');
+                  $('#qcbox_totalQCs_diff').hide();
+                  $('#qcbox_arrow').hide();
+                  $('#qcbox_qc_percent_rise').hide();
+                  // ds.localeCompare( "Infinite" ) || ds.localeCompare("Undefined" );
+                }
+                else
+                {
+                  // console.log('case:nomal value');
+                  $('#qcbox_totalQCs_diff').text(d.qc_box.totalQCs_diff);
+                  $('#qcbox_qc_percent_rise').text(d.qc_box.qc_percent_rise);
+                }
               //QC data
 
               // Sales Graph
-                console.log('salesdata');
-                console.log(d.sales_graph);
+                // console.log('salesdata');
+                // console.log(d.sales_graph);
                 // render_salesGraph(d.sales_graph);
                 renderSales_hourly(d.sales_graph);
               // Sales Graph
@@ -229,10 +258,10 @@
               //Sales revenue in selected range
 
               //CS pie chart at the bottom
-              console.log("why u not found:");
-              console.log(d);
-              console.log(d.response_CCmetrics);
-              console.log(d.response_CCmetrics.confirmed_percentage);
+              // console.log("why u not found:");
+              // console.log(d);
+              // console.log(d.response_CCmetrics);
+              // console.log(d.response_CCmetrics.confirmed_percentage);
               render_CSconfirmed_new(d.response_CCmetrics.confirmed_percentage,d.response_CCmetrics.canceled_percentage,d.response_CCmetrics.pending_percentage);
               // render_CSconfirmed(d.data_notCCmetrics.percent_CSconfirmed, d.data_notCCmetrics.percent_CScancelled);
               //CS pie chart at the bottom
@@ -248,40 +277,40 @@
    {
     var newTarget = document.getElementById("targetRevenue").value;
     var newTarget_parsed = {"newTarget": newTarget};
-    console.log('setting new target');
-    console.log("newTarget_parsed:");
-    console.log(newTarget_parsed);
-    console.log('type:');
-    console.log(typeof(newTarget_parsed.newTarget));
+    // console.log('setting new target');
+    // console.log("newTarget_parsed:");
+    // console.log(newTarget_parsed);
+    // console.log('type:');
+    // console.log(typeof(newTarget_parsed.newTarget));
 
     monthsConfirmedRevenue = monthsConfirmedRevenue.replace(/,/g, "");
     monthsConfirmedRevenue = monthsConfirmedRevenue.replace(/ /g, "");
-    console.log('monthsConfirmedRevenue:');
-    console.log(monthsConfirmedRevenue);
-    console.log('type:');
-    console.log(typeof(monthsConfirmedRevenue));
-    console.log('newTarget_parsed.newTarget is a number:');
+    // console.log('monthsConfirmedRevenue:');
+    // console.log(monthsConfirmedRevenue);
+    // console.log('type:');
+    // console.log(typeof(monthsConfirmedRevenue));
+    // console.log('newTarget_parsed.newTarget is a number:');
     var isNumeric = jQuery.isNumeric(newTarget_parsed.newTarget);
-    console.log(isNumeric);
-    console.log('replacing "," & " "');
+    // console.log(isNumeric);
+    // console.log('replacing "," & " "');
     var newTarget_string = newTarget_parsed.newTarget.replace(/,/g, "");
     var newTarget_string = newTarget_string.replace(/ /g, "");
-    console.log('after replacing, typeof:');
-    console.log(typeof(newTarget_string));
+    // console.log('after replacing, typeof:');
+    // console.log(typeof(newTarget_string));
     var isNumeric = jQuery.isNumeric(newTarget_string);
-    console.log(isNumeric);
+    // console.log(isNumeric);
 
     var newPercent =(parseFloat(monthsConfirmedRevenue)/ parseFloat(newTarget_string)) *100;
-    console.log('newPercent:');
-    console.log(newPercent);
-    console.log('type:');
-    console.log(typeof(newPercent));
+    // console.log('newPercent:');
+    // console.log(newPercent);
+    // console.log('type:');
+    // console.log(typeof(newPercent));
     newPercent_floor = Math.floor(newPercent);
-    console.log('newPercent_floor:');
-    console.log(newPercent_floor);
+    // console.log('newPercent_floor:');
+    // console.log(newPercent_floor);
     newPercent_readable = parseFloat(Math.round(newPercent * 100) / 100).toFixed(2); //round to 2 decimal places then show till 2 decimal places
-    console.log('newPercent_readable:');
-    console.log(newPercent_readable);
+    // console.log('newPercent_readable:');
+    // console.log(newPercent_readable);
 
     render_MonthlyGuage(newPercent_readable);
 
@@ -1138,14 +1167,14 @@ function render_CSconfirmed_new (confirmed_string, canceled_string, pending_stri
 
 function render_MonthlyGuage(arg) {
 
-  console.log("in function render_MonthlyGuage:");
-  console.log(arg);
-  console.log(arg);
+  // console.log("in function render_MonthlyGuage:");
+  // console.log(arg);
+  // console.log(arg);
 
   var a = parseFloat(arg);
 
-  console.log("after parseFloat render_MonthlyGuage:");
-  console.log(a);
+  // console.log("after parseFloat render_MonthlyGuage:");
+  // console.log(a);
     var gaugeOptions = {
       exporting: { enabled: false },
         chart: {
