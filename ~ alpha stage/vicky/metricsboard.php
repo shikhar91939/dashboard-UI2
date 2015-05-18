@@ -28,10 +28,6 @@
   var baseUrl = <?php echo'"'.base_url().'"' ;?>;
   $(function() { 
     $("#selector_dateRange").daterangepicker(); 
-    // $("#selector_dateRange").hide();
-    $("#selector_dateRange").daterangepicker({
-      initialText : 'Select DA period...'
-    });
 
     var today = moment().subtract('days', 0).startOf('day').toDate();
     $("#selector_dateRange").daterangepicker("setRange", {start: today});
@@ -386,9 +382,9 @@
                 
                 <!-- Javascript --> 
                 <script>
-                  init.push(function () {
-                    $('#main-navbar-notifications').slimScroll({ height: 250 });
-                  });
+                  // init.push(function () {
+                  //   $('#main-navbar-notifications').slimScroll({ height: 250 });
+                  // });
                 </script> 
                 <!-- / Javascript -->
                 
@@ -447,69 +443,69 @@
                 
                 <!-- Javascript --> 
                 <script>
-                  init.push(function () {
-                    $('#main-navbar-messages').slimScroll({ height: 250 });
-                  });
+                  // init.push(function () {
+                  //   $('#main-navbar-messages').slimScroll({ height: 250 });
+                  // });
                 </script> 
                 <!-- / Javascript -->
                 
                 <div class="dropdown-menu widget-messages-alt no-padding" style="width: 300px;">
                   <div class="messages-list" id="main-navbar-messages">
-                    <div class="message"> <img src="../../assets/demo/avatars/2.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/2.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
                       <div class="message-description"> from <a href="#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/3.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/3.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
                       <div class="message-description"> from <a href="#">Michelle Bortz</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/4.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/4.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
                       <div class="message-description"> from <a href="#">Timothy Owens</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/5.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/5.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
                       <div class="message-description"> from <a href="#">Denise Steiner</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/2.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/2.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
                       <div class="message-description"> from <a href="#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/2.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/2.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
                       <div class="message-description"> from <a href="#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/3.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/3.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
                       <div class="message-description"> from <a href="#">Michelle Bortz</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/4.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/4.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
                       <div class="message-description"> from <a href="#">Timothy Owens</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/5.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/5.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
                       <div class="message-description"> from <a href="#">Denise Steiner</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
                     <!-- / .message -->
                     
-                    <div class="message"> <img src="../../assets/demo/avatars/2.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                    <div class="message"> <!-- <img src="../../assets/demo/avatars/2.jpg" alt="" class="message-avatar"> --> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
                       <div class="message-description"> from <a href="#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
                         2h ago </div>
                     </div>
@@ -944,11 +940,20 @@
 
 function getXaxisPoints(arr){ 
   var ret= [];
+  var flag_sameDay = false;
 
   for (i = 0; i < arr.length-1 ; i++) 
   { 
+    if (arr[i] === arr[i+1] || flag_sameDay)
+    {
+      ret.push(arr[i]);
+      flag_sameDay = true;
+    }
+    else
+    {
       // text += cars[i] + "<br>";
-    ret.push(arr[i]+'-'+arr[i+1]);
+      ret.push(arr[i]+'-'+arr[i+1]);
+    }
   }
 
   return ret;
