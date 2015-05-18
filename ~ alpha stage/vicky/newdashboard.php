@@ -512,6 +512,10 @@ this data (in $response_sales) is being sent in json form but not being used. Re
        $fake_percentage = number_format(round(($fake_orders/$total_orders)*100));
        $pending_percentage = number_format(round(($pending_orders/$total_orders)*100));
 
+       //formatting before display:
+       $confirmed_revenue = str_replace(',','',$confirmed_revenue);
+       $confirmed_revenue = $this->moneyFormatIndia($confirmed_revenue);
+
 
       // log_message('error', "final valvues: "); //cmylog
 
