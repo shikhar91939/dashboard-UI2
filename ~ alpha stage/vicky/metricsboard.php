@@ -24,6 +24,7 @@
 
 </script>
 <script>
+  var monthsConfirmedRevenue = 0;
   var baseUrl = <?php echo'"'.base_url().'"' ;?>;
   $(function() { 
     $("#selector_dateRange").daterangepicker(); 
@@ -97,6 +98,9 @@
               console.log("confirmed:");
               console.log(d.CCmetrics.confirmed_revenue);
               $('#todaysConfirmedRevenue').text('Rs. '+d.CCmetrics.confirmed_revenue);
+              monthsConfirmedRevenue = d.CCmetrics.confirmed_revenue;
+              console.log('monthsConfirmedRevenuekey: "value", ');
+              console.log(monthsConfirmedRevenue);
               render_sameDayShips(d.data_notCCmetrics.percent_sameDayShips);
               // $('#percent_sameDayShips').text(d.percent_sameDayShips+'%');
               $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.data_notCCmetrics.percent_sameDayShips+'%');
@@ -244,29 +248,64 @@
    {
     var newTarget = document.getElementById("targetRevenue").value;
     var newTarget_parsed = {"newTarget": newTarget};
+    console.log('setting new target');
     console.log("newTarget_parsed:");
     console.log(newTarget_parsed);
-      $.ajax({
-      type: "POST",
-      url: '<?php echo site_url("newdashboard").'/onChange_targetRevenue';?>', 
-      data: newTarget_parsed, 
-      dataType: 'json',
-      // async: false, //This is deprecated in the latest version of jquery must use now callbacks
-      success: function(d)
-      {
-        console.log('d:');
-        console.log(d);
-        if (d.inputIsNumber === false ) 
-          {
-            alert("Please enter a numeric value");
-            return;
-          };
-        console.log('its a number');
-        render_MonthlyGuage(d.percent_newTarget);
+    console.log('type:');
+    console.log(typeof(newTarget_parsed.newTarget));
 
-      },
-      error: function (jqXHR, textStatus, errorThrown) { alert("Connection error3"); } 
-    });
+    monthsConfirmedRevenue = monthsConfirmedRevenue.replace(/,/g, "");
+    monthsConfirmedRevenue = monthsConfirmedRevenue.replace(/ /g, "");
+    console.log('monthsConfirmedRevenue:');
+    console.log(monthsConfirmedRevenue);
+    console.log('type:');
+    console.log(typeof(monthsConfirmedRevenue));
+    console.log('newTarget_parsed.newTarget is a number:');
+    var isNumeric = jQuery.isNumeric(newTarget_parsed.newTarget);
+    console.log(isNumeric);
+    console.log('replacing "," & " "');
+    var newTarget_string = newTarget_parsed.newTarget.replace(/,/g, "");
+    var newTarget_string = newTarget_string.replace(/ /g, "");
+    console.log('after replacing, typeof:');
+    console.log(typeof(newTarget_string));
+    var isNumeric = jQuery.isNumeric(newTarget_string);
+    console.log(isNumeric);
+
+    var newPercent =(parseFloat(monthsConfirmedRevenue)/ parseFloat(newTarget_string)) *100;
+    console.log('newPercent:');
+    console.log(newPercent);
+    console.log('type:');
+    console.log(typeof(newPercent));
+    newPercent_floor = Math.floor(newPercent);
+    console.log('newPercent_floor:');
+    console.log(newPercent_floor);
+    newPercent_readable = parseFloat(Math.round(newPercent * 100) / 100).toFixed(2); //round to 2 decimal places then show till 2 decimal places
+    console.log('newPercent_readable:');
+    console.log(newPercent_readable);
+
+    render_MonthlyGuage(newPercent_readable);
+
+    //   $.ajax({
+    //   type: "POST",
+    //   url: '<?php echo site_url("newdashboard").'/onChange_targetRevenue';?>', 
+    //   data: newTarget_parsed, 
+    //   dataType: 'json',
+    //   // async: false, //This is deprecated in the latest version of jquery must use now callbacks
+    //   success: function(d)
+    //   {
+    //     console.log('d:');
+    //     console.log(d);
+    //     if (d.inputIsNumber === false ) 
+    //       {
+    //         alert("Please enter a numeric value");
+    //         return;
+    //       };
+    //     console.log('its a number');
+    //     render_MonthlyGuage(d.percent_newTarget);
+
+    //   },
+    //   error: function (jqXHR, textStatus, errorThrown) { alert("Connection error3"); } 
+    // });
 
 
    }
