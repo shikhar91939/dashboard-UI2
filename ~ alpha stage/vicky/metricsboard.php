@@ -100,8 +100,7 @@
               render_sameDayShips(d.data_notCCmetrics.percent_sameDayShips);
               // $('#percent_sameDayShips').text(d.percent_sameDayShips+'%');
               $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.data_notCCmetrics.percent_sameDayShips+'%');
-              render_CSconfirmed(d.data_notCCmetrics.percent_CSconfirmed, d.data_notCCmetrics.percent_CScancelled);
-              // $('#percent_CSconfirmed').text(d.percent_CSconfirmed+'%');
+              // $('#percent_CSconfirmed').text(d.percent_CSconfirmed+'%');  // this pie chart should be range dependant . not static
               $('#percent_CSconfirmed2').text("CONFIRMATION "+d.data_notCCmetrics.percent_CSconfirmed+'%');
               render_MonthlyGuage(d.data_notCCmetrics.percent_monthlySalesTarget);
               console.log("percent_monthlySalesTarget:");
@@ -155,6 +154,15 @@
             {
               console.log('return from submitDateRange:');
               console.log(d);
+              // if (d.isLoggedIn== true) 
+              //   {
+              //     console.log('logged in')
+              //   }
+              // else
+              // {
+              //   console.log('logged out')
+              // }
+
               // return;
               dStringified = JSON.stringify(d);
 
@@ -204,19 +212,26 @@
               $('#text_percentCSconfirmed').text(d.response_CCmetrics.confirmed_percentage);
               //above sales graph
               //Sales revenue in selected range
-                console.log('d:');
-                console.log(d);              
-                console.log('confirmedAmt_totalRange:');
-                console.log(d.sales_graph.confirmedAmt_totalRange);
+                // console.log('d:');
+                // console.log(d);              
+                // console.log('confirmedAmt_totalRange:');
+                // console.log(d.sales_graph.confirmedAmt_totalRange);
                 $('#revenue_selectedRage').text("Rs. "+ d.sales_graph.confirmedAmt_totalRange);
                 // $('#rangeUnderRevenue').text(parsed_selectedRange.start+" "+parsed_selectedRange.end+ " : ");
                 $('#rangeUnderRevenue').text(d.dateRange+': ');
-
-                
-                console.log('count_CSconfirmed:');
-                console.log(d.sales_graph.count_CSconfirmed);
+                // console.log('count_CSconfirmed:');
+                // console.log(d.sales_graph.count_CSconfirmed);
                 $('#count_CSconfirmed').text(d.response_CCmetrics.confirmed_orders);
               //Sales revenue in selected range
+
+              //CS pie chart at the bottom
+              console.log("why u not found:");
+              console.log(d);
+              console.log(d.response_CCmetrics);
+              console.log(d.response_CCmetrics.confirmed_percentage);
+              render_CSconfirmed_new(d.response_CCmetrics.confirmed_percentage,d.response_CCmetrics.canceled_percentage,d.response_CCmetrics.pending_percentage);
+              // render_CSconfirmed(d.data_notCCmetrics.percent_CSconfirmed, d.data_notCCmetrics.percent_CScancelled);
+              //CS pie chart at the bottom
               // graph_temp_dynamic(d.a);
             },
             error: function (jqXHR, textStatus, errorThrown) { alert("Connection error"); } 
@@ -559,7 +574,7 @@
             <div class="stat-panel"> 
               <!-- Danger background, vertically centered text -->
               <div id="monthlyRevenueBox" class="stat-cell valign-middle align_center"> <span class="text-bg">MONTH'S CONFIRMED REVENUE</span><br>
-                <div id="todaysConfirmedRevenue" class="totoal_revenue"></div>
+                <div id="todaysConfirmedRevenue" class="totoal_revenue" style="font-size: 55px;"></div>
               <div class="stat-panel-date valign-middle align_center"> <span id="rangeUnderRevenue" class="text-bg">2015-05-12 - 2015-05-12 : </span><strong><span class="text-bg" id="revenue_selectedRage">Rs.</span></strong><br>
            
               </div>
@@ -763,6 +778,7 @@
     <!-- put/insert divs here (for temporary graphs) -->
         <!-- <div id="targetPercent_guage" style="width: 300px; height: 200px; float: left"></div> -->
         <!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> -->
+        <!-- <div id="percent_CSconfirmed_new" style="min-width: 310px; height: 400px; margin: 0 auto"></div> -->
   </div>
   <!-- / #content-wrapper -->
   <div id="main-menu-bg"></div>
@@ -776,6 +792,7 @@
   */
 //    $(function () {
 //     $(''/*'#chartdiv'*/).highcharts({
+      // credits: {enabled: false },
 //         chart: {
 //             type: 'column'
 //         },
@@ -879,6 +896,7 @@ function getXaxisPoints(arr){
 //   var init5 = obj.sales_distribution.interval_number5;
 //   console.log(init5);
 //     $('#chartdiv').highcharts({
+      // credits: {enabled: false },
 //         title: {
 //             text: ''
 //         },
@@ -949,6 +967,7 @@ function render_sameDayShips (arg)
 {
   
     $('#chart_sameDayShips').highcharts({
+      credits: {enabled: false },
       exporting: { enabled: false },
         chart: {
             plotBackgroundColor: null,
@@ -986,11 +1005,59 @@ function render_sameDayShips (arg)
 
 }
 
-
-function render_CSconfirmed (confirmed, canceled)//series
-{
+// DO NOT DELETE this function. This takes two variables (&doesn't (int)them) instead of 2
+// function render_CSconfirmed (confirmed, canceled)//series
+// {
   
+//     $('#percent_CSconfirmed').highcharts({
+//       credits: {enabled: false },
+//       exporting: { enabled: false },
+//         chart: {
+//             plotBackgroundColor: null,
+//             plotBorderWidth: null,
+//             plotShadow: false
+//         },
+//         title: {
+//             text: ''
+//         },
+//         tooltip: {
+//             pointFormat: '<b>{point.percentage:.1f}%</b>'
+//         },
+//         plotOptions: {
+//             pie: {
+//                 allowPointSelect: true,
+//                 cursor: 'pointer',
+//                 dataLabels: {
+//                     enabled: false,
+//                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+//                     style: {
+//                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+//                     }
+//                 }
+//             }
+//         },
+//         series: [{
+//             type: 'pie',
+//             data: [
+//                 ['Confirmed',   confirmed],
+//                 ['canceled', canceled],
+//                 ['Pending', 100-confirmed-canceled]
+               
+//             ]
+//         }]
+//     });
+
+// }
+
+function render_CSconfirmed_new (confirmed_string, canceled_string, pending_string)//series
+{
+    var confirmed = parseInt(confirmed_string);
+    var canceled = parseInt(canceled_string);
+    var pending = parseInt(pending_string);
+
     $('#percent_CSconfirmed').highcharts({
+      credits: {enabled: false },
+      credits: {enabled: false },
       exporting: { enabled: false },
         chart: {
             plotBackgroundColor: null,
@@ -1019,9 +1086,10 @@ function render_CSconfirmed (confirmed, canceled)//series
         series: [{
             type: 'pie',
             data: [
-                ['Confirmed',   confirmed],
                 ['canceled', canceled],
-                ['Pending', 100-confirmed-canceled]
+                ['Pending', pending],
+                ['Confirmed',   confirmed],
+                ['Fake/Duplicate', 100-confirmed-canceled-pending]
                
             ]
         }]
@@ -1097,6 +1165,7 @@ function render_MonthlyGuage(arg) {
 
     // The speed gauge
     $('#targetPercent_guage').highcharts(Highcharts.merge(gaugeOptions, {
+      credits: {enabled: false },
         yAxis: {
             min: 0,
             max: 100,// This month's Target 
@@ -1160,7 +1229,7 @@ function renderSales_hourly (obj)
   var init24 = obj.sales_distribution.interval_number24;
 
     $('#container').highcharts({
-
+      credits: {enabled: false },
         chart: {
             type: 'column'
         },

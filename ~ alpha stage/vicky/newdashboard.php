@@ -257,6 +257,18 @@ class Newdashboard extends CI_Controller {
     }
   public function submitDateRange()
     {
+      $response_combined = array();
+
+      // if(!$this->session->userdata('is_logged_in'))
+      // {
+      //   echo json_encode(array('isLoggedIn'=>false));
+      //   return;
+      // }
+      // else
+      // {
+      //   $response_combined['isLoggedIn'] = true;
+      // }
+      
       date_default_timezone_set('Asia/Kolkata');
 
       // log_message('error', 'entered submitRange'); //mylog
@@ -305,7 +317,6 @@ class Newdashboard extends CI_Controller {
 
     $dateRange_readable = $this->getDisplayDate($start_ymd, $end_ymd);
 
-    $response_combined = array();
     $response_combined['dateRange'] = $dateRange_readable;
     // log_message('error', "added dateRange_readable $dateRange_readable"); //mylog
 
