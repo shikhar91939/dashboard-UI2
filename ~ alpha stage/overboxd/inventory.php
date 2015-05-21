@@ -299,12 +299,12 @@
   $saholic_soldAndPaid = $table[0]["COUNT(*)"];
   echo "Saholic's Sold and Paid:". $saholic_soldAndPaid."<br/>";
 
-$query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 0 AND lstatus = 'Sold'");
+  $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 0 AND lstatus = 'Sold'");
   $table = $query->result_array();
   $saholic_soldButNotPaid = $table[0]["COUNT(*)"];
   echo "Saholic's Sold but not Paid:". $saholic_soldButNotPaid."<br/>";
 
-$query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 1 AND lstatus <> 'Sold' ");
+  $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 1 AND lstatus <> 'Sold' ");
   $table = $query->result_array();
   $saholic_paidButNotSold = $table[0]["COUNT(*)"];
   echo "<b>Saholic's Paid but not Sold:". $saholic_paidButNotSold."</b><br/>";
@@ -404,7 +404,6 @@ $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 A
 
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 AND lstatus = 'Returned to Client' AND location =  'over_werehouse'");
   $table = $query->result_array();
-  var_dump($table);
   $saholic_returned = $table[0]["COUNT(*)"];
   echo "Saholic's Returned Products Products:". $saholic_returned ."<br/>";
   
@@ -474,66 +473,56 @@ $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 A
   $clientTable = get_clientTable($result_clientTable);   //stores client list with their client ID
   // var_dump($clientTable);
 
-  $table_prod_distribution = null;
+  $table_prod_distribution = get_table_prod_distribution($clientTable, $this->db);
+  //table_prod_distribution contains array all client_rows. each client_row has al the client data the graph would need
 
-  foreach ($clientTable as $client_name => $client_id)
-  {
-    $client_row = null; //array containing all data of the client in this iteration
-    $client_row['name'] = $client_name;
-    $client_row['id'] = $client_id;
-
-    //Archived (=Sold && Paid) in all warehoues:
-    //(Shown Individually)
-    $query = $this->db->query(" SELECT COUNT(*)
-                                FROM `products`
-                                WHERE client_id = $client_id AND payment_made_client= 1 AND lstatus = 'Sold'");
-    $table = $query->result_array();
-    $client_archived = $table[0]["COUNT(*)"];
-    // echo "Saholic's (Sold and Paid):". $client_archived."<br/>";
-
-    //Sold&&Paid and in Overcart Warehouse :
-    //(this will be excluded in calculating %age of 'listed'/'BER'/etc...)
-    $query = $this->db->query(" SELECT COUNT(*)
-                                FROM `products`
-                                WHERE client_id = $client_id AND payment_made_client= 1 AND lstatus = 'Sold' AND location =  'over_werehouse'");
-    $table = $query->result_array();
-    $client_soldAndPaid = $table[0]["COUNT(*)"];
-    // echo "Saholic's (Sold and Paid):". $client_soldAndPaid."<br/>";
-
-
-    $query = $this->db->query(" SELECT lstatus , COUNT(id) AS count
-                                FROM `products` 
-                                WHERE client_id=$client_id AND location =  'over_werehouse'
-                                GROUP BY lstatus");
-    $result_array_client = $query->result_array();
-    // var_dump($result_array_client);
-
-    $client_prod_distribution = null;
-    foreach ($result_array_client as $row)
-    {
-      $lstatus=null;
-      $count = null;
-      foreach ($row as $key => $value) 
-      {
-        if ($key === 'lstatus')
-          $lstatus = $value;
-        elseif ($key === 'count')
-          $count = $value;
-        else
-          die('Error in SQL table : Unknown Key in lstatuses for client');
-      }
-      $client_prod_distribution[$lstatus] = $count;
-      // echo "lstatus= $lstatus, count=$count <br>";
-    }
-    $client_row['prod_distribution'] = $client_prod_distribution;
-    $table_prod_distribution[]=$client_row;
-  }
 
   echo json_encode($table_prod_distribution);
 
   //list of all useful tables/arrays
   // var_dump($clientTable)  ;
   die;
+
+function get_table_prod_distribution($clientTable, $db)
+  {
+    $table_prod_distribution=null;
+    foreach ($clientTable as $client_name => $client_id)
+    {
+      $client_row = null; //array containing all data of the client in this iteration
+      $client_row['name'] = $client_name;
+      $client_row['id'] = $client_id;
+
+      //Archived (=Sold && Paid) in all warehoues:
+      //(Shown Individually on the web page)
+      $client_archived = get_archived($client_id, $db);
+      echo "$client_name 's client_archived:". $client_archived."<br/>";
+      $client_row['archived'] = $client_archived;
+
+      //next remittance: (sold && not paid).
+      // all warehouses included
+      $client_remittance = get_nextRemittance($client_id, $client_name, $db);
+      $client_row['next_remittance'] = $client_remittance;
+      echo "$client_name 's next remittance: $client_remittance<br>";
+
+      //(denonminator in calculating %age of 'listed'/'BER'/etc...)
+      $client_pertinent = get_relevant($client_id, $client_name, $db);
+      $client_row['count_pertinent'] = $client_pertinent;
+      echo "$client_name 's client_pertinent:". $client_pertinent."  <--".'$client_all_OCwarehouse - ($client_soldAndPaid + $client_returned + $client_pedingPickUp )'."<br/>";
+
+
+      //product distribution for client
+      $client_prod_distribution = get_prod_distribution($client_id, $db);
+
+      $client_row['prod_distribution'] = $client_prod_distribution;
+      $table_prod_distribution[]=$client_row;
+
+      // $<lstatus>count   _/
+      // $<lstatus>percent
+      // $<lstatus>TSP
+
+    }
+    return $table_prod_distribution;
+  }
 
   function get_clientTable($result_clientTable)
   {
@@ -566,6 +555,102 @@ $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 A
       $returnArray[$client_name] = $client_id;
     }
     return $returnArray;
+  }
+
+
+  function get_archived($client_id, $db)
+  {
+    $query =$db->query("SELECT COUNT(*)
+                        FROM `products`
+                        WHERE client_id = $client_id AND payment_made_client= 1 AND lstatus = 'Sold'");
+    $table = $query->result_array();
+    $client_archived = $table[0]["COUNT(*)"];
+
+    return $client_archived;
+  }
+
+  function get_relevant($client_id, $client_name, $db)//client name not required. used only in echoing/debugging
+  {
+    //Sold&&Paid and in Overcart Warehouse :
+    //(this will be excluded in calculating %age of 'listed'/'BER'/etc...)
+    $query =$db->query("SELECT COUNT(*)
+                        FROM `products`
+                        WHERE client_id = $client_id AND payment_made_client= 1 AND lstatus = 'Sold' AND location =  'over_werehouse'");
+    $table = $query->result_array();
+    $client_soldAndPaid = $table[0]["COUNT(*)"];
+    echo "$client_name 's client_soldAndPaid:". $client_soldAndPaid."<br/>";
+
+    //'Returned to Client' and in Overcart Warehouse :
+    //(this will be excluded in calculating %age of 'listed'/'BER'/etc...)
+    $query =$db->query("SELECT COUNT(*) 
+                        FROM `products` WHERE client_id=1 
+                        AND lstatus = 'Returned to Client' AND location =  'over_werehouse'");
+    $table = $query->result_array();
+    $client_returned = $table[0]["COUNT(*)"];
+    echo "$client_name 's client_returned:". $client_returned."<br/>";
+
+    //'pending pick up' and in Overcart Warehouse :
+    //(this will be excluded in calculating %age of 'listed'/'BER'/etc...)
+    $query =$db->query("SELECT COUNT(*) 
+                        FROM `products` WHERE client_id=1 
+                        AND lstatus = 'Pending Pickup' AND location =  'over_werehouse'");
+    $table = $query->result_array();
+    $client_pedingPickUp = $table[0]["COUNT(*)"];
+    echo "$client_name 's client_pedingPickUp:". $client_pedingPickUp."<br/>";
+
+    //All Client's products in Overcart Warehouse :
+    // client_pertinent = client_all_OCwarehouse - (client_soldAndPaid + client_returned + client_pedingPickUp )
+    $query =$db->query("SELECT COUNT(*)
+                        FROM `products`
+                        WHERE client_id = $client_id  AND location =  'over_werehouse'");
+    $table = $query->result_array();
+    $client_all_OCwarehouse = $table[0]["COUNT(*)"];
+    echo "$client_name 's client_all_OCwarehouse:". $client_all_OCwarehouse."<br/>";
+
+    //(denonminator in calculating %age of 'listed'/'BER'/etc...)
+    $client_pertinent = $client_all_OCwarehouse - ($client_soldAndPaid + $client_returned + $client_pedingPickUp );
+
+    return $client_pertinent;
+  }
+
+  function get_prod_distribution($client_id,$db)
+  {
+    $query =$db->query("SELECT lstatus , COUNT(id) AS count
+                        FROM `products` 
+                        WHERE client_id=$client_id AND location =  'over_werehouse'
+                        GROUP BY lstatus");
+    $result_array_client = $query->result_array();
+
+    foreach ($result_array_client as $row)
+    {
+      $lstatus=null;
+      $count = null;
+      foreach ($row as $key => $value) 
+      {
+        if ($key === 'lstatus')
+          $lstatus = $value;
+        elseif ($key === 'count')
+          $count = $value;
+        else
+          die('Error in SQL table : Unknown Key in lstatuses for client');
+      }
+      $client_prod_distribution[$lstatus] = $count;
+      // echo "lstatus= $lstatus, count=$count <br>";
+    }
+
+  }
+
+  function get_nextRemittance($client_id, $client_name, $db)//client name not required. used only in echoing/debugging
+  {
+    // Sold but not Paid. Products from all warehouses included
+    $query = $db->query(" SELECT COUNT(*) 
+                          FROM `products` 
+                          WHERE client_id = 1 AND payment_made_client= 0 AND lstatus = 'Sold'");
+    $table = $query->result_array();
+    $client_soldButNotPaid = $table[0]["COUNT(*)"];
+    echo "$client_name 's client_soldButNotPaid:". $client_soldButNotPaid."<br/>";
+
+    return $client_soldButNotPaid;
   }
   ?>
 
