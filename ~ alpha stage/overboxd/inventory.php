@@ -22,11 +22,364 @@
 
 <script src="http://code.highcharts.com/highcharts-more.js"></script><!-- Solid guage chart for monthly target -->
 <script src="http://code.highcharts.com/modules/solid-gauge.js"></script><!-- Solid guage chart for monthly target -->
-<?php
-//echo "basics";die;
+<?php  
+  // echo "<h3><b>Automated Data</b></h3><br>";//myecho
+  // echo "<pre>";//myecho
+  $query = $this->db->query("SELECT id,name FROM compniesdata");
+  $result_clientTable = $query->result_array();
+
+  $clientTable = get_clientTable($result_clientTable);   //stores client list with their client ID
+  // var_dump($clientTable);
+
+  $table_prod_distribution = get_table_prod_distribution($clientTable, $this->db);
+  //table_prod_distribution contains array all client_rows. each client_row has al the client data the graph would need
 
 ?>
+<script >
+  $(function () {
 
+    // Create the chart
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Drilldown Chart- False Data'
+        },
+        xAxis: {
+            type: 'category'
+        },
+
+        tooltip: {
+            formatter: function () {
+                return ''+this.point.name+'<br><b>TSP: </b>RS.' + this.point.TSP + '<br/> <b>Share</b>:'+this.point.percent+'%';
+            }
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+
+        series: [{
+            name: 'Clients',
+            colorByPoint: true,
+            data: [{
+                name: 'Saholic',
+                y: 57,
+                TSP: '12,3452',
+                percent: '12',
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Bootstrapp',
+                y: 27,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Technix',
+                y: 87,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Vaishno',
+                y: 47,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'GadgetCops',
+                y: 97,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'W S Retail',
+                y: 17,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'TimesInternet',
+                y: 37,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Value Plus',
+                y: 67,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'RIMS Marketing',
+                y: 77,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'ReGlobe',
+                y:  7,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Edge Infotel',
+                y: 97,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'PB International',
+                y: 27,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Green Mobiles',
+                y: 57,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Cloudtail',
+                y: 67,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'MMX Informatics',
+                y: 77,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Sahil International',
+                y: 37,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Karma',
+                y: 87,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'TimesInternet',
+                y: 27,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Regenersis',
+                y: 37,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Regenersis India Limited',
+                y: 77,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                id: 'animals',
+                data: [{
+                    name:'Inventory Review', 
+                    y:42, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Listed', 
+                    y:21, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Manager\'s escalation', 
+                    y:14, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Pending Repair', 
+                    y:32, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Sell Offline', 
+                    y:12, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Under QC', 
+                    y:42, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Inbound Holding',
+                    y: 2, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Out for Repair', 
+                    y:22, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Ready to upload', 
+                    y:42, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'BER', 
+                    y:20, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Sold', 
+                    y:82, 
+                    TSP: '4,689',
+                    percent: '15'
+                  } ]
+            }/*, {
+                id: 'fruits',
+                data: [
+                    ['Inventory Review', 42],
+                    ['Listed', 21],
+                    ['Manager\'s escalation', 14],
+                    ['Pending Repair', 32],
+                    ['Sell Offline', 12],
+                    ['Under QC', 42],
+                    ['Inbound Holding', 2],
+                    ['Out for Repair', 22],
+                    ['Ready to upload', 42],
+                    ['BER', 20],
+                    ['Sold', 82],
+                    ['Sell Offline', 10]
+                ]
+            }, {
+                id: 'cars',
+                data: [
+                    ['Inventory Review', 42],
+                    ['Listed', 21],
+                    ['Manager\'s escalation', 14],
+                    ['Pending Repair', 32],
+                    ['Sell Offline', 12],
+                    ['Under QC', 42],
+                    ['Inbound Holding', 2],
+                    ['Out for Repair', 22],
+                    ['Ready to upload', 42],
+                    ['BER', 20],
+                    ['Sold', 82],
+                    ['Sell Offline', 10]
+                ]
+            }*/]
+        }
+    });
+});
+
+// -------------------------------------2nd graph------------------------------------------------------------------
+  $(function () {
+
+    // Create the chart
+    $('#container2').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Basic drilldown'
+        },
+        xAxis: {
+            type: 'category'
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+
+        tooltip: {
+            formatter: function () {
+                var tooltip = this.point.name+'<br/><b>Quantity: <span style="color:'+ this.point.color + '">'+this.point.y+'</b></span>';
+                tooltip += '<br><b>TSP: </b>RS.' + this.point.TSP + '<br/> <b>Share</b>:'+this.point.percent+'%<br/>';
+                tooltip += '<br><b>Next Remittance: </b>RS.' + this.point.next_remittance /*+ '<br/> <b>_____</b>:'+this.point.percent+'%<br/>'*/;
+                return tooltip;
+            }
+        },
+
+        series: [{
+            name: 'Things',
+            colorByPoint: true,
+            data: [
+            <?php 
+            $data_array = null;
+            foreach ($table_prod_distribution as $client_array)
+            {
+              $client_data = "{
+                name: '".$client_array['name']."',
+                y: ".$client_array['count_pertinent'].",
+                next_remittance: ".$client_array['next_remittance'].",
+                drilldown: 'animals'
+              }";
+              $data_array[]=$client_data;
+            }
+            echo implode(',', $data_array);
+
+            ?>
+            ]
+        }],
+        drilldown: {
+            series: [{
+                id: 'animals',
+                data: [
+                    ['Cats', 4],
+                    ['Dogs', 2],
+                    ['Cows', 1],
+                    ['Sheep', 2],
+                    ['Pigs', 1]
+                ]
+            }, {
+                id: 'fruits',
+                data: [
+                    ['Apples', 4],
+                    ['Oranges', 2]
+                ]
+            }, {
+                id: 'cars',
+                data: [
+                    ['Toyota', 4],
+                    ['Opel', 2],
+                    ['Volkswagen', 2]
+                ]
+            }]
+        }
+    });
+});
+
+
+</script>
 </head>
 <body class="theme-default main-menu-animated">
 <div id="main-wrapper"> 
@@ -276,53 +629,55 @@
         </div>
       </div>
     </div>
+    <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
     <?php
-
+/*
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 ");
   $table = $query->result_array();
   $saholicAll= $table[0]["COUNT(*)"];
-  echo "All Saholic's products:". $saholicAll ."<br/>";
+  // echo "All Saholic's products:". $saholicAll ."<br/>";//myecho
   
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 1");
   $table = $query->result_array();
   $saholicPaid = $table[0]["COUNT(*)"];
-  echo "Saholic's Paid:". $saholicPaid."<br/>";
+  // echo "Saholic's Paid:". $saholicPaid."<br/>";//myecho
   
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND lstatus = 'Sold'");
   $table = $query->result_array();
   $saholicSold = $table[0]["COUNT(*)"];
-  echo "Saholic's Sold:". $saholicSold."<br/>";
+  // echo "Saholic's Sold:". $saholicSold."<br/>";//myecho
 
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 1 AND lstatus = 'Sold'");
   $table = $query->result_array();
   $saholic_soldAndPaid = $table[0]["COUNT(*)"];
-  echo "Saholic's Sold and Paid:". $saholic_soldAndPaid."<br/>";
+  // echo "Saholic's Sold and Paid:". $saholic_soldAndPaid."<br/>";//myecho
 
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 0 AND lstatus = 'Sold'");
   $table = $query->result_array();
   $saholic_soldButNotPaid = $table[0]["COUNT(*)"];
-  echo "Saholic's Sold but not Paid:". $saholic_soldButNotPaid."<br/>";
+  // echo "Saholic's Sold but not Paid:". $saholic_soldButNotPaid."<br/>";//myecho
 
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 1 AND lstatus <> 'Sold' ");
   $table = $query->result_array();
   $saholic_paidButNotSold = $table[0]["COUNT(*)"];
-  echo "<b>Saholic's Paid but not Sold:". $saholic_paidButNotSold."</b><br/>";
+  // echo "<b>Saholic's Paid but not Sold:". $saholic_paidButNotSold."</b><br/>";//myecho
 
 
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 AND lstatus = 'Returned to Client'");
   $table = $query->result_array();
   $saholic_returned = $table[0]["COUNT(*)"];
-  echo "Saholic's Returned Products Products:". $saholic_returned ."<br/>";
+  // echo "Saholic's Returned Products Products:". $saholic_returned ."<br/>";//myecho
   
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 AND lstatus = 'Pending Pickup'");
   $table = $query->result_array();
   $saholic_pendingPickup = $table[0]["COUNT(*)"];
-  echo "Saholic's Pending Pickup Products:". $saholic_pendingPickup ."<br/>";
+  // echo "Saholic's Pending Pickup Products:". $saholic_pendingPickup ."<br/>";//myecho
 
 
   $saholic_nonArchived = $saholicAll -$saholic_soldAndPaid - $saholic_returned -$saholic_pendingPickup;
-  echo "Saholic's products excluding Archived :". $saholic_nonArchived ." (excluding sold&paid, returned, pending pick up)<br/>";
+  // echo "Saholic's products excluding Archived :". $saholic_nonArchived ." (excluding sold&paid, returned, pending pick up)<br/>";//myecho
 
 
 
@@ -330,15 +685,15 @@
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 AND lstatus = 'listed'");
   $table = $query->result_array();
   $saholic_listed = $table[0]["COUNT(*)"];
-  echo "<b>Saholic's listed Products:". $saholic_listed ."</b><br/>";
+  // echo "<b>Saholic's listed Products:". $saholic_listed ."</b><br/>";//myecho
 
   $saholic_listedPercent = $saholic_listed/$saholic_nonArchived *100;
   $saholic_listedPercent = number_format((float)$saholic_listedPercent, 2, '.', '');
 
-  echo "<b>%age of Saholic's products in listed: ".$saholic_listedPercent." %&nbsp;&nbsp;&nbsp;&nbsp; (excluding archived)</b><br/>";
+  // echo "<b>%age of Saholic's products in listed: ".$saholic_listedPercent." %&nbsp;&nbsp;&nbsp;&nbsp; (excluding archived)</b><br/>";//myecho
 
   
-  echo "<br><br>";
+  // echo "<br><br>";//myecho
 
   $query = $this->db->query("SELECT DISTINCT lstatus FROM `products` WHERE client_id = 1");
   $table = $query->result_array();
@@ -359,62 +714,62 @@
       }
       $table = $query->result_array();
       $count_thisStatus = $table[0]["COUNT(*)"];
-      echo "Saholic's ".$status." Products:". $count_thisStatus ."</b><br/>"; 
+      // echo "Saholic's ".$status." Products:". $count_thisStatus ."</b><br/>"; //myecho
       $totalCount += $count_thisStatus;
     }
   }
-  echo "total Count=".$totalCount;
+  // echo "total Count=".$totalCount;//myecho
   // echo "<hr>";
   // echo "<pre>";
   // var_dump($table);
   // echo "</pre>";
-  echo "<hr>";
+  // echo "<hr>";//myecho
 
 //=================================================================================================================================//
-  echo "<h3><b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;taking only Overcart warehouse</b></h3><br>";
+  // echo "<h3><b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;taking only Overcart warehouse</b></h3><br>";//myecho
    $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholicAll= $table[0]["COUNT(*)"];
-  echo "All Saholic's products:". $saholicAll ."<br/>";
+  // echo "All Saholic's products:". $saholicAll ."<br/>";//myecho
   
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 1 AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholicPaid = $table[0]["COUNT(*)"];
-  echo "Saholic's Paid:". $saholicPaid."<br/>";
+  // echo "Saholic's Paid:". $saholicPaid."<br/>";//myecho
   
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND lstatus = 'Sold' AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholicSold = $table[0]["COUNT(*)"];
-  echo "Saholic's Sold:". $saholicSold."<br/>";
+  // echo "Saholic's Sold:". $saholicSold."<br/>";//myecho
 
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 1 AND lstatus = 'Sold' AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholic_soldAndPaid = $table[0]["COUNT(*)"];
-  echo "Saholic's Sold and Paid:". $saholic_soldAndPaid."<br/>";
+  // echo "Saholic's Sold and Paid:". $saholic_soldAndPaid."<br/>";//myecho
 
 $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 0 AND lstatus = 'Sold' AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholic_soldButNotPaid = $table[0]["COUNT(*)"];
-  echo "Saholic's Sold but not Paid:". $saholic_soldButNotPaid."<br/>";
+  // echo "Saholic's Sold but not Paid:". $saholic_soldButNotPaid."<br/>";//myecho
 
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 AND payment_made_client= 1 AND lstatus <> 'Sold' AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholic_paidButNotSold = $table[0]["COUNT(*)"];
-  echo "<strike>Saholic's Paid but not Sold:</strike>". $saholic_paidButNotSold."<br/>";
+  // echo "<strike>Saholic's Paid but not Sold:</strike>". $saholic_paidButNotSold."<br/>";//myecho
 
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 AND lstatus = 'Returned to Client' AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholic_returned = $table[0]["COUNT(*)"];
-  echo "Saholic's Returned Products Products:". $saholic_returned ."<br/>";
+  // echo "Saholic's Returned Products Products:". $saholic_returned ."<br/>";//myecho
   
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 AND lstatus = 'Pending Pickup' AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholic_pendingPickup = $table[0]["COUNT(*)"];
-  echo "Saholic's Pending Pickup Products:". $saholic_pendingPickup ."<br/>";
+  // echo "Saholic's Pending Pickup Products:". $saholic_pendingPickup ."<br/>";//myecho
 
 
   $saholic_nonArchived = $saholicAll -$saholic_soldAndPaid - $saholic_returned -$saholic_pendingPickup;
-  echo "Saholic's products excluding Archived :". $saholic_nonArchived ." (excluding sold&paid, returned, pending pick up)<br/>";
+  // echo "Saholic's products excluding Archived :". $saholic_nonArchived ." (excluding sold&paid, returned, pending pick up)<br/>";//myecho
 
 
 
@@ -422,15 +777,15 @@ $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 A
   $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id=1 AND lstatus = 'listed' AND location =  'over_werehouse'");
   $table = $query->result_array();
   $saholic_listed = $table[0]["COUNT(*)"];
-  echo "<b>Saholic's listed Products:". $saholic_listed ."</b><br/>";
+  // echo "<b>Saholic's listed Products:". $saholic_listed ."</b><br/>";//myecho
 
   $saholic_listedPercent = $saholic_listed/$saholic_nonArchived *100;
   $saholic_listedPercent = number_format((float)$saholic_listedPercent, 2, '.', '');
 
-  echo "<b>%age of Saholic's products in listed: ".$saholic_listedPercent." %&nbsp;&nbsp;&nbsp;&nbsp; (excluding archived)</b><br/>";
+  // echo "<b>%age of Saholic's products in listed: ".$saholic_listedPercent." %&nbsp;&nbsp;&nbsp;&nbsp; (excluding archived)</b><br/>";//myecho
 
   
-  echo "<br><br>";
+  // echo "<br><br>";//myecho
 
   $query = $this->db->query("SELECT DISTINCT lstatus FROM `products` WHERE client_id = 1 ");
   $table = $query->result_array();
@@ -451,34 +806,30 @@ $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 A
       }
       $table = $query->result_array();
       $count_thisStatus = $table[0]["COUNT(*)"];
-      echo "Saholic's ".$status." Products:". $count_thisStatus ."</b><br/>"; 
+      // echo "Saholic's ".$status." Products:". $count_thisStatus ."</b><br/>"; //myecho
       $totalCount += $count_thisStatus;
     }
   }
-  echo "total Count=".$totalCount;
+  // echo "total Count=".$totalCount;//myecho
   // echo "<hr>";
   // echo "<pre>";
   // var_dump($table);
-  echo "</pre>";
-  echo "<hr>";
-  ?>
+  // echo "</pre>";//myecho
+  // echo "<hr>";//myecho
+*/  ?>
 
   <?php
-
-  echo "<h3><b>Automated Data</b></h3><br>";
   echo "<pre>";
-  $query = $this->db->query("SELECT id,name FROM compniesdata");
-  $result_clientTable = $query->result_array();
+  var_dump($table_prod_distribution[0]['name']);
+  echo '</pre><pre>';//myecho
+  var_dump($table_prod_distribution);
+  $jsonObj = json_encode($table_prod_distribution);
+  // echo "<br>";//myecho
+  echo '</pre><pre>';//myecho
+  echo "<h2>formatted json:</h2><br>";//myecho
+  echo prettyPrint($jsonObj);//myecho
 
-  $clientTable = get_clientTable($result_clientTable);   //stores client list with their client ID
-  // var_dump($clientTable);
-
-  $table_prod_distribution = get_table_prod_distribution($clientTable, $this->db);
-  //table_prod_distribution contains array all client_rows. each client_row has al the client data the graph would need
-
-
-  echo json_encode($table_prod_distribution);
-
+  echo '</pre><pre>';//myecho
   //list of all useful tables/arrays
   // var_dump($clientTable)  ;
   die;
@@ -495,30 +846,30 @@ function get_table_prod_distribution($clientTable, $db)
       //Archived (=Sold && Paid) in all warehoues:
       //(Shown Individually on the web page)
       $client_archived = get_archived($client_id, $db);
-      echo "$client_name 's client_archived:". $client_archived."<br/>";
+      // echo "$client_name 's client_archived:". $client_archived."<br/>";//myecho
       $client_row['archived'] = $client_archived;
 
       //next remittance: (sold && not paid).
       // all warehouses included
       $client_remittance = get_nextRemittance($client_id, $client_name, $db);
       $client_row['next_remittance'] = $client_remittance;
-      echo "$client_name 's next remittance: $client_remittance<br>";
+      // echo "$client_name 's next remittance: $client_remittance<br>";//myecho
 
       //(denonminator in calculating %age of 'listed'/'BER'/etc...)
       $client_pertinent = get_relevant($client_id, $client_name, $db);
       $client_row['count_pertinent'] = $client_pertinent;
-      echo "$client_name 's client_pertinent:". $client_pertinent."  <--".'$client_all_OCwarehouse - ($client_soldAndPaid + $client_returned + $client_pedingPickUp )'."<br/>";
+      // echo "$client_name 's client_pertinent:". $client_pertinent."  <--".'$client_all_OCwarehouse - ($client_soldAndPaid + $client_returned + $client_pedingPickUp )'."<br/>";//myecho
 
 
       //product distribution for client
-      $client_prod_distribution = get_prod_distribution($client_id, $db);
+      $client_prod_distribution = get_prod_distribution($client_id, $db, $client_pertinent);
 
       $client_row['prod_distribution'] = $client_prod_distribution;
       $table_prod_distribution[]=$client_row;
 
       // $<lstatus>count   _/
       // $<lstatus>percent
-      // $<lstatus>TSP
+      // $<lstatus>TSP _/
 
     }
     return $table_prod_distribution;
@@ -578,7 +929,7 @@ function get_table_prod_distribution($clientTable, $db)
                         WHERE client_id = $client_id AND payment_made_client= 1 AND lstatus = 'Sold' AND location =  'over_werehouse'");
     $table = $query->result_array();
     $client_soldAndPaid = $table[0]["COUNT(*)"];
-    echo "$client_name 's client_soldAndPaid:". $client_soldAndPaid."<br/>";
+    // echo "$client_name 's client_soldAndPaid:". $client_soldAndPaid."<br/>";//myecho
 
     //'Returned to Client' and in Overcart Warehouse :
     //(this will be excluded in calculating %age of 'listed'/'BER'/etc...)
@@ -587,7 +938,7 @@ function get_table_prod_distribution($clientTable, $db)
                         AND lstatus = 'Returned to Client' AND location =  'over_werehouse'");
     $table = $query->result_array();
     $client_returned = $table[0]["COUNT(*)"];
-    echo "$client_name 's client_returned:". $client_returned."<br/>";
+    // echo "$client_name 's client_returned:". $client_returned."<br/>";//myecho
 
     //'pending pick up' and in Overcart Warehouse :
     //(this will be excluded in calculating %age of 'listed'/'BER'/etc...)
@@ -596,7 +947,7 @@ function get_table_prod_distribution($clientTable, $db)
                         AND lstatus = 'Pending Pickup' AND location =  'over_werehouse'");
     $table = $query->result_array();
     $client_pedingPickUp = $table[0]["COUNT(*)"];
-    echo "$client_name 's client_pedingPickUp:". $client_pedingPickUp."<br/>";
+    // echo "$client_name 's client_pedingPickUp:". $client_pedingPickUp."<br/>";//myecho
 
     //All Client's products in Overcart Warehouse :
     // client_pertinent = client_all_OCwarehouse - (client_soldAndPaid + client_returned + client_pedingPickUp )
@@ -605,7 +956,7 @@ function get_table_prod_distribution($clientTable, $db)
                         WHERE client_id = $client_id  AND location =  'over_werehouse'");
     $table = $query->result_array();
     $client_all_OCwarehouse = $table[0]["COUNT(*)"];
-    echo "$client_name 's client_all_OCwarehouse:". $client_all_OCwarehouse."<br/>";
+    // echo "$client_name 's client_all_OCwarehouse:". $client_all_OCwarehouse."<br/>";//myecho
 
     //(denonminator in calculating %age of 'listed'/'BER'/etc...)
     $client_pertinent = $client_all_OCwarehouse - ($client_soldAndPaid + $client_returned + $client_pedingPickUp );
@@ -613,14 +964,14 @@ function get_table_prod_distribution($clientTable, $db)
     return $client_pertinent;
   }
 
-  function get_prod_distribution($client_id,$db)
+  function get_prod_distribution($client_id,$db, $client_pertinent)
   {
-    $query =$db->query("SELECT lstatus , COUNT(id) AS count
+    $client_prod_distribution = null;
+    $query =$db->query("SELECT lstatus, SUM(tprice) , COUNT(id) AS count
                         FROM `products` 
                         WHERE client_id=$client_id AND location =  'over_werehouse'
                         GROUP BY lstatus");
     $result_array_client = $query->result_array();
-
     foreach ($result_array_client as $row)
     {
       $lstatus=null;
@@ -631,13 +982,18 @@ function get_table_prod_distribution($clientTable, $db)
           $lstatus = $value;
         elseif ($key === 'count')
           $count = $value;
+        elseif ($key === 'SUM(tprice)')
+          $sum_tprice += $value;
         else
           die('Error in SQL table : Unknown Key in lstatuses for client');
       }
-      $client_prod_distribution[$lstatus] = $count;
+      $sum_tprice = number_format((float)$sum_tprice,2,'.',',');
+      $count_pecent = ((float)$count) / ((float)$client_pertinent) *100;
+      $count_pecent = number_format((float)$count_pecent,2,'.',',') . " %";
+      $client_prod_distribution[$lstatus] = array('count'=> $count, 'sum_tprice'=>$sum_tprice, 'count_pecent'=>$count_pecent);
       // echo "lstatus= $lstatus, count=$count <br>";
     }
-
+    return $client_prod_distribution;
   }
 
   function get_nextRemittance($client_id, $client_name, $db)//client name not required. used only in echoing/debugging
@@ -648,10 +1004,67 @@ function get_table_prod_distribution($clientTable, $db)
                           WHERE client_id = 1 AND payment_made_client= 0 AND lstatus = 'Sold'");
     $table = $query->result_array();
     $client_soldButNotPaid = $table[0]["COUNT(*)"];
-    echo "$client_name 's client_soldButNotPaid:". $client_soldButNotPaid."<br/>";
+    // echo "$client_name 's client_soldButNotPaid:". $client_soldButNotPaid."<br/>";//myecho
 
     return $client_soldButNotPaid;
   }
+
+  function prettyPrint( $json )
+{
+    $result = '';
+    $level = 0;
+    $in_quotes = false;
+    $in_escape = false;
+    $ends_line_level = NULL;
+    $json_length = strlen( $json );
+
+    for( $i = 0; $i < $json_length; $i++ ) {
+        $char = $json[$i];
+        $new_line_level = NULL;
+        $post = "";
+        if( $ends_line_level !== NULL ) {
+            $new_line_level = $ends_line_level;
+            $ends_line_level = NULL;
+        }
+        if ( $in_escape ) {
+            $in_escape = false;
+        } else if( $char === '"' ) {
+            $in_quotes = !$in_quotes;
+        } else if( ! $in_quotes ) {
+            switch( $char ) {
+                case '}': case ']':
+                    $level--;
+                    $ends_line_level = NULL;
+                    $new_line_level = $level;
+                    break;
+
+                case '{': case '[':
+                    $level++;
+                case ',':
+                    $ends_line_level = $level;
+                    break;
+
+                case ':':
+                    $post = " ";
+                    break;
+
+                case " ": case "\t": case "\n": case "\r":
+                    $char = "";
+                    $ends_line_level = $new_line_level;
+                    $new_line_level = NULL;
+                    break;
+            }
+        } else if ( $char === '\\' ) {
+            $in_escape = true;
+        }
+        if( $new_line_level !== NULL ) {
+            $result .= "\n".str_repeat( "\t", $new_line_level );
+        }
+        $result .= $char.$post;
+    }
+
+    return $result;
+}
   ?>
 
     <!-- / .page-header -->
@@ -687,17 +1100,28 @@ function get_table_prod_distribution($clientTable, $db)
               <!-- /.stat-panel --> 
             <!-- </div> -->
           <!-- </div> -->
-          <!-- <div class="col-sm-4 col-md-12"> -->
-            <!--<div class="stat-panel">  
-              Danger background, vertically centered text -->
-              <!-- <div class="stat-cell valign-middle align_center"> <span class="text-bg">TOTAL CONFIRMED REVENUE</span><br> -->
-                <!-- <div class="totoal_revenue">Rs.245,967</div> -->
+          <div class="col-sm-4 col-md-12">
+            <div class="stat-panel">  
+              <!-- Danger background, vertically centered text  -->
+              <div class="stat-cell valign-middle align_center"> <span class="text-bg">Archived</span><br>
+                <div class="totoal_revenue">Rs.245,967</div>
                 
                 <!-- /.stat-cell --> 
-            <!--   </div> -->
+              </div>
               <!-- /.stat-panel --> 
-            <!-- </div> -->
-          <!-- </div> -->
+            </div>
+          </div>
+           <div class="col-sm-4 col-md-12">
+            <div class="stat-panel">  
+              <!-- Danger background, vertically centered text  -->
+              <div class="stat-cell valign-middle align_center"> <span class="text-bg">Next Remittance</span><br>
+                <div class="totoal_revenue">Rs.245,967</div>
+                
+                <!-- /.stat-cell --> 
+              </div>
+              <!-- /.stat-panel --> 
+            </div>
+          </div>
         <!-- </div> -->
       </div>
     </div>
