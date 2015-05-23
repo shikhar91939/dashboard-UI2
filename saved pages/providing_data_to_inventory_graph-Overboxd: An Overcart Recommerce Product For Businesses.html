@@ -1,0 +1,2600 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>Overboxd: An Overcart Recommerce Product For Businesses</title>
+<link rel="stylesheet" href="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/jquery-ui.css">
+<link href="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/jquery.css" rel="stylesheet" type="text/css">
+
+<link href="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/pixel-admin.css" rel="stylesheet" type="text/css">
+<link href="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/themes.css" rel="stylesheet" type="text/css">
+
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/jquery.js"></script>
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/jquery-ui.js"></script>
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/moment.js"></script>
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/jquery_002.js"></script>
+
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/highcharts.js"></script>
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/exporting.js"></script>
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/highcharts.js"></script><!-- highCharts: stacked graph -->
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/exporting.js"></script><!-- highCharts: stacked graph -->
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/drilldown.js"></script><!-- for drill down graph-->
+
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/highcharts-more.js"></script><!-- Solid guage chart for monthly target -->
+<script src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/solid-gauge.js"></script><!-- Solid guage chart for monthly target -->
+<script>
+  $(function () {
+
+    // Create the chart
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Drilldown Chart- False Data'
+        },
+        xAxis: {
+            type: 'category'
+        },
+
+        tooltip: {
+            formatter: function () {
+                return ''+this.point.name+'<br><b>TSP: </b>RS.' + this.point.TSP + '<br/> <b>Share</b>:'+this.point.percent+'%';
+            }
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+
+        series: [{
+            name: 'Clients',
+            colorByPoint: true,
+            data: [{
+                name: 'Saholic',
+                y: 57,
+                TSP: '12,3452',
+                percent: '12',
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Bootstrapp',
+                y: 27,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Technix',
+                y: 87,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Vaishno',
+                y: 47,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'GadgetCops',
+                y: 97,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'W S Retail',
+                y: 17,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'TimesInternet',
+                y: 37,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Value Plus',
+                y: 67,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'RIMS Marketing',
+                y: 77,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'ReGlobe',
+                y:  7,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Edge Infotel',
+                y: 97,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'PB International',
+                y: 27,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Green Mobiles',
+                y: 57,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Cloudtail',
+                y: 67,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'MMX Informatics',
+                y: 77,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Sahil International',
+                y: 37,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Karma',
+                y: 87,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'TimesInternet',
+                y: 27,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Regenersis',
+                y: 37,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }, {
+                name: 'Regenersis India Limited',
+                y: 77,
+                TSP: '12,3452',
+                percent: '12',
+                drilldown: 'animals'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                id: 'animals',
+                data: [{
+                    name:'Inventory Review', 
+                    y:42, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Listed', 
+                    y:21, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Manager\'s escalation', 
+                    y:14, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Pending Repair', 
+                    y:32, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Sell Offline', 
+                    y:12, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Under QC', 
+                    y:42, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Inbound Holding',
+                    y: 2, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Out for Repair', 
+                    y:22, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Ready to upload', 
+                    y:42, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'BER', 
+                    y:20, 
+                    TSP: '4,689',
+                    percent: '15'
+                  },{
+                    name:'Sold', 
+                    y:82, 
+                    TSP: '4,689',
+                    percent: '15'
+                  } ]
+            }/*, {
+                id: 'fruits',
+                data: [
+                    ['Inventory Review', 42],
+                    ['Listed', 21],
+                    ['Manager\'s escalation', 14],
+                    ['Pending Repair', 32],
+                    ['Sell Offline', 12],
+                    ['Under QC', 42],
+                    ['Inbound Holding', 2],
+                    ['Out for Repair', 22],
+                    ['Ready to upload', 42],
+                    ['BER', 20],
+                    ['Sold', 82],
+                    ['Sell Offline', 10]
+                ]
+            }, {
+                id: 'cars',
+                data: [
+                    ['Inventory Review', 42],
+                    ['Listed', 21],
+                    ['Manager\'s escalation', 14],
+                    ['Pending Repair', 32],
+                    ['Sell Offline', 12],
+                    ['Under QC', 42],
+                    ['Inbound Holding', 2],
+                    ['Out for Repair', 22],
+                    ['Ready to upload', 42],
+                    ['BER', 20],
+                    ['Sold', 82],
+                    ['Sell Offline', 10]
+                ]
+            }*/]
+        }
+    });
+});
+
+// -------------------------------------2nd graph------------------------------------------------------------------
+  $(function () {
+
+    // Create the chart
+    $('#container2').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Basic drilldown'
+        },
+        xAxis: {
+            type: 'category'
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+
+        series: [{
+            name: 'Things',
+            colorByPoint: true,
+            data: [
+            {
+                name: 'Saholic',
+                y: 591,
+                drilldown: 'animals'
+            }, {
+                name: 'Fruits',
+                y: 291,
+                drilldown: 'fruits'
+            }, {
+                name: 'Cars',
+                y: 491,
+                drilldown: 'cars'
+            }            /*{
+                name: 'Animals',
+                y: 5,
+                drilldown: 'animals'
+            }, {
+                name: 'Fruits',
+                y: 2,
+                drilldown: 'fruits'
+            }, {
+                name: 'Cars',
+                y: 4,
+                drilldown: 'cars'
+            }*/]
+        }],
+        drilldown: {
+            series: [{
+                id: 'animals',
+                data: [
+                    ['Cats', 4],
+                    ['Dogs', 2],
+                    ['Cows', 1],
+                    ['Sheep', 2],
+                    ['Pigs', 1]
+                ]
+            }, {
+                id: 'fruits',
+                data: [
+                    ['Apples', 4],
+                    ['Oranges', 2]
+                ]
+            }, {
+                id: 'cars',
+                data: [
+                    ['Toyota', 4],
+                    ['Opel', 2],
+                    ['Volkswagen', 2]
+                ]
+            }]
+        }
+    });
+});
+
+
+</script>
+</head>
+<body class="theme-default main-menu-animated">
+<div id="main-wrapper"> 
+
+  
+  <!-- 2. $MAIN_NAVIGATION ===========================================================================
+
+ Main navigation
+-->
+  <div id="main-navbar" class="navbar navbar-inverse" role="navigation"> 
+    <!-- Main menu toggle --> 
+    <!--<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>-->
+    <div class="navbar-inner"> 
+      <!-- Main navbar header -->
+      <div class="navbar-header"> 
+        
+        <!-- Logo --> 
+        <a href="http://overboxd.com/index.html" class="navbar-brand"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/logo.png"> </a> 
+        
+        <!-- Main navbar toggle -->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
+      </div>
+      <!-- / .navbar-header -->
+      
+      <div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
+        <div> 
+          
+          <!-- / .navbar-nav -->
+          
+          <div class="right clearfix">
+            <!-- <div class="header_search">
+              <form class="navbar-form pull-left">
+                <input type="text" class="form-control" placeholder="Enter Keyword">
+                <button class="search_btn" type="submit" value="submit"></button>
+              </form>
+            </div>
+            <ul class="nav navbar-nav pull-right right-navbar-nav">
+              
+
+              <li class="nav-icon-btn nav-icon-btn-danger dropdown">
+              <a href="#notifications" class="dropdown-toggle"> <img src="http://overboxd.com/assets/images/template/notifications.png"/> <span class="small-screen-text">Notifications</span> </a> -->
+               <!--<a href="#notifications" class="dropdown-toggle" data-toggle="dropdown"> <img src="http://overboxd.com/assets/images/template/notifications.png"/> <span class="small-screen-text">Notifications</span> </a>--> 
+                
+                <!-- NOTIFICATIONS --> 
+                
+                <!-- Javascript --> 
+                <script>
+                 init.push(function () {
+                   $('#main-navbar-notifications').slimScroll({ height: 250 });
+                 });
+               </script> 
+                <!-- / Javascript -->
+                
+                <div class="dropdown-menu widget-notifications no-padding" style="width: 300px">
+                  <div class="notifications-list" id="main-navbar-notifications">
+                    <div class="notification">
+                      <div class="notification-title text-danger">SYSTEM</div>
+                      <div class="notification-description"><strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-hdd-o bg-danger"></div>
+                    </div>
+                    <!-- / .notification -->
+                    
+                    <div class="notification">
+                      <div class="notification-title text-info">STORE</div>
+                      <div class="notification-description">You have <strong>9</strong> new orders.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-truck bg-info"></div>
+                    </div>
+                    <!-- / .notification -->
+                    
+                    <div class="notification">
+                      <div class="notification-title text-default">CRON DAEMON</div>
+                      <div class="notification-description">Job <strong>"Clean DB"</strong> has been completed.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-clock-o bg-default"></div>
+                    </div>
+                    <!-- / .notification -->
+                    
+                    <div class="notification">
+                      <div class="notification-title text-success">SYSTEM</div>
+                      <div class="notification-description">Server <strong>up</strong>.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-hdd-o bg-success"></div>
+                    </div>
+                    <!-- / .notification -->
+                    
+                    <div class="notification">
+                      <div class="notification-title text-warning">SYSTEM</div>
+                      <div class="notification-description"><strong>Warning</strong>: Processor load <strong>92%</strong>.</div>
+                      <div class="notification-ago">12h ago</div>
+                      <div class="notification-icon fa fa-hdd-o bg-warning"></div>
+                    </div>
+                    <!-- / .notification --> 
+                    
+                  </div>
+                  <!-- / .notifications-list --> 
+                  <a href="#" class="notifications-link">MORE NOTIFICATIONS</a> </div>
+                <!-- / .dropdown-menu --> 
+              
+              <li class="nav-icon-btn nav-icon-btn-success dropdown"> 
+              <a href="#messages" class="dropdown-toggle"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/setting.png"> <span class="small-screen-text">Setting</span> </a>
+              <!--<a href="#messages" class="dropdown-toggle" data-toggle="dropdown"> <img src="http://overboxd.com/assets/images/template/setting.png"/> <span class="small-screen-text">Setting</span> </a>--> 
+                
+                <!-- MESSAGES --> 
+                
+                <!-- Javascript --> 
+                <script>
+                 init.push(function () {
+                   $('#main-navbar-messages').slimScroll({ height: 250 });
+                 });
+               </script> 
+                <!-- / Javascript -->
+                
+                <div class="dropdown-menu widget-messages-alt no-padding" style="width: 300px;">
+                  <div class="messages-list" id="main-navbar-messages">
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/2.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                      <div class="message-description"> from <a href="#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/3.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                      <div class="message-description"> from <a href="#">Michelle Bortz</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/4.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                      <div class="message-description"> from <a href="#">Timothy Owens</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/5.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                      <div class="message-description"> from <a href="#">Denise Steiner</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/2.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                      <div class="message-description"> from <a href="#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/2.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                      <div class="message-description"> from <a href="#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/3.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                      <div class="message-description"> from <a href="#">Michelle Bortz</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/4.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                      <div class="message-description"> from <a href="#">Timothy Owens</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/5.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                      <div class="message-description"> from <a href="#">Denise Steiner</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message -->
+                    
+                    <div class="message"> <img src="providing_data_to_inventory_graph-Overboxd:%20An%20Overcart%20Recommerce%20Product%20For%20Businesses_files/2.jpg" alt="" class="message-avatar"> <a href="#" class="message-subject">Lorem ipsum dolor sit amet.</a>
+                      <div class="message-description"> from <a href="#">Robert Jang</a> &nbsp;&nbsp;·&nbsp;&nbsp;
+                        2h ago </div>
+                    </div>
+                    <!-- / .message --> 
+                    
+                  </div>
+                  <!-- / .messages-list --> 
+                  <a href="#" class="messages-link">MORE MESSAGES</a> </div>
+                <!-- / .dropdown-menu --> 
+              </li>
+              <!-- /3. $END_NAVBAR_ICON_BUTTONS -->
+              
+              <!-- <li class="dropdown"> <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown"> <img src="http://overboxd.com/assets/images/template/3.jpg"/> <span>John Doe</span> </a> -->
+                <ul class="dropdown-menu">
+                  <li><a href="#"><span class="label label-warning pull-right">New</span>Profile</a></li>
+                  <li><a href="#"><span class="badge badge-primary pull-right">New</span>Account</a></li>
+                  <li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
+                  <li class="divider"></li>
+                  <li><a href="http://overboxd.com/pages-signin.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                </ul>
+              
+            
+            <!-- / .navbar-nav --> 
+          </div>
+          <!-- / .right --> 
+        </div>
+      </div>
+      <!-- / #main-navbar-collapse --> 
+    </div>
+    <!-- / .navbar-inner --> 
+  </div>
+  <!-- / #main-navbar --> 
+  <div id="main-menu" role="navigation">
+    <div id="main-menu-inner">
+      <ul class="navigation">
+        <li> <a href="http://overboxd.com/index.php/newdashboard"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span><!-- <span class="label label-new">1127</span> --></a> </li>
+       <li> <a href="http://overboxd.com/index.php/newdashboard/logistics"><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Logistics</span></a> </li>
+       <li> <a href="http://overboxd.com/index.php/newdashboard/quality"><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Quality</span></a> </li>
+       <li class="active"> <a href="http://overboxd.com/index.php/newdashboard/inventory"><i class="menu-icon fa fa-clock-o"></i><span class="mm-text">Inventory</span></a> </li>
+<!-- <li> <a href="../../stat-panels.html"><i class="menu-icon fa fa-bolt"></i><span class="mm-text">Support</span></a> </li>
+        <li> <a href="../../widgets.html"><i class="menu-icon fa fa-envelope-o"></i><span class="mm-text">Quality</span></a> </li>
+        <li> <a href="#"><i class="menu-icon fa fa fa-calendar"></i><span class="mm-text">Notifications</span><span class="label label-new">16</span></a></li>
+        <li> <a href="#"><i class="menu-icon fa fa-user"></i><span class="mm-text">Contacts</span></a></li>
+        <li> <a href="../../tables.html"><i class="menu-icon fa fa-gear"></i><span class="mm-text">Setting</span></a> </li>
+        <li> <a href="../../charts.html"><i class="menu-icon fa-sign-out"></i><span class="mm-text">Logout</span></a> </li> -->
+      </ul>
+      <!-- / .navigation --> 
+      
+    </div>
+    <!-- / #main-menu-inner --> 
+  </div>
+  <!-- / #main-menu --> 
+  <!-- /4. $MAIN_MENU -->
+  
+  <div id="content-wrapper"> 
+    <!--<ul class="breadcrumb breadcrumb-page">
+      <div class="breadcrumb-label text-light-gray">You are here: </div>
+      <li><a href="#">Home</a></li>
+      <li class="active"><a href="#">Dashboard</a></li>
+    </ul>-->
+    <!-- <ul class="sorting_toolbar">
+      <li>View:</li>
+      <li class="sorting_icons active"><i class="fa fa-th-list"></i></li>
+      <li class="sorting_icons"><i class="fa fa-th"></i></li>
+    </ul> -->
+    <div class="page-header">
+      <div class="row"> 
+        <!-- Page header, center on small screens -->
+        <h1 class="col-xs-12 col-sm-8 text-center text-left-sm">Analytics<br>
+          <div class="subheading">BUSINESS OVERVIEW AT A GLANCE</div>
+        </h1>
+        <div class="col-xs-12 col-sm-4">
+          <div class="row" style="text-align:right"> 
+           <input id="selector_dateRange" name="e1" style="padding-right:8px">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-highcharts-chart="0" id="container" style="min-width: 310px; height: 400px; margin: 0 auto"><div style="position: relative; overflow: hidden; width: 910px; height: 400px; text-align: left; line-height: normal; z-index: 0; left: 0px; top: 0.666672px;" id="highcharts-0" class="highcharts-container"><svg height="400" width="910" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1"><desc>Created with Highcharts 4.1.5</desc><defs><clipPath id="highcharts-1"><rect height="234" width="832" y="0" x="0"></rect></clipPath></defs><rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="400" width="910" y="0" x="0"></rect><g transform="translate(876,10)" stroke-linecap="round" style="cursor:default;" class="highcharts-button"><title>Chart context menu</title><rect ry="2" rx="2" stroke-width="1" stroke="none" fill="white" strokeWidth="1" height="22" width="24" y="0.5" x="0.5"></rect><path zIndex="1" stroke-width="3" stroke="#666" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" fill="#E0E0E0"></path><text transform="translate(0,12)" style="color:black;fill:black;" zIndex="1" x="0"></text></g><g transform="translate(876,10)" stroke-linecap="round" style="cursor:default;" class="highcharts-button"><title>Chart context menu</title><rect ry="2" rx="2" stroke-width="1" stroke="none" fill="white" strokeWidth="1" height="22" width="24" y="0.5" x="0.5"></rect><path zIndex="1" stroke-width="3" stroke="#666" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" fill="#E0E0E0"></path><text transform="translate(0,12)" style="color:black;fill:black;" zIndex="1" x="0"></text></g><g zIndex="1" class="highcharts-grid"></g><g zIndex="1" class="highcharts-grid"><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 280.5 L 900 280.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 233.5 L 900 233.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 186.5 L 900 186.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 140.5 L 900 140.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 93.5 L 900 93.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 45.5 L 900 45.5" fill="none"></path></g><g zIndex="2" class="highcharts-axis"><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 109.5 280 L 109.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 150.5 280 L 150.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 192.5 280 L 192.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 233.5 280 L 233.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 275.5 280 L 275.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 317.5 280 L 317.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 358.5 280 L 358.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 400.5 280 L 400.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 441.5 280 L 441.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 483.5 280 L 483.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 525.5 280 L 525.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 566.5 280 L 566.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 608.5 280 L 608.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 649.5 280 L 649.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 691.5 280 L 691.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 733.5 280 L 733.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 774.5 280 L 774.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 816.5 280 L 816.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 857.5 280 L 857.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 900.5 280 L 900.5 290" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 67.5 280 L 67.5 290" fill="none"></path><path visibility="visible" zIndex="7" stroke-width="1" stroke="#C0D0E0" d="M 68 280.5 L 900 280.5" fill="none"></path></g><g zIndex="2" class="highcharts-axis"><text y="163" visibility="visible" style="color:#707070;fill:#707070;" class=" highcharts-yaxis-title" transform="translate(0,0) rotate(270 23.75 163)" text-anchor="middle" zIndex="7" x="23.75">Values</text></g><g zIndex="3" class="highcharts-series-group"><g clip-path="url(#highcharts-1)" style="" transform="translate(68,46) scale(1 1)" zIndex="0.1" visibility="visible" class="highcharts-series highcharts-tracker"><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#7cb5ec" height="107" width="20" y="128" x="11"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#434348" height="51" width="20" y="184" x="52"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#90ed7d" height="163" width="20" y="72" x="94"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#f7a35c" height="88" width="20" y="147" x="136"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#8085e9" height="182" width="20" y="53" x="177"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#f15c80" height="32" width="20" y="203" x="219"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#e4d354" height="69" width="20" y="166" x="260"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#2b908f" height="125" width="20" y="110" x="302"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#f45b5b" height="144" width="20" y="91" x="344"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#91e8e1" height="13" width="20" y="222" x="385"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#7cb5ec" height="182" width="20" y="53" x="427"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#434348" height="51" width="20" y="184" x="468"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#90ed7d" height="107" width="20" y="128" x="510"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#f7a35c" height="125" width="20" y="110" x="552"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#8085e9" height="144" width="20" y="91" x="593"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#f15c80" height="69" width="20" y="166" x="635"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#e4d354" height="163" width="20" y="72" x="676"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#2b908f" height="51" width="20" y="184" x="718"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#f45b5b" height="69" width="20" y="166" x="760"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#91e8e1" height="144" width="20" y="91" x="801"></rect></g><g clip-path="none" transform="translate(68,46) scale(1 1)" zIndex="0.1" visibility="visible" class="highcharts-markers"></g></g><text y="24" style="color:#333333;font-size:18px;fill:#333333;width:846px;" zIndex="4" class="highcharts-title" text-anchor="middle" x="455"><tspan>Drilldown Chart- False Data</tspan></text><g style="" opacity="1" transform="translate(68,46) scale(1 1)" zIndex="6" visibility="visible" class="highcharts-data-labels highcharts-tracker"><g class="highcharts-drilldown-data-label" transform="translate(10,105)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>57</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(51,161)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>27</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(93,49)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>87</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(135,124)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>47</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(176,30)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>97</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(218,180)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>17</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(259,143)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>37</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(301,87)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>67</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(343,68)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>77</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(387,199)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>7</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(426,30)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>97</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(467,161)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>27</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(509,105)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>57</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(551,87)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>67</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(592,68)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>77</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(634,143)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>37</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(675,49)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>87</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(717,161)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>27</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(759,143)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>37</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(800,68)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>77</tspan></text></g></g><g zIndex="7" class="highcharts-axis-labels highcharts-xaxis-labels"><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 91.39272486435067 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="91.39272486435067"><tspan>Saholic</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 132.99272486435066 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="132.99272486435066"><tspan>Bootstrapp</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 174.59272486435069 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="174.59272486435069"><tspan>Technix</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 216.19272486435068 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="216.19272486435068"><tspan>Vaishno</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 257.79272486435065 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="257.79272486435065"><tspan>GadgetCops</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 299.39272486435067 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="299.39272486435067"><tspan>W S Retail</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 340.9927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="340.9927248643507"><tspan>TimesInternet</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 382.59272486435066 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="382.59272486435066"><tspan>Value Plus</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 424.1927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="424.1927248643507"><tspan>RIMS Marketing</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 465.79272486435065 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="465.79272486435065"><tspan>ReGlobe</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 507.39272486435067 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="507.39272486435067"><tspan>Edge Infotel</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 548.9927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="548.9927248643507"><tspan>PB International</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 590.5927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="590.5927248643507"><tspan>Green Mobiles</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 632.1927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="632.1927248643507"><tspan>Cloudtail</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 673.7927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="673.7927248643507"><tspan>MMX Informatics</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 715.3927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="715.3927248643507"><tspan>Sahil International</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 756.9927248643506 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="756.9927248643506"><tspan>Karma</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 798.5927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="798.5927248643507"><tspan>TimesInternet</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 840.1927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="840.1927248643507"><tspan>Regenersis</tspan></text><text class=" highcharts-drilldown-axis-label" opacity="1" y="296" transform="translate(0,0) rotate(-45 881.7927248643507 296)" text-anchor="end" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:400px;text-overflow:ellipsis;font-weight:bold;text-decoration:underline;" x="881.7927248643507"><tspan>Regenersis India Limited</tspan></text></g><g zIndex="7" class="highcharts-axis-labels highcharts-yaxis-labels"><text opacity="1" y="285" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">0</text><text opacity="1" y="97" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">100</text><text opacity="1" y="238" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">25</text><text opacity="1" y="191" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">50</text><text opacity="1" y="144" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">75</text><text opacity="1" y="51" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">125</text></g><g transform="translate(0,-9999)" style="cursor:default;padding:0;white-space:nowrap;" zIndex="8" class="highcharts-tooltip"><path transform="translate(1, 1)" stroke-width="5" stroke-opacity="0.049999999999999996" stroke="black" isShadow="true" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" fill="none"></path><path transform="translate(1, 1)" stroke-width="3" stroke-opacity="0.09999999999999999" stroke="black" isShadow="true" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" fill="none"></path><path transform="translate(1, 1)" stroke-width="1" stroke-opacity="0.15" stroke="black" isShadow="true" d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" fill="none"></path><path d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0" fill="rgba(249, 249, 249, .85)"></path><text transform="translate(0,20)" style="font-size:12px;color:#333333;fill:#333333;" zIndex="1" x="8"></text></g><text y="395" style="cursor:pointer;color:#909090;font-size:9px;fill:#909090;" zIndex="8" text-anchor="end" x="900">Highcharts.com</text></svg></div></div>
+    <div data-highcharts-chart="1" id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"><div style="position: relative; overflow: hidden; width: 910px; height: 400px; text-align: left; line-height: normal; z-index: 0; left: 0px; top: 0.666687px;" id="highcharts-2" class="highcharts-container"><svg height="400" width="910" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1"><desc>Created with Highcharts 4.1.5</desc><defs><clipPath id="highcharts-3"><rect height="318" width="832" y="0" x="0"></rect></clipPath></defs><rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="400" width="910" y="0" x="0"></rect><g transform="translate(849,10)" stroke-linecap="round" style="cursor:default;" class="highcharts-button"><title>Chart context menu</title><rect ry="2" rx="2" stroke-width="1" stroke="none" fill="white" strokeWidth="1" height="22" width="24" y="0.5" x="0.5"></rect><path zIndex="1" stroke-width="3" stroke="#666" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" fill="#E0E0E0"></path><text transform="translate(0,12)" style="color:black;fill:black;" zIndex="1" x="0"></text></g><g transform="translate(876,10)" stroke-linecap="round" style="cursor:default;" class="highcharts-button"><title>Chart context menu</title><rect ry="2" rx="2" stroke-width="1" stroke="none" fill="white" strokeWidth="1" height="22" width="24" y="0.5" x="0.5"></rect><path zIndex="1" stroke-width="3" stroke="#666" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" fill="#E0E0E0"></path><text transform="translate(0,12)" style="color:black;fill:black;" zIndex="1" x="0"></text></g><g zIndex="1" class="highcharts-grid"></g><g zIndex="1" class="highcharts-grid"><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 364.5 L 900 364.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 319.5 L 900 319.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 273.5 L 900 273.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 228.5 L 900 228.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 182.5 L 900 182.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 137.5 L 900 137.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 91.5 L 900 91.5" fill="none"></path><path opacity="1" zIndex="1" stroke-width="1" stroke="#D8D8D8" d="M 68 45.5 L 900 45.5" fill="none"></path></g><g zIndex="2" class="highcharts-axis"><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 344.5 364 L 344.5 374" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 622.5 364 L 622.5 374" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 899.5 364 L 899.5 374" fill="none"></path><path opacity="1" stroke-width="1" stroke="#C0D0E0" d="M 67.5 364 L 67.5 374" fill="none"></path><path visibility="visible" zIndex="7" stroke-width="1" stroke="#C0D0E0" d="M 68 364.5 L 900 364.5" fill="none"></path></g><g zIndex="2" class="highcharts-axis"><text y="205" visibility="visible" style="color:#707070;fill:#707070;" class=" highcharts-yaxis-title" transform="translate(0,0) rotate(270 23.75 205)" text-anchor="middle" zIndex="7" x="23.75">Values</text></g><g zIndex="3" class="highcharts-series-group"><g clip-path="url(#highcharts-3)" style="" transform="translate(68,46) scale(1 1)" zIndex="0.1" visibility="visible" class="highcharts-series highcharts-tracker"><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#7cb5ec" height="268" width="134" y="51" x="72"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#434348" height="132" width="134" y="187" x="349"></rect><rect style="cursor:pointer;" class="highcharts-drilldown-point" ry="0" rx="0" fill="#90ed7d" height="223" width="134" y="96" x="627"></rect></g><g clip-path="none" transform="translate(68,46) scale(1 1)" zIndex="0.1" visibility="visible" class="highcharts-markers"></g></g><text y="24" style="color:#333333;font-size:18px;fill:#333333;width:846px;" zIndex="4" class="highcharts-title" text-anchor="middle" x="455"><tspan>Basic drilldown</tspan></text><g style="" opacity="1" transform="translate(68,46) scale(1 1)" zIndex="6" visibility="visible" class="highcharts-data-labels highcharts-tracker"><g class="highcharts-drilldown-data-label" transform="translate(124,28)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>591</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(401,164)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>291</tspan></text></g><g class="highcharts-drilldown-data-label" transform="translate(679,73)" style="cursor:pointer;" zIndex="1"><text transform="translate(0,16)" style="font-size:11px;font-weight:bold;color:#0d233a;text-shadow:0 0 6px contrast, 0 0 3px contrast;fill:#0d233a;text-decoration:underline;" zIndex="1" x="5"><tspan>491</tspan></text></g></g><g zIndex="7" class="highcharts-axis-labels highcharts-xaxis-labels"><text class=" highcharts-drilldown-axis-label" opacity="1" y="383" transform="translate(0,0)" text-anchor="middle" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:287px;text-overflow:clip;font-weight:bold;text-decoration:underline;" x="206.66666666666666">Saholic</text><text class=" highcharts-drilldown-axis-label" opacity="1" y="383" transform="translate(0,0)" text-anchor="middle" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:287px;text-overflow:clip;font-weight:bold;text-decoration:underline;" x="484">Fruits</text><text class=" highcharts-drilldown-axis-label" opacity="1" y="383" transform="translate(0,0)" text-anchor="middle" style="color:#0d233a;cursor:pointer;font-size:11px;fill:#0d233a;width:287px;text-overflow:clip;font-weight:bold;text-decoration:underline;" x="761.3333333333333">Cars</text></g><g zIndex="7" class="highcharts-axis-labels highcharts-yaxis-labels"><text opacity="1" y="369" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">0</text><text opacity="1" y="323" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">100</text><text opacity="1" y="278" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">200</text><text opacity="1" y="232" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">300</text><text opacity="1" y="187" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">400</text><text opacity="1" y="141" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">500</text><text opacity="1" y="96" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">600</text><text opacity="1" y="51" transform="translate(0,0)" text-anchor="end" style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:290px;text-overflow:clip;" x="53">700</text></g><g visibility="visible" opacity="0" transform="translate(162,-9999)" style="cursor:default;padding:0;white-space:nowrap;" zIndex="8" class="highcharts-tooltip"><path height="43" width="89" transform="translate(1, 1)" stroke-width="5" stroke-opacity="0.049999999999999996" stroke="black" isShadow="true" d="M 3.5 0.5 L 86.5 0.5 C 89.5 0.5 89.5 0.5 89.5 3.5 L 89.5 40.5 C 89.5 43.5 89.5 43.5 86.5 43.5 L 51.5 43.5 45.5 49.5 39.5 43.5 3.5 43.5 C 0.5 43.5 0.5 43.5 0.5 40.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5" fill="none"></path><path height="43" width="89" transform="translate(1, 1)" stroke-width="3" stroke-opacity="0.09999999999999999" stroke="black" isShadow="true" d="M 3.5 0.5 L 86.5 0.5 C 89.5 0.5 89.5 0.5 89.5 3.5 L 89.5 40.5 C 89.5 43.5 89.5 43.5 86.5 43.5 L 51.5 43.5 45.5 49.5 39.5 43.5 3.5 43.5 C 0.5 43.5 0.5 43.5 0.5 40.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5" fill="none"></path><path height="43" width="89" transform="translate(1, 1)" stroke-width="1" stroke-opacity="0.15" stroke="black" isShadow="true" d="M 3.5 0.5 L 86.5 0.5 C 89.5 0.5 89.5 0.5 89.5 3.5 L 89.5 40.5 C 89.5 43.5 89.5 43.5 86.5 43.5 L 51.5 43.5 45.5 49.5 39.5 43.5 3.5 43.5 C 0.5 43.5 0.5 43.5 0.5 40.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5" fill="none"></path><path stroke-width="1" stroke="#7cb5ec" d="M 3.5 0.5 L 86.5 0.5 C 89.5 0.5 89.5 0.5 89.5 3.5 L 89.5 40.5 C 89.5 43.5 89.5 43.5 86.5 43.5 L 51.5 43.5 45.5 49.5 39.5 43.5 3.5 43.5 C 0.5 43.5 0.5 43.5 0.5 40.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5" fill="rgba(249, 249, 249, .85)"></path><text transform="translate(0,20)" style="font-size:12px;color:#333333;fill:#333333;" zIndex="1" x="8"><tspan style="font-size: 10px">Saholic</tspan><tspan dy="15" x="8" style="fill:#7cb5ec">&#9679;</tspan><tspan dx="0"> Things: </tspan><tspan dx="0" style="font-weight:bold">591</tspan></text></g><text y="395" style="cursor:pointer;color:#909090;font-size:9px;fill:#909090;" zIndex="8" text-anchor="end" x="900">Highcharts.com</text></svg></div></div>
+
+    
+  <pre>string(7) "Saholic"
+</pre><pre>array(21) {
+  [0]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(7) "Saholic"
+    ["id"]=&gt;
+    string(1) "1"
+    ["archived"]=&gt;
+    string(4) "1470"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(844)
+    ["prod_distribution"]=&gt;
+    array(13) {
+      [""]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(6) "328.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.12 %"
+      }
+      ["BER"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "174"
+        ["sum_tprice"]=&gt;
+        string(10) "102,814.46"
+        ["count_pecent"]=&gt;
+        string(7) "20.62 %"
+      }
+      ["Inbound Holding"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "2,908.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.12 %"
+      }
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "164"
+        ["sum_tprice"]=&gt;
+        string(9) "53,483.62"
+        ["count_pecent"]=&gt;
+        string(7) "19.43 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "55"
+        ["sum_tprice"]=&gt;
+        string(9) "59,440.50"
+        ["count_pecent"]=&gt;
+        string(6) "6.52 %"
+      }
+      ["Manager's escalation"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "22"
+        ["sum_tprice"]=&gt;
+        string(9) "32,453.00"
+        ["count_pecent"]=&gt;
+        string(6) "2.61 %"
+      }
+      ["Out for Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "4"
+        ["sum_tprice"]=&gt;
+        string(8) "8,132.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.47 %"
+      }
+      ["Pending QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "4"
+        ["sum_tprice"]=&gt;
+        string(6) "650.25"
+        ["count_pecent"]=&gt;
+        string(6) "0.47 %"
+      }
+      ["Pending Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "43"
+        ["sum_tprice"]=&gt;
+        string(9) "96,718.75"
+        ["count_pecent"]=&gt;
+        string(6) "5.09 %"
+      }
+      ["Ready to upload"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "12"
+        ["sum_tprice"]=&gt;
+        string(8) "9,895.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.42 %"
+      }
+      ["Sell Offline"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "9"
+        ["sum_tprice"]=&gt;
+        string(8) "2,676.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.07 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(4) "1757"
+        ["sum_tprice"]=&gt;
+        string(12) "5,032,407.51"
+        ["count_pecent"]=&gt;
+        string(8) "208.18 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "8"
+        ["sum_tprice"]=&gt;
+        string(9) "18,113.53"
+        ["count_pecent"]=&gt;
+        string(6) "0.95 %"
+      }
+    }
+  }
+  [1]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(10) "Bootstrapp"
+    ["id"]=&gt;
+    string(1) "2"
+    ["archived"]=&gt;
+    string(2) "45"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(11)
+    ["prod_distribution"]=&gt;
+    array(6) {
+      ["BER"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "2,771.00"
+        ["count_pecent"]=&gt;
+        string(6) "9.09 %"
+      }
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "6"
+        ["sum_tprice"]=&gt;
+        string(8) "9,747.00"
+        ["count_pecent"]=&gt;
+        string(7) "54.55 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(6) "109.00"
+        ["count_pecent"]=&gt;
+        string(7) "18.18 %"
+      }
+      ["Manager's escalation"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(6) "109.00"
+        ["count_pecent"]=&gt;
+        string(6) "9.09 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "45"
+        ["sum_tprice"]=&gt;
+        string(10) "155,293.00"
+        ["count_pecent"]=&gt;
+        string(8) "409.09 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "2,122.00"
+        ["count_pecent"]=&gt;
+        string(6) "9.09 %"
+      }
+    }
+  }
+  [2]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(7) "Technix"
+    ["id"]=&gt;
+    string(1) "3"
+    ["archived"]=&gt;
+    string(2) "91"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(13)
+    ["prod_distribution"]=&gt;
+    array(4) {
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(9) "29,354.00"
+        ["count_pecent"]=&gt;
+        string(7) "15.38 %"
+      }
+      ["Out for Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(9) "14,706.00"
+        ["count_pecent"]=&gt;
+        string(6) "7.69 %"
+      }
+      ["Pending Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(9) "16,814.00"
+        ["count_pecent"]=&gt;
+        string(7) "15.38 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "98"
+        ["sum_tprice"]=&gt;
+        string(10) "698,510.00"
+        ["count_pecent"]=&gt;
+        string(8) "753.85 %"
+      }
+    }
+  }
+  [3]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(7) "Vaishno"
+    ["id"]=&gt;
+    string(1) "4"
+    ["archived"]=&gt;
+    string(3) "197"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(53)
+    ["prod_distribution"]=&gt;
+    array(3) {
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "5,500.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.89 %"
+      }
+      ["Manager's escalation"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(4) "5.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.89 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "247"
+        ["sum_tprice"]=&gt;
+        string(12) "1,959,330.00"
+        ["count_pecent"]=&gt;
+        string(8) "466.04 %"
+      }
+    }
+  }
+  [4]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(10) "GadgetCops"
+    ["id"]=&gt;
+    string(1) "5"
+    ["archived"]=&gt;
+    string(1) "0"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(0)
+    ["prod_distribution"]=&gt;
+    NULL
+  }
+  [5]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(15) "Market Purchase"
+    ["id"]=&gt;
+    string(1) "6"
+    ["archived"]=&gt;
+    string(2) "19"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(22)
+    ["prod_distribution"]=&gt;
+    array(3) {
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "9"
+        ["sum_tprice"]=&gt;
+        string(8) "5,071.00"
+        ["count_pecent"]=&gt;
+        string(7) "40.91 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(8) "4,905.00"
+        ["count_pecent"]=&gt;
+        string(6) "9.09 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "29"
+        ["sum_tprice"]=&gt;
+        string(10) "186,281.00"
+        ["count_pecent"]=&gt;
+        string(8) "131.82 %"
+      }
+    }
+  }
+  [6]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(10) "W S Retail"
+    ["id"]=&gt;
+    string(1) "7"
+    ["archived"]=&gt;
+    string(4) "1054"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(6027)
+    ["prod_distribution"]=&gt;
+    array(12) {
+      ["BER"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "201"
+        ["sum_tprice"]=&gt;
+        string(10) "108,723.00"
+        ["count_pecent"]=&gt;
+        string(6) "3.33 %"
+      }
+      ["Inbound Holding"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(4) "3496"
+        ["sum_tprice"]=&gt;
+        string(6) "108.00"
+        ["count_pecent"]=&gt;
+        string(7) "58.01 %"
+      }
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "61"
+        ["sum_tprice"]=&gt;
+        string(10) "288,732.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.01 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "150"
+        ["sum_tprice"]=&gt;
+        string(10) "832,804.00"
+        ["count_pecent"]=&gt;
+        string(6) "2.49 %"
+      }
+      ["Manager's escalation"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "50"
+        ["sum_tprice"]=&gt;
+        string(10) "109,729.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.83 %"
+      }
+      ["Out for Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "16"
+        ["sum_tprice"]=&gt;
+        string(9) "94,262.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.27 %"
+      }
+      ["Pending QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "9"
+        ["sum_tprice"]=&gt;
+        string(9) "40,797.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.15 %"
+      }
+      ["Pending Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "112"
+        ["sum_tprice"]=&gt;
+        string(10) "508,830.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.86 %"
+      }
+      ["Ready to upload"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "58"
+        ["sum_tprice"]=&gt;
+        string(10) "242,043.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.96 %"
+      }
+      ["Sell Offline"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "156"
+        ["sum_tprice"]=&gt;
+        string(10) "624,422.00"
+        ["count_pecent"]=&gt;
+        string(6) "2.59 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(4) "2747"
+        ["sum_tprice"]=&gt;
+        string(13) "14,149,488.75"
+        ["count_pecent"]=&gt;
+        string(7) "45.58 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "17"
+        ["sum_tprice"]=&gt;
+        string(9) "40,193.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.28 %"
+      }
+    }
+  }
+  [7]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(13) "TimesInternet"
+    ["id"]=&gt;
+    string(1) "8"
+    ["archived"]=&gt;
+    string(3) "340"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(533)
+    ["prod_distribution"]=&gt;
+    array(12) {
+      ["BER"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "31"
+        ["sum_tprice"]=&gt;
+        string(4) "0.00"
+        ["count_pecent"]=&gt;
+        string(6) "5.82 %"
+      }
+      ["Inbound Holding"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "8"
+        ["sum_tprice"]=&gt;
+        string(4) "0.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.50 %"
+      }
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(6) "523.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.19 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "94"
+        ["sum_tprice"]=&gt;
+        string(10) "127,753.00"
+        ["count_pecent"]=&gt;
+        string(7) "17.64 %"
+      }
+      ["Manager's escalation"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "8"
+        ["sum_tprice"]=&gt;
+        string(6) "127.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.50 %"
+      }
+      ["Out for Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(6) "127.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.38 %"
+      }
+      ["Pending Pickup"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(6) "127.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.38 %"
+      }
+      ["Pending Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "38"
+        ["sum_tprice"]=&gt;
+        string(8) "6,698.00"
+        ["count_pecent"]=&gt;
+        string(6) "7.13 %"
+      }
+      ["Ready to upload"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "4"
+        ["sum_tprice"]=&gt;
+        string(8) "4,254.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.75 %"
+      }
+      ["Sell Offline"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "9"
+        ["sum_tprice"]=&gt;
+        string(4) "4.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.69 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "643"
+        ["sum_tprice"]=&gt;
+        string(10) "536,486.88"
+        ["count_pecent"]=&gt;
+        string(8) "120.64 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(6) "536.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.38 %"
+      }
+    }
+  }
+  [8]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(10) "Value Plus"
+    ["id"]=&gt;
+    string(1) "9"
+    ["archived"]=&gt;
+    string(2) "48"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(12)
+    ["prod_distribution"]=&gt;
+    array(7) {
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "4"
+        ["sum_tprice"]=&gt;
+        string(9) "39,670.00"
+        ["count_pecent"]=&gt;
+        string(7) "33.33 %"
+      }
+      ["Out for Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(9) "10,374.00"
+        ["count_pecent"]=&gt;
+        string(7) "16.67 %"
+      }
+      ["Pending Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(8) "9,993.00"
+        ["count_pecent"]=&gt;
+        string(7) "16.67 %"
+      }
+      ["Ready to upload"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(8) "7,628.00"
+        ["count_pecent"]=&gt;
+        string(7) "16.67 %"
+      }
+      ["Sell Offline"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "7,846.00"
+        ["count_pecent"]=&gt;
+        string(6) "8.33 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "48"
+        ["sum_tprice"]=&gt;
+        string(10) "294,935.00"
+        ["count_pecent"]=&gt;
+        string(8) "400.00 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "6,732.00"
+        ["count_pecent"]=&gt;
+        string(6) "8.33 %"
+      }
+    }
+  }
+  [9]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(14) "RIMS Marketing"
+    ["id"]=&gt;
+    string(2) "10"
+    ["archived"]=&gt;
+    string(2) "11"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(3)
+    ["prod_distribution"]=&gt;
+    array(2) {
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(6) "810.00"
+        ["count_pecent"]=&gt;
+        string(7) "33.33 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "11"
+        ["sum_tprice"]=&gt;
+        string(9) "12,901.00"
+        ["count_pecent"]=&gt;
+        string(8) "366.67 %"
+      }
+    }
+  }
+  [10]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(7) "ReGlobe"
+    ["id"]=&gt;
+    string(2) "11"
+    ["archived"]=&gt;
+    string(1) "2"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(200)
+    ["prod_distribution"]=&gt;
+    array(2) {
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "12"
+        ["sum_tprice"]=&gt;
+        string(10) "177,000.00"
+        ["count_pecent"]=&gt;
+        string(6) "6.00 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "190"
+        ["sum_tprice"]=&gt;
+        string(12) "2,822,107.00"
+        ["count_pecent"]=&gt;
+        string(7) "95.00 %"
+      }
+    }
+  }
+  [11]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(12) "Edge Infotel"
+    ["id"]=&gt;
+    string(2) "12"
+    ["archived"]=&gt;
+    string(1) "0"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(0)
+    ["prod_distribution"]=&gt;
+    NULL
+  }
+  [12]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(16) "PB International"
+    ["id"]=&gt;
+    string(2) "13"
+    ["archived"]=&gt;
+    string(3) "188"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(13)
+    ["prod_distribution"]=&gt;
+    array(4) {
+      ["BER"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "9"
+        ["sum_tprice"]=&gt;
+        string(9) "24,433.00"
+        ["count_pecent"]=&gt;
+        string(7) "69.23 %"
+      }
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "3"
+        ["sum_tprice"]=&gt;
+        string(9) "22,998.00"
+        ["count_pecent"]=&gt;
+        string(7) "23.08 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "7,509.00"
+        ["count_pecent"]=&gt;
+        string(6) "7.69 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "188"
+        ["sum_tprice"]=&gt;
+        string(12) "1,253,604.00"
+        ["count_pecent"]=&gt;
+        string(10) "1,446.15 %"
+      }
+    }
+  }
+  [13]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(13) "Green Mobiles"
+    ["id"]=&gt;
+    string(2) "14"
+    ["archived"]=&gt;
+    string(3) "128"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(284)
+    ["prod_distribution"]=&gt;
+    array(11) {
+      ["Inbound Holding"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "4"
+        ["sum_tprice"]=&gt;
+        string(4) "0.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.41 %"
+      }
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "7"
+        ["sum_tprice"]=&gt;
+        string(9) "24,900.00"
+        ["count_pecent"]=&gt;
+        string(6) "2.46 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "17"
+        ["sum_tprice"]=&gt;
+        string(9) "78,324.00"
+        ["count_pecent"]=&gt;
+        string(6) "5.99 %"
+      }
+      ["Manager's escalation"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "28"
+        ["sum_tprice"]=&gt;
+        string(8) "9,615.00"
+        ["count_pecent"]=&gt;
+        string(6) "9.86 %"
+      }
+      ["Out for Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "8"
+        ["sum_tprice"]=&gt;
+        string(9) "13,722.00"
+        ["count_pecent"]=&gt;
+        string(6) "2.82 %"
+      }
+      ["Pending QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(5) "13.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.35 %"
+      }
+      ["Pending Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "94"
+        ["sum_tprice"]=&gt;
+        string(9) "40,727.00"
+        ["count_pecent"]=&gt;
+        string(7) "33.10 %"
+      }
+      ["Ready to upload"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "23"
+        ["sum_tprice"]=&gt;
+        string(8) "9,140.00"
+        ["count_pecent"]=&gt;
+        string(6) "8.10 %"
+      }
+      ["Sell Offline"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "8"
+        ["sum_tprice"]=&gt;
+        string(9) "13,915.00"
+        ["count_pecent"]=&gt;
+        string(6) "2.82 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "217"
+        ["sum_tprice"]=&gt;
+        string(12) "1,219,120.00"
+        ["count_pecent"]=&gt;
+        string(7) "76.41 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "4"
+        ["sum_tprice"]=&gt;
+        string(9) "22,712.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.41 %"
+      }
+    }
+  }
+  [14]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(9) "Cloudtail"
+    ["id"]=&gt;
+    string(2) "15"
+    ["archived"]=&gt;
+    string(3) "646"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(106)
+    ["prod_distribution"]=&gt;
+    array(11) {
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "15"
+        ["sum_tprice"]=&gt;
+        string(10) "144,623.00"
+        ["count_pecent"]=&gt;
+        string(7) "14.15 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "9,143.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.94 %"
+      }
+      ["Manager's escalation"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "21"
+        ["sum_tprice"]=&gt;
+        string(9) "99,851.00"
+        ["count_pecent"]=&gt;
+        string(7) "19.81 %"
+      }
+      ["Out for Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "4"
+        ["sum_tprice"]=&gt;
+        string(9) "17,631.00"
+        ["count_pecent"]=&gt;
+        string(6) "3.77 %"
+      }
+      ["Pending Pickup"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "2,861.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.94 %"
+      }
+      ["Pending QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "17"
+        ["sum_tprice"]=&gt;
+        string(9) "38,116.00"
+        ["count_pecent"]=&gt;
+        string(7) "16.04 %"
+      }
+      ["Pending Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "33"
+        ["sum_tprice"]=&gt;
+        string(10) "412,778.00"
+        ["count_pecent"]=&gt;
+        string(7) "31.13 %"
+      }
+      ["Ready to upload"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "4"
+        ["sum_tprice"]=&gt;
+        string(9) "24,098.00"
+        ["count_pecent"]=&gt;
+        string(6) "3.77 %"
+      }
+      ["Sell Offline"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "8"
+        ["sum_tprice"]=&gt;
+        string(9) "45,364.00"
+        ["count_pecent"]=&gt;
+        string(6) "7.55 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "644"
+        ["sum_tprice"]=&gt;
+        string(12) "4,028,354.00"
+        ["count_pecent"]=&gt;
+        string(8) "607.55 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(8) "5,692.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.89 %"
+      }
+    }
+  }
+  [15]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(15) "MMX Informatics"
+    ["id"]=&gt;
+    string(2) "16"
+    ["archived"]=&gt;
+    string(1) "0"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(0)
+    ["prod_distribution"]=&gt;
+    NULL
+  }
+  [16]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(19) "Sahil International"
+    ["id"]=&gt;
+    string(2) "17"
+    ["archived"]=&gt;
+    string(3) "100"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(0)
+    ["prod_distribution"]=&gt;
+    array(1) {
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "98"
+        ["sum_tprice"]=&gt;
+        string(9) "90,454.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.00 %"
+      }
+    }
+  }
+  [17]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(5) "Karma"
+    ["id"]=&gt;
+    string(2) "18"
+    ["archived"]=&gt;
+    string(1) "0"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(0)
+    ["prod_distribution"]=&gt;
+    NULL
+  }
+  [18]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(10) "Regenersis"
+    ["id"]=&gt;
+    string(2) "19"
+    ["archived"]=&gt;
+    string(1) "0"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(302)
+    ["prod_distribution"]=&gt;
+    array(5) {
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "10"
+        ["sum_tprice"]=&gt;
+        string(9) "59,000.00"
+        ["count_pecent"]=&gt;
+        string(6) "3.31 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "24"
+        ["sum_tprice"]=&gt;
+        string(10) "108,659.00"
+        ["count_pecent"]=&gt;
+        string(6) "7.95 %"
+      }
+      ["Pending QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(6) "108.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.33 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "265"
+        ["sum_tprice"]=&gt;
+        string(12) "1,248,608.00"
+        ["count_pecent"]=&gt;
+        string(7) "87.75 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(8) "8,801.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.66 %"
+      }
+    }
+  }
+  [19]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(24) "Regenersis India Limited"
+    ["id"]=&gt;
+    string(2) "20"
+    ["archived"]=&gt;
+    string(1) "0"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(130)
+    ["prod_distribution"]=&gt;
+    array(7) {
+      ["Inventory Review"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(8) "9,250.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.77 %"
+      }
+      ["Listed"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "22"
+        ["sum_tprice"]=&gt;
+        string(10) "243,739.00"
+        ["count_pecent"]=&gt;
+        string(7) "16.92 %"
+      }
+      ["Manager's escalation"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "23"
+        ["sum_tprice"]=&gt;
+        string(10) "112,633.00"
+        ["count_pecent"]=&gt;
+        string(7) "17.69 %"
+      }
+      ["Pending Repair"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(6) "112.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.54 %"
+      }
+      ["Sell Offline"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "1"
+        ["sum_tprice"]=&gt;
+        string(9) "11,261.00"
+        ["count_pecent"]=&gt;
+        string(6) "0.77 %"
+      }
+      ["Sold"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(2) "79"
+        ["sum_tprice"]=&gt;
+        string(10) "743,955.00"
+        ["count_pecent"]=&gt;
+        string(7) "60.77 %"
+      }
+      ["Under QC"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(1) "2"
+        ["sum_tprice"]=&gt;
+        string(8) "9,993.00"
+        ["count_pecent"]=&gt;
+        string(6) "1.54 %"
+      }
+    }
+  }
+  [20]=&gt;
+  array(6) {
+    ["name"]=&gt;
+    string(23) "Berkshire Books Pvt Ltd"
+    ["id"]=&gt;
+    string(2) "21"
+    ["archived"]=&gt;
+    string(1) "0"
+    ["next_remittance"]=&gt;
+    string(3) "412"
+    ["count_pertinent"]=&gt;
+    int(271)
+    ["prod_distribution"]=&gt;
+    array(1) {
+      ["Inbound Holding"]=&gt;
+      array(3) {
+        ["count"]=&gt;
+        string(3) "271"
+        ["sum_tprice"]=&gt;
+        string(4) "0.00"
+        ["count_pecent"]=&gt;
+        string(8) "100.00 %"
+      }
+    }
+  }
+}
+</pre><pre><h2>formatted json:</h2><br>[
+	{
+		"name": "Saholic",
+		"id": "1",
+		"archived": "1470",
+		"next_remittance": "412",
+		"count_pertinent": 844,
+		"prod_distribution": {
+			"": {
+				"count": "1",
+				"sum_tprice": "328.00",
+				"count_pecent": "0.12 %"
+			},
+			"BER": {
+				"count": "174",
+				"sum_tprice": "102,814.46",
+				"count_pecent": "20.62 %"
+			},
+			"Inbound Holding": {
+				"count": "1",
+				"sum_tprice": "2,908.00",
+				"count_pecent": "0.12 %"
+			},
+			"Inventory Review": {
+				"count": "164",
+				"sum_tprice": "53,483.62",
+				"count_pecent": "19.43 %"
+			},
+			"Listed": {
+				"count": "55",
+				"sum_tprice": "59,440.50",
+				"count_pecent": "6.52 %"
+			},
+			"Manager's escalation": {
+				"count": "22",
+				"sum_tprice": "32,453.00",
+				"count_pecent": "2.61 %"
+			},
+			"Out for Repair": {
+				"count": "4",
+				"sum_tprice": "8,132.00",
+				"count_pecent": "0.47 %"
+			},
+			"Pending QC": {
+				"count": "4",
+				"sum_tprice": "650.25",
+				"count_pecent": "0.47 %"
+			},
+			"Pending Repair": {
+				"count": "43",
+				"sum_tprice": "96,718.75",
+				"count_pecent": "5.09 %"
+			},
+			"Ready to upload": {
+				"count": "12",
+				"sum_tprice": "9,895.00",
+				"count_pecent": "1.42 %"
+			},
+			"Sell Offline": {
+				"count": "9",
+				"sum_tprice": "2,676.00",
+				"count_pecent": "1.07 %"
+			},
+			"Sold": {
+				"count": "1757",
+				"sum_tprice": "5,032,407.51",
+				"count_pecent": "208.18 %"
+			},
+			"Under QC": {
+				"count": "8",
+				"sum_tprice": "18,113.53",
+				"count_pecent": "0.95 %"
+			}
+		}
+	},
+	{
+		"name": "Bootstrapp",
+		"id": "2",
+		"archived": "45",
+		"next_remittance": "412",
+		"count_pertinent": 11,
+		"prod_distribution": {
+			"BER": {
+				"count": "1",
+				"sum_tprice": "2,771.00",
+				"count_pecent": "9.09 %"
+			},
+			"Inventory Review": {
+				"count": "6",
+				"sum_tprice": "9,747.00",
+				"count_pecent": "54.55 %"
+			},
+			"Listed": {
+				"count": "2",
+				"sum_tprice": "109.00",
+				"count_pecent": "18.18 %"
+			},
+			"Manager's escalation": {
+				"count": "1",
+				"sum_tprice": "109.00",
+				"count_pecent": "9.09 %"
+			},
+			"Sold": {
+				"count": "45",
+				"sum_tprice": "155,293.00",
+				"count_pecent": "409.09 %"
+			},
+			"Under QC": {
+				"count": "1",
+				"sum_tprice": "2,122.00",
+				"count_pecent": "9.09 %"
+			}
+		}
+	},
+	{
+		"name": "Technix",
+		"id": "3",
+		"archived": "91",
+		"next_remittance": "412",
+		"count_pertinent": 13,
+		"prod_distribution": {
+			"Inventory Review": {
+				"count": "2",
+				"sum_tprice": "29,354.00",
+				"count_pecent": "15.38 %"
+			},
+			"Out for Repair": {
+				"count": "1",
+				"sum_tprice": "14,706.00",
+				"count_pecent": "7.69 %"
+			},
+			"Pending Repair": {
+				"count": "2",
+				"sum_tprice": "16,814.00",
+				"count_pecent": "15.38 %"
+			},
+			"Sold": {
+				"count": "98",
+				"sum_tprice": "698,510.00",
+				"count_pecent": "753.85 %"
+			}
+		}
+	},
+	{
+		"name": "Vaishno",
+		"id": "4",
+		"archived": "197",
+		"next_remittance": "412",
+		"count_pertinent": 53,
+		"prod_distribution": {
+			"Inventory Review": {
+				"count": "1",
+				"sum_tprice": "5,500.00",
+				"count_pecent": "1.89 %"
+			},
+			"Manager's escalation": {
+				"count": "1",
+				"sum_tprice": "5.00",
+				"count_pecent": "1.89 %"
+			},
+			"Sold": {
+				"count": "247",
+				"sum_tprice": "1,959,330.00",
+				"count_pecent": "466.04 %"
+			}
+		}
+	},
+	{
+		"name": "GadgetCops",
+		"id": "5",
+		"archived": "0",
+		"next_remittance": "412",
+		"count_pertinent": 0,
+		"prod_distribution": null
+	},
+	{
+		"name": "Market Purchase",
+		"id": "6",
+		"archived": "19",
+		"next_remittance": "412",
+		"count_pertinent": 22,
+		"prod_distribution": {
+			"Inventory Review": {
+				"count": "9",
+				"sum_tprice": "5,071.00",
+				"count_pecent": "40.91 %"
+			},
+			"Listed": {
+				"count": "2",
+				"sum_tprice": "4,905.00",
+				"count_pecent": "9.09 %"
+			},
+			"Sold": {
+				"count": "29",
+				"sum_tprice": "186,281.00",
+				"count_pecent": "131.82 %"
+			}
+		}
+	},
+	{
+		"name": "W S Retail",
+		"id": "7",
+		"archived": "1054",
+		"next_remittance": "412",
+		"count_pertinent": 6027,
+		"prod_distribution": {
+			"BER": {
+				"count": "201",
+				"sum_tprice": "108,723.00",
+				"count_pecent": "3.33 %"
+			},
+			"Inbound Holding": {
+				"count": "3496",
+				"sum_tprice": "108.00",
+				"count_pecent": "58.01 %"
+			},
+			"Inventory Review": {
+				"count": "61",
+				"sum_tprice": "288,732.00",
+				"count_pecent": "1.01 %"
+			},
+			"Listed": {
+				"count": "150",
+				"sum_tprice": "832,804.00",
+				"count_pecent": "2.49 %"
+			},
+			"Manager's escalation": {
+				"count": "50",
+				"sum_tprice": "109,729.00",
+				"count_pecent": "0.83 %"
+			},
+			"Out for Repair": {
+				"count": "16",
+				"sum_tprice": "94,262.00",
+				"count_pecent": "0.27 %"
+			},
+			"Pending QC": {
+				"count": "9",
+				"sum_tprice": "40,797.00",
+				"count_pecent": "0.15 %"
+			},
+			"Pending Repair": {
+				"count": "112",
+				"sum_tprice": "508,830.00",
+				"count_pecent": "1.86 %"
+			},
+			"Ready to upload": {
+				"count": "58",
+				"sum_tprice": "242,043.00",
+				"count_pecent": "0.96 %"
+			},
+			"Sell Offline": {
+				"count": "156",
+				"sum_tprice": "624,422.00",
+				"count_pecent": "2.59 %"
+			},
+			"Sold": {
+				"count": "2747",
+				"sum_tprice": "14,149,488.75",
+				"count_pecent": "45.58 %"
+			},
+			"Under QC": {
+				"count": "17",
+				"sum_tprice": "40,193.00",
+				"count_pecent": "0.28 %"
+			}
+		}
+	},
+	{
+		"name": "TimesInternet",
+		"id": "8",
+		"archived": "340",
+		"next_remittance": "412",
+		"count_pertinent": 533,
+		"prod_distribution": {
+			"BER": {
+				"count": "31",
+				"sum_tprice": "0.00",
+				"count_pecent": "5.82 %"
+			},
+			"Inbound Holding": {
+				"count": "8",
+				"sum_tprice": "0.00",
+				"count_pecent": "1.50 %"
+			},
+			"Inventory Review": {
+				"count": "1",
+				"sum_tprice": "523.00",
+				"count_pecent": "0.19 %"
+			},
+			"Listed": {
+				"count": "94",
+				"sum_tprice": "127,753.00",
+				"count_pecent": "17.64 %"
+			},
+			"Manager's escalation": {
+				"count": "8",
+				"sum_tprice": "127.00",
+				"count_pecent": "1.50 %"
+			},
+			"Out for Repair": {
+				"count": "2",
+				"sum_tprice": "127.00",
+				"count_pecent": "0.38 %"
+			},
+			"Pending Pickup": {
+				"count": "2",
+				"sum_tprice": "127.00",
+				"count_pecent": "0.38 %"
+			},
+			"Pending Repair": {
+				"count": "38",
+				"sum_tprice": "6,698.00",
+				"count_pecent": "7.13 %"
+			},
+			"Ready to upload": {
+				"count": "4",
+				"sum_tprice": "4,254.00",
+				"count_pecent": "0.75 %"
+			},
+			"Sell Offline": {
+				"count": "9",
+				"sum_tprice": "4.00",
+				"count_pecent": "1.69 %"
+			},
+			"Sold": {
+				"count": "643",
+				"sum_tprice": "536,486.88",
+				"count_pecent": "120.64 %"
+			},
+			"Under QC": {
+				"count": "2",
+				"sum_tprice": "536.00",
+				"count_pecent": "0.38 %"
+			}
+		}
+	},
+	{
+		"name": "Value Plus",
+		"id": "9",
+		"archived": "48",
+		"next_remittance": "412",
+		"count_pertinent": 12,
+		"prod_distribution": {
+			"Listed": {
+				"count": "4",
+				"sum_tprice": "39,670.00",
+				"count_pecent": "33.33 %"
+			},
+			"Out for Repair": {
+				"count": "2",
+				"sum_tprice": "10,374.00",
+				"count_pecent": "16.67 %"
+			},
+			"Pending Repair": {
+				"count": "2",
+				"sum_tprice": "9,993.00",
+				"count_pecent": "16.67 %"
+			},
+			"Ready to upload": {
+				"count": "2",
+				"sum_tprice": "7,628.00",
+				"count_pecent": "16.67 %"
+			},
+			"Sell Offline": {
+				"count": "1",
+				"sum_tprice": "7,846.00",
+				"count_pecent": "8.33 %"
+			},
+			"Sold": {
+				"count": "48",
+				"sum_tprice": "294,935.00",
+				"count_pecent": "400.00 %"
+			},
+			"Under QC": {
+				"count": "1",
+				"sum_tprice": "6,732.00",
+				"count_pecent": "8.33 %"
+			}
+		}
+	},
+	{
+		"name": "RIMS Marketing",
+		"id": "10",
+		"archived": "11",
+		"next_remittance": "412",
+		"count_pertinent": 3,
+		"prod_distribution": {
+			"Inventory Review": {
+				"count": "1",
+				"sum_tprice": "810.00",
+				"count_pecent": "33.33 %"
+			},
+			"Sold": {
+				"count": "11",
+				"sum_tprice": "12,901.00",
+				"count_pecent": "366.67 %"
+			}
+		}
+	},
+	{
+		"name": "ReGlobe",
+		"id": "11",
+		"archived": "2",
+		"next_remittance": "412",
+		"count_pertinent": 200,
+		"prod_distribution": {
+			"Listed": {
+				"count": "12",
+				"sum_tprice": "177,000.00",
+				"count_pecent": "6.00 %"
+			},
+			"Sold": {
+				"count": "190",
+				"sum_tprice": "2,822,107.00",
+				"count_pecent": "95.00 %"
+			}
+		}
+	},
+	{
+		"name": "Edge Infotel",
+		"id": "12",
+		"archived": "0",
+		"next_remittance": "412",
+		"count_pertinent": 0,
+		"prod_distribution": null
+	},
+	{
+		"name": "PB International",
+		"id": "13",
+		"archived": "188",
+		"next_remittance": "412",
+		"count_pertinent": 13,
+		"prod_distribution": {
+			"BER": {
+				"count": "9",
+				"sum_tprice": "24,433.00",
+				"count_pecent": "69.23 %"
+			},
+			"Inventory Review": {
+				"count": "3",
+				"sum_tprice": "22,998.00",
+				"count_pecent": "23.08 %"
+			},
+			"Listed": {
+				"count": "1",
+				"sum_tprice": "7,509.00",
+				"count_pecent": "7.69 %"
+			},
+			"Sold": {
+				"count": "188",
+				"sum_tprice": "1,253,604.00",
+				"count_pecent": "1,446.15 %"
+			}
+		}
+	},
+	{
+		"name": "Green Mobiles",
+		"id": "14",
+		"archived": "128",
+		"next_remittance": "412",
+		"count_pertinent": 284,
+		"prod_distribution": {
+			"Inbound Holding": {
+				"count": "4",
+				"sum_tprice": "0.00",
+				"count_pecent": "1.41 %"
+			},
+			"Inventory Review": {
+				"count": "7",
+				"sum_tprice": "24,900.00",
+				"count_pecent": "2.46 %"
+			},
+			"Listed": {
+				"count": "17",
+				"sum_tprice": "78,324.00",
+				"count_pecent": "5.99 %"
+			},
+			"Manager's escalation": {
+				"count": "28",
+				"sum_tprice": "9,615.00",
+				"count_pecent": "9.86 %"
+			},
+			"Out for Repair": {
+				"count": "8",
+				"sum_tprice": "13,722.00",
+				"count_pecent": "2.82 %"
+			},
+			"Pending QC": {
+				"count": "1",
+				"sum_tprice": "13.00",
+				"count_pecent": "0.35 %"
+			},
+			"Pending Repair": {
+				"count": "94",
+				"sum_tprice": "40,727.00",
+				"count_pecent": "33.10 %"
+			},
+			"Ready to upload": {
+				"count": "23",
+				"sum_tprice": "9,140.00",
+				"count_pecent": "8.10 %"
+			},
+			"Sell Offline": {
+				"count": "8",
+				"sum_tprice": "13,915.00",
+				"count_pecent": "2.82 %"
+			},
+			"Sold": {
+				"count": "217",
+				"sum_tprice": "1,219,120.00",
+				"count_pecent": "76.41 %"
+			},
+			"Under QC": {
+				"count": "4",
+				"sum_tprice": "22,712.00",
+				"count_pecent": "1.41 %"
+			}
+		}
+	},
+	{
+		"name": "Cloudtail",
+		"id": "15",
+		"archived": "646",
+		"next_remittance": "412",
+		"count_pertinent": 106,
+		"prod_distribution": {
+			"Inventory Review": {
+				"count": "15",
+				"sum_tprice": "144,623.00",
+				"count_pecent": "14.15 %"
+			},
+			"Listed": {
+				"count": "1",
+				"sum_tprice": "9,143.00",
+				"count_pecent": "0.94 %"
+			},
+			"Manager's escalation": {
+				"count": "21",
+				"sum_tprice": "99,851.00",
+				"count_pecent": "19.81 %"
+			},
+			"Out for Repair": {
+				"count": "4",
+				"sum_tprice": "17,631.00",
+				"count_pecent": "3.77 %"
+			},
+			"Pending Pickup": {
+				"count": "1",
+				"sum_tprice": "2,861.00",
+				"count_pecent": "0.94 %"
+			},
+			"Pending QC": {
+				"count": "17",
+				"sum_tprice": "38,116.00",
+				"count_pecent": "16.04 %"
+			},
+			"Pending Repair": {
+				"count": "33",
+				"sum_tprice": "412,778.00",
+				"count_pecent": "31.13 %"
+			},
+			"Ready to upload": {
+				"count": "4",
+				"sum_tprice": "24,098.00",
+				"count_pecent": "3.77 %"
+			},
+			"Sell Offline": {
+				"count": "8",
+				"sum_tprice": "45,364.00",
+				"count_pecent": "7.55 %"
+			},
+			"Sold": {
+				"count": "644",
+				"sum_tprice": "4,028,354.00",
+				"count_pecent": "607.55 %"
+			},
+			"Under QC": {
+				"count": "2",
+				"sum_tprice": "5,692.00",
+				"count_pecent": "1.89 %"
+			}
+		}
+	},
+	{
+		"name": "MMX Informatics",
+		"id": "16",
+		"archived": "0",
+		"next_remittance": "412",
+		"count_pertinent": 0,
+		"prod_distribution": null
+	},
+	{
+		"name": "Sahil International",
+		"id": "17",
+		"archived": "100",
+		"next_remittance": "412",
+		"count_pertinent": 0,
+		"prod_distribution": {
+			"Sold": {
+				"count": "98",
+				"sum_tprice": "90,454.00",
+				"count_pecent": "0.00 %"
+			}
+		}
+	},
+	{
+		"name": "Karma",
+		"id": "18",
+		"archived": "0",
+		"next_remittance": "412",
+		"count_pertinent": 0,
+		"prod_distribution": null
+	},
+	{
+		"name": "Regenersis",
+		"id": "19",
+		"archived": "0",
+		"next_remittance": "412",
+		"count_pertinent": 302,
+		"prod_distribution": {
+			"Inventory Review": {
+				"count": "10",
+				"sum_tprice": "59,000.00",
+				"count_pecent": "3.31 %"
+			},
+			"Listed": {
+				"count": "24",
+				"sum_tprice": "108,659.00",
+				"count_pecent": "7.95 %"
+			},
+			"Pending QC": {
+				"count": "1",
+				"sum_tprice": "108.00",
+				"count_pecent": "0.33 %"
+			},
+			"Sold": {
+				"count": "265",
+				"sum_tprice": "1,248,608.00",
+				"count_pecent": "87.75 %"
+			},
+			"Under QC": {
+				"count": "2",
+				"sum_tprice": "8,801.00",
+				"count_pecent": "0.66 %"
+			}
+		}
+	},
+	{
+		"name": "Regenersis India Limited",
+		"id": "20",
+		"archived": "0",
+		"next_remittance": "412",
+		"count_pertinent": 130,
+		"prod_distribution": {
+			"Inventory Review": {
+				"count": "1",
+				"sum_tprice": "9,250.00",
+				"count_pecent": "0.77 %"
+			},
+			"Listed": {
+				"count": "22",
+				"sum_tprice": "243,739.00",
+				"count_pecent": "16.92 %"
+			},
+			"Manager's escalation": {
+				"count": "23",
+				"sum_tprice": "112,633.00",
+				"count_pecent": "17.69 %"
+			},
+			"Pending Repair": {
+				"count": "2",
+				"sum_tprice": "112.00",
+				"count_pecent": "1.54 %"
+			},
+			"Sell Offline": {
+				"count": "1",
+				"sum_tprice": "11,261.00",
+				"count_pecent": "0.77 %"
+			},
+			"Sold": {
+				"count": "79",
+				"sum_tprice": "743,955.00",
+				"count_pecent": "60.77 %"
+			},
+			"Under QC": {
+				"count": "2",
+				"sum_tprice": "9,993.00",
+				"count_pecent": "1.54 %"
+			}
+		}
+	},
+	{
+		"name": "Berkshire Books Pvt Ltd",
+		"id": "21",
+		"archived": "0",
+		"next_remittance": "412",
+		"count_pertinent": 271,
+		"prod_distribution": {
+			"Inbound Holding": {
+				"count": "271",
+				"sum_tprice": "0.00",
+				"count_pecent": "100.00 %"
+			}
+		}
+	}
+]</pre><pre></pre></div></div></body></html>

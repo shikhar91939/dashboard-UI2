@@ -1,0 +1,10 @@
+1
+http://stackoverflow.com/questions/8514457/set-additional-data-to-highcharts-series
+http://jsfiddle.net/japanick/dWDE6/314/
+
+2
+http://stackoverflow.com/questions/8514457/set-additional-data-to-highcharts-series
+
+3.
+color in tooltip:
+http://jsfiddle.net/YXetx/
