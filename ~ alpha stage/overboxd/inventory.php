@@ -322,15 +322,18 @@
 
         tooltip: {
             formatter: function () {
-                var tooltip = this.point.name+'<br/><b>Quantity: <span style="color:'+ this.point.color + '">'+this.point.y+'</b></span>';
+                var tooltip = '<span style="font-weight: bold; color:'+ this.point.color + '">'+this.point.name+'</span><br/><b>Quantity: <span style="font-weight: bold; color:'+ this.point.color + '">'+this.point.y+'</b></span>';
                 tooltip += '<br><b>TSP: </b>RS.' + this.point.TSP + '<br/> <b>Share</b>:'+this.point.percent+'%<br/>';
-                tooltip += '<br><b>Next Remittance: </b>RS.' + this.point.next_remittance /*+ '<br/> <b>_____</b>:'+this.point.percent+'%<br/>'*/;
+                if (this.point.next_remittance)
+                {
+                    tooltip += '<br><b>Next Remittance: </b>Rs.' + this.point.next_remittance /*+ '<br/> <b>_____</b>:'+this.point.percent+'%<br/>'*/;
+                }
                 return tooltip;
             }
         },
 
         series: [{
-            name: 'Things',
+            name: 'Clients',
             colorByPoint: true,
             data: [
             <?php 
@@ -341,7 +344,7 @@
                 name: '".$client_array['name']."',
                 y: ".$client_array['count_pertinent'].",
                 next_remittance: ".$client_array['next_remittance'].",
-                drilldown: 'animals'
+                drilldown: '".$client_array['name']."'
               }";
               $data_array[]=$client_data;
             }
@@ -350,30 +353,88 @@
             ?>
             ]
         }],
+
+        <?php
+            $drilldown_array = array();
+            $drilldown_ofThisClient = array();
+            foreach ($table_prod_distribution as $client_array) 
+            {
+                
+                foreach ($client_array as $key => $value)
+                if ($key === 'prod_distribution') 
+                {
+                    foreach ($value as $this_lstatus => $lstatus_array) 
+                    {
+                        if ($this_lstatus === '') continue;
+                        $this_lstatus = str_replace("'","\'",$this_lstatus);
+                        $point =    'name:\''.$this_lstatus.'\',
+                                    y:'.$lstatus_array['count'].',
+                                    TSP: \''.$lstatus_array['sum_tprice'].'\',
+                                    percent: \''.$lstatus_array['count_pecent'].'\'';
+                        $drilldown_ofThisClient[]=$point;
+                        // break 3;
+                    }
+                }
+                $drilldown_array[] = array( 'client_name'=> $client_array['name'], 'client_drilldown'=>$drilldown_ofThisClient);
+                $drilldown_ofThisClient =null;
+            }
+        ?>
         drilldown: {
-            series: [{
+            series: [
+            //592
+            <?php 
+            for ($i=0; $i<count($drilldown_array); $i++)
+                {
+                    echo '{
+                                id: \''.$drilldown_array[$i]['client_name'].'\',
+                                data: [{';
+                                echo implode('},{', $drilldown_array[$i]['client_drilldown']) ;
+                                echo    '} ]
+                            }';
+                    if ($i< count($drilldown_array) )
+                        echo ',';
+                }
+            ?>
+            /*{
                 id: 'animals',
-                data: [
-                    ['Cats', 4],
-                    ['Dogs', 2],
-                    ['Cows', 1],
-                    ['Sheep', 2],
-                    ['Pigs', 1]
-                ]
-            }, {
+                data: [{
+                    //59199993
+                    <?php echo implode('},{', $drilldown_ofThisClient) ?>
+                    } ]
+            }*/
+            /*, {
                 id: 'fruits',
                 data: [
-                    ['Apples', 4],
-                    ['Oranges', 2]
+                    ['Inventory Review', 42],
+                    ['Listed', 21],
+                    ['Manager\'s escalation', 14],
+                    ['Pending Repair', 32],
+                    ['Sell Offline', 12],
+                    ['Under QC', 42],
+                    ['Inbound Holding', 2],
+                    ['Out for Repair', 22],
+                    ['Ready to upload', 42],
+                    ['BER', 20],
+                    ['Sold', 82],
+                    ['Sell Offline', 10]
                 ]
             }, {
                 id: 'cars',
                 data: [
-                    ['Toyota', 4],
-                    ['Opel', 2],
-                    ['Volkswagen', 2]
+                    ['Inventory Review', 42],
+                    ['Listed', 21],
+                    ['Manager\'s escalation', 14],
+                    ['Pending Repair', 32],
+                    ['Sell Offline', 12],
+                    ['Under QC', 42],
+                    ['Inbound Holding', 2],
+                    ['Out for Repair', 22],
+                    ['Ready to upload', 42],
+                    ['BER', 20],
+                    ['Sold', 82],
+                    ['Sell Offline', 10]
                 ]
-            }]
+            }*/]
         }
     });
 });
@@ -989,7 +1050,7 @@ function get_table_prod_distribution($clientTable, $db)
       }
       $sum_tprice = number_format((float)$sum_tprice,2,'.',',');
       $count_pecent = ((float)$count) / ((float)$client_pertinent) *100;
-      $count_pecent = number_format((float)$count_pecent,2,'.',',') . " %";
+      $count_pecent = number_format((float)$count_pecent,2,'.',',') /*. " %"*/;
       $client_prod_distribution[$lstatus] = array('count'=> $count, 'sum_tprice'=>$sum_tprice, 'count_pecent'=>$count_pecent);
       // echo "lstatus= $lstatus, count=$count <br>";
     }
