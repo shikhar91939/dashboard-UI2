@@ -34,269 +34,36 @@
   $table_prod_distribution = get_table_prod_distribution($clientTable, $this->db);
   //table_prod_distribution contains array all client_rows. each client_row has al the client data the graph would need
 
+  // sum_prod_all_clients will be used for calculating the percentage of products belonging to each client
+  $sum_prod_all_clients=0;
+  foreach ($table_prod_distribution as $client)
+  {
+    $client_prod_count = $client['count_pertinent'];
+    $sum_prod_all_clients += $client_prod_count;
+  }
+
+  // echo "<pre>";
+  // var_dump($table_prod_distribution[0]['name']);
+  // echo '</pre><pre>';//myecho
+  // var_dump($table_prod_distribution);
+  // $jsonObj = json_encode($table_prod_distribution);
+  // echo "<br>";//myecho
+  // echo '</pre><pre>';//myecho
+  // echo "<h2>formatted json:</h2><br>";//myecho
+  // echo prettyPrint($jsonObj);//myecho
+
+  // echo '</pre><pre>';//myecho
+  //list of all useful tables/arrays
+  // var_dump($clientTable)  ;
+  // die;
+
 ?>
 <script >
+//inventory graph:
   $(function () {
 
     // Create the chart
     $('#container').highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Drilldown Chart- False Data'
-        },
-        xAxis: {
-            type: 'category'
-        },
-
-        tooltip: {
-            formatter: function () {
-                return ''+this.point.name+'<br><b>TSP: </b>RS.' + this.point.TSP + '<br/> <b>Share</b>:'+this.point.percent+'%';
-            }
-        },
-
-        legend: {
-            enabled: false
-        },
-
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true
-                }
-            }
-        },
-
-        series: [{
-            name: 'Clients',
-            colorByPoint: true,
-            data: [{
-                name: 'Saholic',
-                y: 57,
-                TSP: '12,3452',
-                percent: '12',
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Bootstrapp',
-                y: 27,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Technix',
-                y: 87,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Vaishno',
-                y: 47,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'GadgetCops',
-                y: 97,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'W S Retail',
-                y: 17,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'TimesInternet',
-                y: 37,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Value Plus',
-                y: 67,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'RIMS Marketing',
-                y: 77,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'ReGlobe',
-                y:  7,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Edge Infotel',
-                y: 97,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'PB International',
-                y: 27,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Green Mobiles',
-                y: 57,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Cloudtail',
-                y: 67,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'MMX Informatics',
-                y: 77,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Sahil International',
-                y: 37,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Karma',
-                y: 87,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'TimesInternet',
-                y: 27,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Regenersis',
-                y: 37,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }, {
-                name: 'Regenersis India Limited',
-                y: 77,
-                TSP: '12,3452',
-                percent: '12',
-                drilldown: 'animals'
-            }]
-        }],
-        drilldown: {
-            series: [{
-                id: 'animals',
-                data: [{
-                    name:'Inventory Review', 
-                    y:42, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Listed', 
-                    y:21, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Manager\'s escalation', 
-                    y:14, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Pending Repair', 
-                    y:32, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Sell Offline', 
-                    y:12, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Under QC', 
-                    y:42, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Inbound Holding',
-                    y: 2, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Out for Repair', 
-                    y:22, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Ready to upload', 
-                    y:42, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'BER', 
-                    y:20, 
-                    TSP: '4,689',
-                    percent: '15'
-                  },{
-                    name:'Sold', 
-                    y:82, 
-                    TSP: '4,689',
-                    percent: '15'
-                  } ]
-            }/*, {
-                id: 'fruits',
-                data: [
-                    ['Inventory Review', 42],
-                    ['Listed', 21],
-                    ['Manager\'s escalation', 14],
-                    ['Pending Repair', 32],
-                    ['Sell Offline', 12],
-                    ['Under QC', 42],
-                    ['Inbound Holding', 2],
-                    ['Out for Repair', 22],
-                    ['Ready to upload', 42],
-                    ['BER', 20],
-                    ['Sold', 82],
-                    ['Sell Offline', 10]
-                ]
-            }, {
-                id: 'cars',
-                data: [
-                    ['Inventory Review', 42],
-                    ['Listed', 21],
-                    ['Manager\'s escalation', 14],
-                    ['Pending Repair', 32],
-                    ['Sell Offline', 12],
-                    ['Under QC', 42],
-                    ['Inbound Holding', 2],
-                    ['Out for Repair', 22],
-                    ['Ready to upload', 42],
-                    ['BER', 20],
-                    ['Sold', 82],
-                    ['Sell Offline', 10]
-                ]
-            }*/]
-        }
-    });
-});
-
-// -------------------------------------2nd graph------------------------------------------------------------------
-  $(function () {
-
-    // Create the chart
-    $('#container2').highcharts({
         chart: {
             type: 'column'
         },
@@ -322,15 +89,23 @@
 
         tooltip: {
             formatter: function () {
-                var tooltip = '<span style="font-weight: bold; color:'+ this.point.color + '">'+this.point.name+'</span><br/><b>Quantity: <span style="font-weight: bold; color:'+ this.point.color + '">'+this.point.y+'</b></span>';
-                tooltip += '<br><b>TSP: </b>RS.' + this.point.TSP + '<br/> <b>Share</b>:'+this.point.percent+'%<br/>';
-                if (this.point.next_remittance)
+                if (this.point.next_remittance)//true only if the point is a client
                 {
+                    var percent_client = this.point.y / <?php echo $sum_prod_all_clients ?> *100;
+                    percent_client = parseFloat(Math.round(percent_client * 100) / 100).toFixed(2); //show only 2 decimal places
+
+                    var tooltip = '<span style="font-weight: bold; color:'+ this.point.color + '">'+this.point.name+'</span><br/><b>Quantity: <span style="font-weight: bold; color:'+ this.point.color + '">'+this.point.y+'</b></span>';
+                    tooltip += '<br><b>TSP: </b>Rs.' + this.point.TSP.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')/*show in money format*/ + '<br/> <b>Share</b>:'+percent_client+'%<br/>';
                     tooltip += '<br><b>Next Remittance: </b>Rs.' + this.point.next_remittance /*+ '<br/> <b>_____</b>:'+this.point.percent+'%<br/>'*/;
+                    return tooltip;
                 }
-                return tooltip;
-            }
-        },
+                else //the point is a lStatus(inside a client)
+                {
+                    var tooltip = '<span style="font-weight: bold; color:'+ this.point.color + '">'+this.point.name+'</span><br/><b>Quantity: <span style="font-weight: bold; color:'+ this.point.color + '">'+this.point.y+'</b></span>';
+                    tooltip += '<br><b>TSP: </b>Rs.' + this.point.TSP + '<br/> <b>Share</b>:'+this.point.percent+'%<br/>';
+                    return tooltip;
+                }
+            }},
 
         series: [{
             name: 'Clients',
@@ -344,6 +119,8 @@
                 name: '".$client_array['name']."',
                 y: ".$client_array['count_pertinent'].",
                 next_remittance: ".$client_array['next_remittance'].",
+                TSP: ".$client_array['client_tsp'].",
+                count_pertinent: ".$client_array['count_pertinent'].",
                 drilldown: '".$client_array['name']."'
               }";
               $data_array[]=$client_data;
@@ -395,46 +172,7 @@
                         echo ',';
                 }
             ?>
-            /*{
-                id: 'animals',
-                data: [{
-                    //59199993
-                    <?php echo implode('},{', $drilldown_ofThisClient) ?>
-                    } ]
-            }*/
-            /*, {
-                id: 'fruits',
-                data: [
-                    ['Inventory Review', 42],
-                    ['Listed', 21],
-                    ['Manager\'s escalation', 14],
-                    ['Pending Repair', 32],
-                    ['Sell Offline', 12],
-                    ['Under QC', 42],
-                    ['Inbound Holding', 2],
-                    ['Out for Repair', 22],
-                    ['Ready to upload', 42],
-                    ['BER', 20],
-                    ['Sold', 82],
-                    ['Sell Offline', 10]
-                ]
-            }, {
-                id: 'cars',
-                data: [
-                    ['Inventory Review', 42],
-                    ['Listed', 21],
-                    ['Manager\'s escalation', 14],
-                    ['Pending Repair', 32],
-                    ['Sell Offline', 12],
-                    ['Under QC', 42],
-                    ['Inbound Holding', 2],
-                    ['Out for Repair', 22],
-                    ['Ready to upload', 42],
-                    ['BER', 20],
-                    ['Sold', 82],
-                    ['Sell Offline', 10]
-                ]
-            }*/]
+            ]
         }
     });
 });
@@ -690,8 +428,7 @@
         </div>
       </div>
     </div>
-    <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="container" style="min-width: 310px; height: 550px; margin: 0 auto"></div>
 
     <?php
 /*
@@ -880,24 +617,13 @@ $query = $this->db->query("SELECT COUNT(*) FROM `products` WHERE client_id = 1 A
 */  ?>
 
   <?php
-  echo "<pre>";
-  var_dump($table_prod_distribution[0]['name']);
-  echo '</pre><pre>';//myecho
-  var_dump($table_prod_distribution);
-  $jsonObj = json_encode($table_prod_distribution);
-  // echo "<br>";//myecho
-  echo '</pre><pre>';//myecho
-  echo "<h2>formatted json:</h2><br>";//myecho
-  echo prettyPrint($jsonObj);//myecho
-
-  echo '</pre><pre>';//myecho
-  //list of all useful tables/arrays
-  // var_dump($clientTable)  ;
-  die;
+  
 
 function get_table_prod_distribution($clientTable, $db)
   {
     $table_prod_distribution=null;
+    $total_productCount = 0;
+    $total_tsp = 0;
     foreach ($clientTable as $client_name => $client_id)
     {
       $client_row = null; //array containing all data of the client in this iteration
@@ -910,22 +636,27 @@ function get_table_prod_distribution($clientTable, $db)
       // echo "$client_name 's client_archived:". $client_archived."<br/>";//myecho
       $client_row['archived'] = $client_archived;
 
-      //next remittance: (sold && not paid).
+      //next remittance: (sold && not paid all warehouses).
       // all warehouses included
       $client_remittance = get_nextRemittance($client_id, $client_name, $db);
       $client_row['next_remittance'] = $client_remittance;
       // echo "$client_name 's next remittance: $client_remittance<br>";//myecho
 
       //(denonminator in calculating %age of 'listed'/'BER'/etc...)
+      // all products at OC warehouse that are not 'sold && paid', returned or pending pickup
       $client_pertinent = get_relevant($client_id, $client_name, $db);
       $client_row['count_pertinent'] = $client_pertinent;
       // echo "$client_name 's client_pertinent:". $client_pertinent."  <--".'$client_all_OCwarehouse - ($client_soldAndPaid + $client_returned + $client_pedingPickUp )'."<br/>";//myecho
 
 
-      //product distribution for client
-      $client_prod_distribution = get_prod_distribution($client_id, $db, $client_pertinent);
+      //product distribution for client as array(client_tsp, $client_prod_distribution )
+      // only at OC warehouse
+      $return_prod_distribution = get_prod_distribution($client_id, $db, $client_pertinent);
 
-      $client_row['prod_distribution'] = $client_prod_distribution;
+      $client_row['prod_distribution'] = $return_prod_distribution['client_prod_distribution'];
+      $client_row['client_tsp'] = $return_prod_distribution['client_tsp'];
+      $client_row['client_productCount'] = $return_prod_distribution['client_productCount'];
+
       $table_prod_distribution[]=$client_row;
 
       // $<lstatus>count   _/
@@ -1032,6 +763,8 @@ function get_table_prod_distribution($clientTable, $db)
                         FROM `products` 
                         WHERE client_id=$client_id AND location =  'over_werehouse'
                         GROUP BY lstatus");
+    $client_tsp = 0;
+    $client_productCount = 0;
     $result_array_client = $query->result_array();
     foreach ($result_array_client as $row)
     {
@@ -1048,13 +781,19 @@ function get_table_prod_distribution($clientTable, $db)
         else
           die('Error in SQL table : Unknown Key in lstatuses for client');
       }
+      $client_tsp += $sum_tprice;
+      $client_productCount += $sum_tprice;
       $sum_tprice = number_format((float)$sum_tprice,2,'.',',');
+      $sum_tprice = str_replace(',', '', $sum_tprice);
       $count_pecent = ((float)$count) / ((float)$client_pertinent) *100;
       $count_pecent = number_format((float)$count_pecent,2,'.',',') /*. " %"*/;
       $client_prod_distribution[$lstatus] = array('count'=> $count, 'sum_tprice'=>$sum_tprice, 'count_pecent'=>$count_pecent);
       // echo "lstatus= $lstatus, count=$count <br>";
     }
-    return $client_prod_distribution;
+    $client_tsp = number_format((float)$client_tsp,2,'.',',');
+    $client_tsp = str_replace(',', '', $client_tsp);
+    $returnArray = array('client_prod_distribution'=>$client_prod_distribution, 'client_tsp'=>$client_tsp);
+    return $returnArray;
   }
 
   function get_nextRemittance($client_id, $client_name, $db)//client name not required. used only in echoing/debugging
@@ -1257,10 +996,6 @@ function get_table_prod_distribution($clientTable, $db)
       <!-- </div> -->
      </div>
      <!-- insert graph divs here  -->
-    <!-- <input id="selector_dateRange" name="selector_dateRange" style="padding-right:8px" > -->
-    <!-- <div id="container" style="width: 100%; height: 550px; border:1px solid black;" ></div> -->
-    <!-- <div id="chartdiv" style="width: 100%; height: 550px; border:1px solid black;" ></div>  -->
-    <!-- <div id="graph_clientWise" style="width: 100%; height: 550px; border:1px solid black;" ></div> -->
 
 
   </div>
