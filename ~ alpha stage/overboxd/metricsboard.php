@@ -95,14 +95,15 @@
               // console.log(d.CCmetrics.confirmed_revenue);
               $('#todaysConfirmedRevenue').text('Rs.'+d.CCmetrics.confirmed_revenue);
               monthsConfirmedRevenue = d.CCmetrics.confirmed_revenue;
-              // console.log('monthsConfirmedRevenuekey: "value", ');
-              // console.log(monthsConfirmedRevenue);
+              // console.log('from d.CCmetrics.confirmed_revenue, monthsConfirmedRevenuekey: "value", ');//mylog
+              // console.log(monthsConfirmedRevenue);//mylog
               render_sameDayShips(d.data_notCCmetrics.percent_sameDayShips);
+              setNewTarget();
               // $('#percent_sameDayShips').text(d.percent_sameDayShips+'%');
               $('#percent_sameDayShips2').text("SAME DAY SHIPS "+d.data_notCCmetrics.percent_sameDayShips+'%');
               // $('#percent_CSconfirmed').text(d.percent_CSconfirmed+'%');  // this pie chart should be range dependant . not static
               $('#percent_CSconfirmed2').text("CONFIRMATION "+d.data_notCCmetrics.percent_CSconfirmed+'%');
-              render_MonthlyGuage(d.data_notCCmetrics.percent_monthlySalesTarget);
+              // render_MonthlyGuage(d.data_notCCmetrics.percent_monthlySalesTarget);
               // console.log("percent_monthlySalesTarget:");
               // console.log(d.data_notCCmetrics.percent_monthlySalesTarget);
               $('#thisMonthsTarget').text("TARGET: Rs."+ d.data_notCCmetrics.thisMonthsTarget);  // change "$thisMonthsTarget" in the newdashboard controller in getData_SoapApi() function
@@ -245,7 +246,7 @@
                 // console.log(d);              
                 // console.log('confirmedAmt_totalRange:');
                 // console.log(d.sales_graph.confirmedAmt_totalRange);
-                $('#revenue_selectedRage').text("Rs. "+ d.sales_graph.confirmedAmt_totalRange);
+                $('#revenue_selectedRage').text("Rs. "+ d.response_CCmetrics.confirmed_revenue);
                 // $('#rangeUnderRevenue').text(parsed_selectedRange.start+" "+parsed_selectedRange.end+ " : ");
                 $('#rangeUnderRevenue').text(d.dateRange+': ');
                 // console.log('count_CSconfirmed:');
@@ -281,8 +282,8 @@
 
     monthsConfirmedRevenue = monthsConfirmedRevenue.replace(/,/g, "");
     monthsConfirmedRevenue = monthsConfirmedRevenue.replace(/ /g, "");
-    console.log('monthsConfirmedRevenue:');
-    console.log(monthsConfirmedRevenue);
+    // console.log('after replacing ","& " " monthsConfirmedRevenue:');//mylog
+    // console.log(monthsConfirmedRevenue);//mylog
     // console.log('type:');
     // console.log(typeof(monthsConfirmedRevenue));
     // console.log('newTarget_parsed.newTarget is a number:');
@@ -297,8 +298,8 @@
     // console.log(isNumeric);
 
     var newPercent =(parseFloat(monthsConfirmedRevenue)/ parseFloat(newTarget_string)) *100;
-    // console.log('newPercent:');
-    // console.log(newPercent);
+    // console.log('after deviding, newPercent:');//mylog
+    // console.log(newPercent);//mylog
     // console.log('type:');
     // console.log(typeof(newPercent));
     newPercent_floor = Math.floor(newPercent);
@@ -623,7 +624,7 @@
                 <div id="targetPercent_guage" style="width: 350PX; height: 200px; float: left"></div>
                 <!-- <span id="thisMonthsTarget" class="text-bg">TARGET: </span> -->
                 <form action="javascript:setNewTarget()">
-                  <span class="text-bg" style="float:left">TARGET: Rs. <input id="targetRevenue" type="text" name="targetRevenue" value="1,20,00,000"><br>
+                  <span class="text-bg" style="float:left">TARGET: Rs. <input id="targetRevenue" type="text" name="targetRevenue" value="1,40,00,000"><br>
                   <!-- <input type="submit" value="Submit form"> --></span>
                 </form>
                 <!-- <div class="min_max_report"> <span class="min">Minimum</span><span class="max">Maximum</span> </div> -->

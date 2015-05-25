@@ -20,7 +20,7 @@ class Newdashboard extends CI_Controller {
     {
       $data['prevent_css'] = true;
       $data['main_content'] = 'admin/newdashboard/metricsboard';
-      $this->load->view('includes/template', $data);  
+      $this->load->view('includes/template', $data); 
     }
 
     public function getData_staticElements()
@@ -33,14 +33,14 @@ class Newdashboard extends CI_Controller {
 
       $start_ymd = date('Y-m-d',strtotime('first day of this month'));
       $end_ymd = date('Y-m-d',strtotime('today'));
-        // log_message('error', 'for monthly revenue, calling getCCmetrics($start_ymd, $end_ymd)'); //cmylog
-        // log_message('error', "getCCmetrics($start_ymd, $end_ymd)"); //cmylog
+        // log_message('error', 'from static,for monthly revenue, calling getCCmetrics($start_ymd, $end_ymd)'); //cmylog1
+        // log_message('error', "getCCmetrics($start_ymd, $end_ymd)"); //cmylog1
       $responseArray['CCmetrics'] = $this->getCCmetrics($start_ymd, $end_ymd);
 
       echo json_encode($responseArray);
     }
 
-    public function data_notCCmetrics($thisMonthsTarget = 12000000)
+    public function data_notCCmetrics($thisMonthsTarget = 14000000)
     {
       /*
       Get all data related to the SOAP API function called here 
@@ -259,16 +259,6 @@ class Newdashboard extends CI_Controller {
     {
       $response_combined = array();
 
-      // if(!$this->session->userdata('is_logged_in'))
-      // {
-      //   echo json_encode(array('isLoggedIn'=>false));
-      //   return;
-      // }
-      // else
-      // {
-      //   $response_combined['isLoggedIn'] = true;
-      // }
-      
       date_default_timezone_set('Asia/Kolkata');
 
       // log_message('error', 'entered submitRange'); //mylog
@@ -278,10 +268,6 @@ class Newdashboard extends CI_Controller {
 
     // log_message('error','recieved this from post as $start_ymd and $end_ymd:'); //mylog
     // log_message('error', var_export($start_ymd,true) ." and ". var_export($end_ymd,true)); //mylog
-
-    // $start = implode('/', array_reverse(explode('-', $start)));
-    // $end = implode('/', array_reverse(explode('-', $end)));
-    // echo $this->dateFormatter("2015-05-01");
 
     $start = str_replace('/','-',$start_ymd);
     $end = str_replace('/','-',$end_ymd);
@@ -340,8 +326,8 @@ class Newdashboard extends CI_Controller {
     // log_message('error', "for comparison, today=$today and yesterday=$yesterday"); //mylog
 
 
-     // log_message('error', '"Calling function getCCmetrics($start_ymd, $end_ymd):"'); //_mylog
-      // log_message('error', "getCCmetrics($start_ymd, $end_ymd):"); //cmylog
+    // log_message('error', '"From submitDateRange, Calling function getCCmetrics($start_ymd, $end_ymd):"'); //mylog1
+    // log_message('error', "getCCmetrics($start_ymd, $end_ymd):"); //mylog1
     $response_CCmetrics = $this->getCCmetrics($start_ymd, $end_ymd); //getting exct same data as in CC metrics
       // log_message('error', '"returned from getCCmetrics() with $response_CCmetrics:"'); //cmylog
       // log_message('error', var_export($response_CCmetrics,true)); //cmylog
@@ -412,15 +398,20 @@ this data (in $response_sales) is being sent in json form but not being used. Re
 
     public function getCCmetrics($start_ymd, $end_ymd)
     {
-      date_default_timezone_set("UTC"); //this is the time zone ccMetrics runs on
+      // date_default_timezone_set("UTC"); //this is the time zone ccMetrics runs on
 
       // log_message('error', 'entered "getCCmetrics($start_ymd, $end_ymd):"'); //cmylog
       // log_message('error', "getCCmetrics($start_ymd, $end_ymd):"); //cmylog
 
       $from = $start_ymd .' 00:00:00';
       $to = $end_ymd ." 23:59:59" ;
+      // log_message('error', "was using this for SoapClient earier: from= $from, to=$to):"); //mylog1
 
-      // log_message('error', "calling SoapClient. from= $from, to=$to):"); //cmylog
+      $from = date('Y-m-d H:i:s', strtotime('-330 minutes',strtotime($from)));
+      $to = date('Y-m-d H:i:s', strtotime('-330 minutes',strtotime($to)));
+       
+      // log_message('error', "default timezone: ".date_default_timezone_get()); //mylog1
+      // log_message('error', "calling SoapClient. from= $from, to=$to):"); //mylog1
       try
       {
         $client = new SoapClient('http://www.overcart.com/index.php/api/v2_soap?wsdl');
@@ -428,7 +419,7 @@ this data (in $response_sales) is being sent in json form but not being used. Re
 
         $params = array('complex_filter'=>
           array(
-              array('key'=>'created_at','value'=>array('key' =>'from','value' => $from)), //taking dayBeforeYesterday to avoid missing yesterday's orders due to time zone difference
+              array('key'=>'created_at','value'=>array('key' =>'from','value' => $from)), 
               array('key'=>'created_at', 'value'=>array('key' => 'to', 'value' => $to))
             )
         );
@@ -515,6 +506,7 @@ this data (in $response_sales) is being sent in json form but not being used. Re
        //formatting before display:
        $confirmed_revenue = str_replace(',','',$confirmed_revenue);
        $confirmed_revenue = $this->moneyFormatIndia($confirmed_revenue);
+       // log_message('error', "confirmed_revenue, = $confirmed_revenue"); //cmylog1
 
 
       // log_message('error', "final valvues: "); //cmylog
@@ -555,11 +547,8 @@ this data (in $response_sales) is being sent in json form but not being used. Re
         $returnDate = date('M d, Y',strtotime($start_ymd));
         return $returnDate;
       }
-      else
-      {
-        $returnDate = date('M d, Y',strtotime($start_ymd))." - ". date('M d, Y',strtotime($end_ymd));
-        return $returnDate;
-      }
+
+      return "Date";
     }
 
     public function getLogisticsData($from='2015-05-01 00:00:00' , $to='2015-05-07 00:00:00' )
@@ -866,7 +855,6 @@ this data (in $response_sales) is being sent in json form but not being used. Re
       // log_message('error', '$totalConfirmed_amount: ' ); //mylog
       // log_message('error', var_export($totalConfirmed_amount,true) ); //mylog
 
-        $confirmedAmt_totalRange = floor($confirmedAmt_totalRange);
         $confirmedAmt_totalRange = $this->moneyFormatIndia($confirmedAmt_totalRange);
         $returnArray['confirmedAmt_totalRange']= $confirmedAmt_totalRange;
         $returnArray['totalConfirmed_count']= $totalConfirmed_count;
@@ -999,7 +987,7 @@ this data (in $response_sales) is being sent in json form but not being used. Re
       }
       // else 
       // {
-        log_message('error','entered else clause start_date === $end_date is false');//mylog
+        // log_message('error','entered else clause start_date === $end_date is false');//mylog
       //   $count_readable_Array= count($readable_Array);
       //   for ($i=0; $i < ($count_readable_Array); $i++) //not running the loop for the last element as $readable_Array[$i+1] will give a php notice
       //   { 
@@ -1366,7 +1354,29 @@ this data (in $response_sales) is being sent in json form but not being used. Re
       $data['main_content'] = 'admin/newdashboard/inventory';
       $this->load->view('includes/template', $data);  
     }
-  
+    public function report()
+    {
+      $data['prevent_css'] = true;
+      $data['main_content'] = 'admin/newdashboard/report'; 
+      if(isset($_GET['client']) && isset($_GET['brand'])){
+            $client = $_GET['client'];
+            $brand = $_GET['brand'];}
+      else{
+          $client = null;
+          $brand = null;}
+      
+      //$this->load->model('speed_metrics_model');
+      $data['records'] = $this->speed_metrics_model->getSpeedMetrics($client, $brand);
+      //var_dump($data);die;
+      if(isset($_GET['client']) || isset($_GET['brand'])) 
+        echo json_encode($data);
+      else 
+        $this->load->view('includes/template', $data);
+
+
+    }
+
+    
     public function submitDates_inventory()
     {
       $start_ymd=$this->input->post('start');
